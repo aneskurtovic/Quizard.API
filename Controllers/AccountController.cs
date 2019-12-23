@@ -56,7 +56,7 @@ namespace Quizard.API.Controllers
                 {
                     Token = tokenString,
                     ExpiresIn = token.ValidTo,
-                    Username = user.UserName
+                    Email = user.Email
                 });
             }
 
