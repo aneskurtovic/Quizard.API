@@ -46,7 +46,7 @@ namespace Quizard.API.Controllers
                     issuer: "https://localhost:58365",
                     audience: "https://localhost:58365",
                     claims: new List<Claim>(),
-                    expires: DateTime.Now.AddMinutes(5),
+                    expires: DateTime.Now.AddDays(1),
                     signingCredentials: signinCredentials
                 );
 

@@ -13,6 +13,9 @@ namespace Quizard.API.Data
     {
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options) { }
 
+        public DbSet<Question> Questions { get; set; }
+        public DbSet<Answer> Answers { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
