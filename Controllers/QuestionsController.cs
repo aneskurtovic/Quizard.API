@@ -57,5 +57,21 @@ namespace Quizard.API.Controllers
             return BadRequest();
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, [FromBody] QuestionForPostDto model)
+        {
+            var question = _repo.GetQuestion(id);
+            if (question == null)
+                return NotFound();
+
+            await _mapper.Map(model, question);
+
+            if (await _repo.SaveAll())
+            {
+                return Ok(_mapper.Map<QuestionForPostDto>(question));
+            }
+
+            return BadRequest();
+        }
     }
 }
