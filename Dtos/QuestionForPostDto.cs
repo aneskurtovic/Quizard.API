@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Quizard.API.Models;
+﻿using System.Collections.Generic;
 
 namespace Quizard.API.Dtos
 {
     public class QuestionForPostDto
     {
-        public string QuestionText { get; set; }
+        public string Text { get; set; }
         public ICollection<AnswerForPostDto> Answers { get; set; }
     }
 }

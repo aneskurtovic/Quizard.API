@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using AutoMapper;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Quizard.API.Data;
 using Quizard.API.Dtos;
@@ -37,7 +33,7 @@ namespace Quizard.API.Controllers
         {
             var question = await _repo.GetQuestion(id);
 
-            var questionToReturn = _mapper.Map<QuestionForDetailedDto>(question);
+            var questionToReturn = _mapper.Map<QuestionForDetailedListDto>(question);
 
             return Ok(questionToReturn);
         }
@@ -62,8 +58,10 @@ namespace Quizard.API.Controllers
         {
             var question = _repo.GetQuestion(id);
             if (question == null)
+            {
                 return NotFound();
-
+            }
+            
             await _mapper.Map(model, question);
 
             if (await _repo.SaveAll())

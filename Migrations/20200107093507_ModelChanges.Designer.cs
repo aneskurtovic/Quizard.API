@@ -11,7 +11,7 @@ namespace Quizard.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20200107093507_Ispravke Modela")]
-    partial class IspravkeModela
+    partial class ModelChanges
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

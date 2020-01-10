@@ -2,32 +2,35 @@
 
 namespace Quizard.API.Migrations
 {
-    public partial class IspravkeModela : Migration
+    public partial class CommentResolve : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "Content",
+                name: "QuestionText",
                 table: "Questions");
 
             migrationBuilder.DropColumn(
-                name: "Content",
+                name: "AnswerText",
+                table: "Answers");
+
+            migrationBuilder.DropColumn(
+                name: "Correct",
                 table: "Answers");
 
             migrationBuilder.AddColumn<string>(
-                name: "QuestionText",
+                name: "Text",
                 table: "Questions",
                 nullable: true);
 
-            migrationBuilder.AlterColumn<bool>(
-                name: "Correct",
+            migrationBuilder.AddColumn<bool>(
+                name: "IsCorrect",
                 table: "Answers",
-                nullable: true,
-                oldClrType: typeof(bool),
-                oldType: "bit");
+                nullable: false,
+                defaultValue: false);
 
             migrationBuilder.AddColumn<string>(
-                name: "AnswerText",
+                name: "Text",
                 table: "Answers",
                 nullable: true);
 
@@ -36,59 +39,62 @@ namespace Quizard.API.Migrations
                 keyColumn: "Id",
                 keyValue: "a18be9c0-aa65-4af8-bd17-00bd9344e575",
                 column: "ConcurrencyStamp",
-                value: "fc10d3ff-21ff-4ccd-af60-71cd598211cf");
+                value: "9634f5c6-fb31-4e21-9269-6565907f715d");
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: "a18be9c0-aa65-4af8-bd17-00bd9344e575",
                 columns: new[] { "ConcurrencyStamp", "PasswordHash" },
-                values: new object[] { "0c513be9-9e48-44e4-870d-66116b322f87", "AQAAAAEAACcQAAAAEBEqRaFO1tfklevKESPDsXnQ6ydEPK9xO+MnCxVemajittCLMRzUv1MMWJ8DiNj3Yw==" });
+                values: new object[] { "040ae44f-a5c4-4b3e-bf6a-8c1deaaf0eb6", "AQAAAAEAACcQAAAAEFNSrNndfUqB+ZhXPUmJppkTnGnxMOgQ3HBinFsZqSw0xGMcFfLpMZBrhxzRiWOBhw==" });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropColumn(
-                name: "QuestionText",
+                name: "Text",
                 table: "Questions");
 
             migrationBuilder.DropColumn(
-                name: "AnswerText",
+                name: "IsCorrect",
+                table: "Answers");
+
+            migrationBuilder.DropColumn(
+                name: "Text",
                 table: "Answers");
 
             migrationBuilder.AddColumn<string>(
-                name: "Content",
+                name: "QuestionText",
                 table: "Questions",
                 type: "nvarchar(max)",
                 nullable: true);
 
-            migrationBuilder.AlterColumn<bool>(
+            migrationBuilder.AddColumn<string>(
+                name: "AnswerText",
+                table: "Answers",
+                type: "nvarchar(max)",
+                nullable: true);
+
+            migrationBuilder.AddColumn<bool>(
                 name: "Correct",
                 table: "Answers",
                 type: "bit",
                 nullable: false,
-                oldClrType: typeof(bool),
-                oldNullable: true);
-
-            migrationBuilder.AddColumn<string>(
-                name: "Content",
-                table: "Answers",
-                type: "nvarchar(max)",
-                nullable: true);
+                defaultValue: false);
 
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: "a18be9c0-aa65-4af8-bd17-00bd9344e575",
                 column: "ConcurrencyStamp",
-                value: "e3a9b7d2-33bf-4ac7-bd06-9c4821d410fc");
+                value: "410a4fa0-739c-418e-90a0-f5248574c6c1");
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: "a18be9c0-aa65-4af8-bd17-00bd9344e575",
                 columns: new[] { "ConcurrencyStamp", "PasswordHash" },
-                values: new object[] { "5dafccc1-211d-4c2b-9510-7832912f22e6", "AQAAAAEAACcQAAAAEIjr6CgCLW756QZB16MKbRj1fuh4W65vD8qgQ4SWlIMC+tTnRtYgvHeG06joT1JTQw==" });
+                values: new object[] { "c0389372-9496-4d40-8860-cf23153b9f15", "AQAAAAEAACcQAAAAEM4BYUQewgUGeI4JLWKcCh3DW9GpIN8LSwgEsqdTZRKGS8roOaSSmlJqs2o1QiFIkA==" });
         }
     }
 }

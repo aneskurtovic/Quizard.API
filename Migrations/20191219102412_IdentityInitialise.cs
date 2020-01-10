@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Quizard.API.Migrations
 {
-    public partial class IniciranjeIdentitya : Migration
+    public partial class IdentityInitialise : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

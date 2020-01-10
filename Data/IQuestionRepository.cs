@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Quizard.API.Dtos;
 using Quizard.API.Models;
 
 namespace Quizard.API.Data
