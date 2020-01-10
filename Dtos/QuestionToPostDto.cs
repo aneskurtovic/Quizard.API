@@ -2,9 +2,9 @@
 
 namespace Quizard.API.Dtos
 {
-    public class QuestionForPostDto
+    public class QuestionToPostDto
     {
         public string Text { get; set; }
-        public ICollection<AnswerForPostDto> Answers { get; set; }
+        public ICollection<AnswerToPostDto> Answers { get; set; }
     }
 }

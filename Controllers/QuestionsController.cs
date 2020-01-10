@@ -39,11 +39,11 @@ namespace Quizard.API.Controllers
         }
 
         [HttpPost]        
-        public async Task<IActionResult> Post([FromBody]QuestionForPostDto questionDto)
+        public async Task<IActionResult> Post([FromBody]QuestionToPostDto questionDto)
         {
             var question = _mapper.Map<Question>(questionDto); //maping object from QuestionForPostDto into question
 
-            _repo.Add(question);
+            await _repo.AddQuestion(question);
 
             if (await _repo.SaveAll())
             {
@@ -54,7 +54,7 @@ namespace Quizard.API.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] QuestionForPostDto model)
+        public async Task<IActionResult> Update(int id, [FromBody] QuestionToPostDto model)
         {
             var question = _repo.GetQuestion(id);
             if (question == null)
@@ -66,7 +66,7 @@ namespace Quizard.API.Controllers
 
             if (await _repo.SaveAll())
             {
-                return Ok(_mapper.Map<QuestionForPostDto>(question));
+                return Ok(_mapper.Map<QuestionToPostDto>(question));
             }
 
             return BadRequest();
