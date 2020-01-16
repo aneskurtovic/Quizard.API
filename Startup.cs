@@ -1,9 +1,5 @@
-<<<<<<< HEAD
 using System.Text;
 using AutoMapper;
-=======
-﻿using AutoMapper;
->>>>>>> Quizard5-AnesEdiCategory
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -16,7 +12,6 @@ using Microsoft.IdentityModel.Tokens;
 using Quizard.API.Data;
 using Quizard.API.Helpers;
 using System;
-using System.Text;
 
 namespace Quizard.API
 {
@@ -38,10 +33,7 @@ namespace Quizard.API
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<IQuestionRepository, QuestionRepository>();
-<<<<<<< HEAD
-=======
             services.AddScoped<ICategoryRepository, CategoryRepository>();
->>>>>>> Quizard5-AnesEdiCategory
 
             services.AddCors();
             services.AddAutoMapper(typeof(Startup));

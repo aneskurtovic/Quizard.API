@@ -1,13 +1,8 @@
 ﻿using System.Collections.Generic;
-<<<<<<< HEAD
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Quizard.API.Helpers;
-=======
 using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
->>>>>>> Quizard5-AnesEdiCategory
 using Quizard.API.Models;
 
 namespace Quizard.API.Data
@@ -31,17 +26,11 @@ namespace Quizard.API.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
-<<<<<<< HEAD
         public async Task<PagedList<Question>> GetQuestions(QuestionParams questionParams)
         {
             var questions = _context.Questions.Include(a => a.Answers);
 
             return await PagedList<Question>.CreateAsync(questions, questionParams.PageNumber, questionParams.PageSize);
-=======
-        public async Task<IEnumerable<Question>> GetQuestions()
-        {
-            return await _context.Questions.Include(a => a.Answers).ToListAsync();
->>>>>>> Quizard5-AnesEdiCategory
         }
 
         public async Task<Question> GetQuestion(int id)
@@ -51,8 +40,6 @@ namespace Quizard.API.Data
             return question;
         }
 
-<<<<<<< HEAD
-=======
         public async void AddQuestionCategory(int id, int cat)
         {
             var category = _context.Categories.Find(cat);
@@ -66,6 +53,5 @@ namespace Quizard.API.Data
             var questionID = _context.Questions.FirstOrDefault(a => a.Text == text).Id;
             return questionID;
         }
->>>>>>> Quizard5-AnesEdiCategory
     }
 }

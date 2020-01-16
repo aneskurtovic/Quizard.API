@@ -1,18 +1,11 @@
-<<<<<<< HEAD
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-=======
-﻿using System.Threading.Tasks;
->>>>>>> Quizard5-AnesEdiCategory
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Quizard.API.Data;
 using Quizard.API.Dtos;
-<<<<<<< HEAD
 using Quizard.API.Helpers;
-=======
->>>>>>> Quizard5-AnesEdiCategory
 using Quizard.API.Models;
 
 namespace Quizard.API.Controllers
@@ -31,7 +24,6 @@ namespace Quizard.API.Controllers
         }
 
         [HttpGet]
-<<<<<<< HEAD
         public async Task<IActionResult> GetQuestions([FromQuery]QuestionParams questionParams)
         {
             var questions = await _repo.GetQuestions(questionParams);
@@ -42,13 +34,6 @@ namespace Quizard.API.Controllers
                 questions.TotalCount, questions.TotalPages);
 
             return Ok(questionsToReturn);
-=======
-        public async Task<IActionResult> GetQuestions()
-        {
-            var questions = await _repo.GetQuestions();
-
-            return Ok(questions);
->>>>>>> Quizard5-AnesEdiCategory
         }
 
         [HttpGet("{id}")]
@@ -68,14 +53,6 @@ namespace Quizard.API.Controllers
 
             await _repo.AddQuestion(question);
 
-<<<<<<< HEAD
-            if (await _repo.SaveAll())
-            {
-                return Ok(question);
-            }
-
-            return BadRequest();
-=======
             await _repo.SaveAll();
 
             var questionId = _repo.GetQuestionIDByText(question.Text);
@@ -89,7 +66,6 @@ namespace Quizard.API.Controllers
             await _repo.SaveAll();
 
             return Ok(question);
->>>>>>> Quizard5-AnesEdiCategory
         }
 
         [HttpPut("{id}")]

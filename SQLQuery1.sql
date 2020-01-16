@@ -1,1 +1,0 @@
-﻿select q.Text,c.CategoryName from Questions as q inner join QuestionsCategories as qc on q.Id = qc.QuestionID inner join Categories as c on qc.CategoryID= c.Id 
