@@ -25,6 +25,9 @@ namespace Quizard.API.Helpers
 
             CreateMap<Category, CategoryForPost>().ReverseMap();
 
+            CreateMap<Question, QuestionForListDto>();
+            CreateMap<Answer, AnswerForListDto>();
+
         }
     }
 }
