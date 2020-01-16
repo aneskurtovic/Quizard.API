@@ -1,8 +1,11 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Quizard.API.Data;
 using Quizard.API.Dtos;
+using Quizard.API.Helpers;
 using Quizard.API.Models;
 
 namespace Quizard.API.Controllers
@@ -21,11 +24,16 @@ namespace Quizard.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetQuestions()
+        public async Task<IActionResult> GetQuestions([FromQuery]QuestionParams questionParams)
         {
-            var questions = await _repo.GetQuestions();
+            var questions = await _repo.GetQuestions(questionParams);
 
-            return Ok(questions);
+            var questionsToReturn = _mapper.Map<IEnumerable<QuestionForListDto>>(questions);
+
+            Response.AddPagination(questions.CurrentPage, questions.PageSize, 
+                questions.TotalCount, questions.TotalPages);
+
+            return Ok(questionsToReturn);
         }
 
         [HttpGet("{id}")]

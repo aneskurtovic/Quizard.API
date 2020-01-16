@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Quizard.API.Helpers;
 using Quizard.API.Models;
 
 namespace Quizard.API.Data
@@ -24,9 +25,11 @@ namespace Quizard.API.Data
             return await _context.SaveChangesAsync() > 0;
         }
 
-        public async Task<IEnumerable<Question>> GetQuestions()
+        public async Task<PagedList<Question>> GetQuestions(QuestionParams questionParams)
         {
-            return await _context.Questions.Include(a => a.Answers).ToListAsync();
+            var questions = _context.Questions.Include(a => a.Answers);
+
+            return await PagedList<Question>.CreateAsync(questions, questionParams.PageNumber, questionParams.PageSize);
         }
 
         public async Task<Question> GetQuestion(int id)

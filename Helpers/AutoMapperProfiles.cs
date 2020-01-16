@@ -11,6 +11,10 @@ namespace Quizard.API.Helpers
         {
             CreateMap<Question, QuestionForDetailedListDto>();
             CreateMap<Answer, AnswerForDetailedListDto>();
+
+            CreateMap<Question, QuestionForListDto>();
+            CreateMap<Answer, AnswerForListDto>();
+
             CreateMap<Answer, AnswerToPostDto>().ReverseMap();
             CreateMap<Question, QuestionToPostDto>()
                 .ForMember(dest => dest.Answers, opt =>

@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
+using Quizard.API.Helpers;
 using Quizard.API.Models;
 
 namespace Quizard.API.Data
@@ -8,7 +9,7 @@ namespace Quizard.API.Data
     {
         Task AddQuestion<T>(T entity) where T : class;
         Task<bool> SaveAll();
-        Task<IEnumerable<Question>> GetQuestions();
+        Task<PagedList<Question>> GetQuestions(QuestionParams questionParams);
         Task<Question> GetQuestion(int id);
 
     }
