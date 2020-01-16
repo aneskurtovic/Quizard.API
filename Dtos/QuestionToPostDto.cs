@@ -6,5 +6,9 @@ namespace Quizard.API.Dtos
     {
         public string Text { get; set; }
         public ICollection<AnswerToPostDto> Answers { get; set; }
+<<<<<<< HEAD
+=======
+        public int[] Categories { get; set; }
+>>>>>>> Quizard5-AnesEdiCategory
     }
 }

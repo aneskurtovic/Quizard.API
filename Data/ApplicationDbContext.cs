@@ -7,10 +7,12 @@ namespace Quizard.API.Data
 {
     public class ApplicationDbContext : IdentityDbContext
     {
-        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options): base(options) { }
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options) { }
 
         public DbSet<Question> Questions { get; set; }
         public DbSet<Answer> Answers { get; set; }
+        public DbSet<Category> Categories { get; set; }
+        public DbSet<QuestionCategory> QuestionsCategories { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -43,6 +45,19 @@ namespace Quizard.API.Data
                 RoleId = ROLE_ID,
                 UserId = ADMIN_ID
             });
+
+            builder.Entity<QuestionCategory>()
+                .HasKey(t => new { t.CategoryID, t.QuestionID });
+
+            builder.Entity<QuestionCategory>()
+                .HasOne(pt => pt.Question)
+                .WithMany(p => p.QuestionsCategories)
+                .HasForeignKey(pt => pt.QuestionID);
+
+            builder.Entity<QuestionCategory>()
+                .HasOne(pt => pt.Category)
+                .WithMany(t => t.QuestionsCategories)
+                .HasForeignKey(pt => pt.CategoryID);
         }
 
     }

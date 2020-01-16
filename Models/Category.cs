@@ -2,11 +2,10 @@
 
 namespace Quizard.API.Models
 {
-    public class Question
+    public class Category
     {
         public int Id { get; set; }
-        public string Text { get; set; }
-        public ICollection<Answer> Answers { get; set; }
+        public string CategoryName { get; set; }
         public ICollection<QuestionCategory> QuestionsCategories { get; set; }
     }
 }

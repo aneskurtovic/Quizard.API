@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Quizard.API.Data;
 
 namespace Quizard.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200112005803_hehe")]
+    partial class hehe
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,11 +51,7 @@ namespace Quizard.API.Migrations
                         new
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
-<<<<<<< HEAD
-                            ConcurrencyStamp = "9634f5c6-fb31-4e21-9269-6565907f715d",
-=======
-                            ConcurrencyStamp = "141019ce-ec58-4846-beaf-9136af9b449b",
->>>>>>> Quizard5-AnesEdiCategory
+                            ConcurrencyStamp = "b309ae01-d22a-45ba-8a62-1213ea7548ac",
                             Name = "admin",
                             NormalizedName = "admin"
                         });
@@ -152,21 +150,13 @@ namespace Quizard.API.Migrations
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
                             AccessFailedCount = 0,
-<<<<<<< HEAD
-                            ConcurrencyStamp = "040ae44f-a5c4-4b3e-bf6a-8c1deaaf0eb6",
-=======
-                            ConcurrencyStamp = "fa3da27e-09ee-441d-9277-c59d95932b9a",
->>>>>>> Quizard5-AnesEdiCategory
+                            ConcurrencyStamp = "2db79073-2821-4c6c-8a71-b3ca2b306dea",
                             Email = "admin@tacta.io",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@tacta.io",
                             NormalizedUserName = "admin",
-<<<<<<< HEAD
-                            PasswordHash = "AQAAAAEAACcQAAAAEFNSrNndfUqB+ZhXPUmJppkTnGnxMOgQ3HBinFsZqSw0xGMcFfLpMZBrhxzRiWOBhw==",
-=======
-                            PasswordHash = "AQAAAAEAACcQAAAAELMMHKtwNTQV5B7XwvjXyeEKucDsBf9b85rI0sXe1gh63b8tZVoCsTJ3NGBSmwA9Yg==",
->>>>>>> Quizard5-AnesEdiCategory
+                            PasswordHash = "AQAAAAEAACcQAAAAEK+wHCp9FBLJAo1aelsuqjPCBBhTHdozJFoSramgkTWoedQ62LFUFIqa8HO03FlqGg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -284,24 +274,6 @@ namespace Quizard.API.Migrations
                     b.ToTable("Answers");
                 });
 
-<<<<<<< HEAD
-=======
-            modelBuilder.Entity("Quizard.API.Models.Category", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CategoryName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Categories");
-                });
-
->>>>>>> Quizard5-AnesEdiCategory
             modelBuilder.Entity("Quizard.API.Models.Question", b =>
                 {
                     b.Property<int>("Id")
@@ -317,24 +289,6 @@ namespace Quizard.API.Migrations
                     b.ToTable("Questions");
                 });
 
-<<<<<<< HEAD
-=======
-            modelBuilder.Entity("Quizard.API.Models.QuestionCategory", b =>
-                {
-                    b.Property<int>("CategoryID")
-                        .HasColumnType("int");
-
-                    b.Property<int>("QuestionID")
-                        .HasColumnType("int");
-
-                    b.HasKey("CategoryID", "QuestionID");
-
-                    b.HasIndex("QuestionID");
-
-                    b.ToTable("QuestionsCategories");
-                });
-
->>>>>>> Quizard5-AnesEdiCategory
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -394,24 +348,6 @@ namespace Quizard.API.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
-<<<<<<< HEAD
-=======
-
-            modelBuilder.Entity("Quizard.API.Models.QuestionCategory", b =>
-                {
-                    b.HasOne("Quizard.API.Models.Category", "Category")
-                        .WithMany("QuestionsCategories")
-                        .HasForeignKey("CategoryID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("Quizard.API.Models.Question", "Question")
-                        .WithMany("QuestionsCategories")
-                        .HasForeignKey("QuestionID")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
->>>>>>> Quizard5-AnesEdiCategory
 #pragma warning restore 612, 618
         }
     }
