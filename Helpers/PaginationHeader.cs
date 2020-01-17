@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace Quizard.API.Helpers
+﻿namespace Quizard.API.Helpers
 {
     public class PaginationHeader
     {
