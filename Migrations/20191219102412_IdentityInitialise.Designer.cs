@@ -11,7 +11,7 @@ namespace Quizard.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20191219102412_IniciranjeIdentity-a")]
-    partial class IniciranjeIdentitya
+    partial class IdentityInitialise
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Quizard.API.Data;
 
 namespace Quizard.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200108093054_test")]
+    partial class test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +51,7 @@ namespace Quizard.API.Migrations
                         new
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
-                            ConcurrencyStamp = "9634f5c6-fb31-4e21-9269-6565907f715d",
+                            ConcurrencyStamp = "410a4fa0-739c-418e-90a0-f5248574c6c1",
                             Name = "admin",
                             NormalizedName = "admin"
                         });
@@ -148,13 +150,13 @@ namespace Quizard.API.Migrations
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "040ae44f-a5c4-4b3e-bf6a-8c1deaaf0eb6",
+                            ConcurrencyStamp = "c0389372-9496-4d40-8860-cf23153b9f15",
                             Email = "admin@tacta.io",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@tacta.io",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFNSrNndfUqB+ZhXPUmJppkTnGnxMOgQ3HBinFsZqSw0xGMcFfLpMZBrhxzRiWOBhw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEM4BYUQewgUGeI4JLWKcCh3DW9GpIN8LSwgEsqdTZRKGS8roOaSSmlJqs2o1QiFIkA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -256,14 +258,14 @@ namespace Quizard.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("IsCorrect")
+                    b.Property<string>("AnswerText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Correct")
                         .HasColumnType("bit");
 
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
-
-                    b.Property<string>("Text")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -279,7 +281,7 @@ namespace Quizard.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Text")
+                    b.Property<string>("QuestionText")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
