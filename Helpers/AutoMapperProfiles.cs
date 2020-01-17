@@ -25,7 +25,8 @@ namespace Quizard.API.Helpers
 
             CreateMap<Category, CategoryForPost>().ReverseMap();
 
-            CreateMap<Question, QuestionForListDto>();
+            CreateMap<Question, QuestionForListDto>()
+                .ForMember(x => x.Categories, opt=> opt.MapFrom(src => src.QuestionsCategories.Select(x => x.Category.CategoryName)));
             CreateMap<Answer, AnswerForListDto>();
 
         }

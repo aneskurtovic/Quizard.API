@@ -9,6 +9,6 @@ namespace Quizard.API.Dtos
     public class QuestionForListDto
     {
         public string Text { get; set; }
-        public ICollection<AnswerForListDto> Answers { get; set; }
+        public IEnumerable<string> Categories { get; set; }
     }
 }

@@ -28,7 +28,8 @@ namespace Quizard.API.Data
 
         public async Task<PagedList<Question>> GetQuestions(QuestionParams questionParams)
         {
-            var questions = _context.Questions.Include(a => a.Answers);
+            var questions = _context.Questions.Include(a=> a.QuestionsCategories)
+                .ThenInclude(questionCategory => questionCategory.Category);
 
             return await PagedList<Question>.CreateAsync(questions, questionParams.PageNumber, questionParams.PageSize);
         }
