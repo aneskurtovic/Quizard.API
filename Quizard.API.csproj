@@ -11,6 +11,10 @@
     <Compile Remove="Migrations\20200106094125_test.Designer.cs" />
     <Compile Remove="Migrations\20200116132008_QTest.cs" />
     <Compile Remove="Migrations\20200116132008_QTest.Designer.cs" />
+    <Compile Remove="Migrations\20200120100507_NameCategory.cs" />
+    <Compile Remove="Migrations\20200120100507_NameCategory.Designer.cs" />
+    <Compile Remove="Migrations\20200120102528_CategoryAddAgain.cs" />
+    <Compile Remove="Migrations\20200120102528_CategoryAddAgain.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

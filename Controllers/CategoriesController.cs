@@ -41,7 +41,7 @@ namespace Quizard.API.Controllers
 
             if (await repo.SaveAll())
             {
-                return Ok(category.ID);
+                return Ok(category.Id);
             }
             else
             {

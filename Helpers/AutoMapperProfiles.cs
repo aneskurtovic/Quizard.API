@@ -21,7 +21,7 @@ namespace Quizard.API.Helpers
 
             CreateMap<Category, CategoryForGetDto>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
-                .ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.ID));
+                .ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.Id));
 
             CreateMap<Category, CategoryForPostDto>().ReverseMap();
 

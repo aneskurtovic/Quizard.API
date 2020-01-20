@@ -10,8 +10,8 @@ using Quizard.API.Data;
 namespace Quizard.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200113092944_Category setup")]
-    partial class Categorysetup
+    [Migration("20200120102922_category")]
+    partial class category
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -51,7 +51,7 @@ namespace Quizard.API.Migrations
                         new
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
-                            ConcurrencyStamp = "952bee6d-5bc3-43ed-ac26-b923ad7a7566",
+                            ConcurrencyStamp = "e16cd858-6dfd-4f72-9a3d-c1ff3ae77b12",
                             Name = "admin",
                             NormalizedName = "admin"
                         });
@@ -150,13 +150,13 @@ namespace Quizard.API.Migrations
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "b0dc9834-6a38-44fc-8d39-1ee787f0a30d",
+                            ConcurrencyStamp = "67a2dd71-d2b6-4ea1-a57f-23d995c3fc42",
                             Email = "admin@tacta.io",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@tacta.io",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEJF09HlrpVOQ8WzMDcjOlfU+DnvleiBBF1g79I6Zxhp0BL3hRMOSbB+xLBp80fcRxg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBjJdBnCnVEPjrhYk9Ir8SUUFu4kNj80lm976ZtM59N7E5trJv4MBjdT9LHLoKLjVQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -281,7 +281,7 @@ namespace Quizard.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CategoryName")
+                    b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");

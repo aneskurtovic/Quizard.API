@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Quizard.API.Data;
 
 namespace Quizard.API.Migrations
@@ -48,7 +49,7 @@ namespace Quizard.API.Migrations
                         new
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
-                            ConcurrencyStamp = "f485621e-f166-405b-ba20-fb8625d9b98b",
+                            ConcurrencyStamp = "e16cd858-6dfd-4f72-9a3d-c1ff3ae77b12",
                             Name = "admin",
                             NormalizedName = "admin"
                         });
@@ -147,13 +148,13 @@ namespace Quizard.API.Migrations
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f3afa8a8-f142-4660-a248-10cb5b3e405b",
+                            ConcurrencyStamp = "67a2dd71-d2b6-4ea1-a57f-23d995c3fc42",
                             Email = "admin@tacta.io",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@tacta.io",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEPX0zPeVO6hiOV2PuG93mP0EVlvbwrINClgk1qHxGpSRlPkR/RWZvPcyMp8WvxU38Q==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEBjJdBnCnVEPjrhYk9Ir8SUUFu4kNj80lm976ZtM59N7E5trJv4MBjdT9LHLoKLjVQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -273,7 +274,7 @@ namespace Quizard.API.Migrations
 
             modelBuilder.Entity("Quizard.API.Models.Category", b =>
                 {
-                    b.Property<int>("ID")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -281,7 +282,7 @@ namespace Quizard.API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("ID");
+                    b.HasKey("Id");
 
                     b.ToTable("Categories");
                 });
