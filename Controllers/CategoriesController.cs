@@ -24,26 +24,29 @@ namespace Quizard.API.Controllers
             this.mapper = mapper;
         }
 
-        // GET: api/Categories
         [HttpGet]
-        public async Task<ActionResult> GetCategories()
+        public async Task<ActionResult> GetCategories([FromQuery]string searchTerm)
         {
-            var categories = await repo.GetCategories();
-            var categoriesToReturn = mapper.Map<List<CategoryForGet>>(categories);
+            var categories = await repo.GetCategories(searchTerm);
+            var categoriesToReturn = mapper.Map<List<CategoryForGetDto>>(categories);
             return Ok(categoriesToReturn);
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]CategoryForPost categoryDto)
+        public async Task<IActionResult> Post([FromBody]CategoryForPostDto categoryDto)
         {
-            var category =  mapper.Map<Category>(categoryDto);
+            var category = mapper.Map<Category>(categoryDto);
 
             repo.Add(category);
 
             if (await repo.SaveAll())
-                return Ok(category.Id);
+            {
+                return Ok(category.ID);
+            }
             else
+            {
                 return BadRequest();
+            }
         }
 
     }

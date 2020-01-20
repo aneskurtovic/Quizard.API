@@ -6,8 +6,8 @@ namespace Quizard.API.Data
 {
     public interface ICategoryRepository
     {
-        Task Add<T>(T entity) where T : class;
-        Task<List<Category>> GetCategories();
+        void Add<T>(T entity) where T : class;
+        Task<List<Category>> GetCategories(string searchTerm);
         Task<bool> SaveAll();
     }
 }

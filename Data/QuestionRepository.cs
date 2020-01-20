@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
+using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Quizard.API.Helpers;
-using System.Linq;
 using Quizard.API.Models;
 
 namespace Quizard.API.Data

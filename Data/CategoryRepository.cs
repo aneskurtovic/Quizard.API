@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Quizard.API.Models;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Quizard.API.Data
@@ -13,14 +14,16 @@ namespace Quizard.API.Data
         {
             this.db = db;
         }
-        public async Task Add<T>(T entity) where T : class
+        public async void Add<T>(T entity) where T : class
         {
             await db.Set<T>().AddAsync(entity);
         }
 
-        public async Task<List<Category>> GetCategories()
+        public async Task<List<Category>> GetCategories(string searchTerm)
         {
-            return await db.Categories.Include(a => a.QuestionsCategories).ToListAsync();
+            return await db.Categories.Where(a => a.Name.ToLower().Trim().Contains(searchTerm.ToLower()))
+                                      .Take(10)
+                                      .ToListAsync();
         }
 
         public async Task<bool> SaveAll()

@@ -1,5 +1,4 @@
-using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -12,6 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using Quizard.API.Data;
 using Quizard.API.Helpers;
 using System;
+using System.Text;
 
 namespace Quizard.API
 {
@@ -36,7 +36,9 @@ namespace Quizard.API
             services.AddScoped<ICategoryRepository, CategoryRepository>();
 
             services.AddCors();
-            services.AddAutoMapper(typeof(Startup));
+
+            services.AddAutoMapper(cfg => cfg.AddProfile<AutoMapperProfiles>(),
+                               AppDomain.CurrentDomain.GetAssemblies());
 
 
             services.AddAutoMapper(cfg => cfg.AddProfile<AutoMapperProfiles>(),
