@@ -34,6 +34,7 @@ namespace Quizard.API
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddScoped<IQuestionRepository, QuestionRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
+            services.AddScoped<IDifficultyLevelRepository, DifficultyLevelRepository>();
 
             services.AddCors();
 

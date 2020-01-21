@@ -13,6 +13,7 @@ namespace Quizard.API.Data
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<QuestionCategory> QuestionsCategories { get; set; }
+        public DbSet<DifficultyLevel> DifficultyLevels { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder builder)
