@@ -6,6 +6,7 @@ using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Quizard.API.Data;
+using Quizard.API.Dtos;
 
 namespace Quizard.API.Controllers
 {
@@ -27,7 +28,10 @@ namespace Quizard.API.Controllers
         {
             var levels = await _repo.GetDifficultyLevels();
 
-            return Ok(levels);
+            var levelsToReturn = _mapper.Map<IEnumerable<DifficultyLevelForListDto>>(levels);
+            
+
+            return Ok(levelsToReturn);
         }
     }
 }

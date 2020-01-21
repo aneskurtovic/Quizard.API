@@ -29,6 +29,7 @@ namespace Quizard.API.Helpers
                 .ForMember(x => x.Categories, opt=> opt.MapFrom(src => src.QuestionsCategories.Select(x => x.Category.Name)));
             CreateMap<Answer, AnswerForListDto>();
 
+            CreateMap<DifficultyLevel, DifficultyLevelForListDto>();
         }
     }
 }
