@@ -48,7 +48,7 @@ namespace Quizard.API.Controllers
         [HttpPost]        
         public async Task<IActionResult> Post([FromBody]QuestionToPostDto questionDto)
         {
-            var question = _mapper.Map<Question>(questionDto); //maping object from QuestionForPostDto into question
+            var question = _mapper.Map<Question>(questionDto);
 
             await _repo.AddQuestion(question);
 

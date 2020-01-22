@@ -14,7 +14,7 @@ namespace Quizard.API.Data
         {
             this.db = db;
         }
-        public async void Add<T>(T entity) where T : class
+        public async Task AddCategory<T>(T entity) where T : class
         {
             await db.Set<T>().AddAsync(entity);
         }

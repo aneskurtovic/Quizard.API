@@ -37,16 +37,14 @@ namespace Quizard.API.Controllers
         {
             var category = mapper.Map<Category>(categoryDto);
 
-            repo.Add(category);
+            await repo.AddCategory(category);
 
             if (await repo.SaveAll())
             {
                 return Ok(category.Id);
             }
-            else
-            {
-                return BadRequest();
-            }
+
+            return BadRequest();
         }
 
     }
