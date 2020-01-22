@@ -48,42 +48,19 @@ namespace Quizard.API.Controllers
         [HttpPost]        
         public async Task<IActionResult> Post([FromBody]QuestionToPostDto questionDto)
         {
-            var question = _mapper.Map<Question>(questionDto); //maping object from QuestionForPostDto into question
+            var question = _mapper.Map<Question>(questionDto);
 
             await _repo.AddQuestion(question);
 
-            await _repo.SaveAll();
-
-            var questionId = _repo.GetQuestionIDByText(question.Text);
+            var questionId = _repo.GetQuestionIdByText(question.Text);
 
             foreach (var cat in questionDto.Categories)
             {
                 _repo.AddQuestionCategory(questionId, cat);
             }
-
-
-            await _repo.SaveAll();
-
+            
             return Ok(question);
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] QuestionToPostDto model)
-        {
-            var question = _repo.GetQuestion(id);
-            if (question == null)
-            {
-                return NotFound();
-            }
-            
-            await _mapper.Map(model, question);
-
-            if (await _repo.SaveAll())
-            {
-                return Ok(_mapper.Map<QuestionToPostDto>(question));
-            }
-
-            return BadRequest();
-        }
     }
 }

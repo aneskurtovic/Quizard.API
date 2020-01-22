@@ -8,27 +8,27 @@ namespace Quizard.API.Data
 {
     public class CategoryRepository : ICategoryRepository
     {
-        private readonly ApplicationDbContext db;
+        private readonly ApplicationDbContext _context;
 
-        public CategoryRepository(ApplicationDbContext db)
+        public CategoryRepository(ApplicationDbContext context)
         {
-            this.db = db;
+            this._context = context;
         }
-        public async void Add<T>(T entity) where T : class
+        public async Task AddCategory<T>(T entity) where T : class
         {
-            await db.Set<T>().AddAsync(entity);
+            await _context.Set<T>().AddAsync(entity);
         }
 
         public async Task<List<Category>> GetCategories(string searchTerm)
         {
-            return await db.Categories.Where(a => a.Name.ToLower().Trim().Contains(searchTerm.ToLower()))
+            return await _context.Categories.Where(a => a.Name.ToLower().Trim().Contains(searchTerm.ToLower()))
                                       .Take(10)
                                       .ToListAsync();
         }
 
         public async Task<bool> SaveAll()
         {
-            return await db.SaveChangesAsync() > 0;
+            return await _context.SaveChangesAsync() > 0;
         }
     }
 }

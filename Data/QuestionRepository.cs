@@ -18,12 +18,9 @@ namespace Quizard.API.Data
         public async Task AddQuestion<T>(T entity) where T : class
         {
             await _context.Set<T>().AddAsync(entity);
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<bool> SaveAll()
-        {
-            return await _context.SaveChangesAsync() > 0;
-        }
 
         public async Task<PagedList<Question>> GetQuestions(QuestionParams questionParams)
         {
@@ -46,9 +43,10 @@ namespace Quizard.API.Data
             var question = _context.Questions.FirstOrDefault(a => a.Id == id);
             QuestionCategory newQuestCat = new QuestionCategory { Category = category, Question= question};
             await _context.Set<QuestionCategory>().AddAsync(newQuestCat);
+            await _context.SaveChangesAsync();
         }
 
-        public int GetQuestionIDByText(string text)
+        public int GetQuestionIdByText(string text)
         {
             var questionID = _context.Questions.FirstOrDefault(a => a.Text == text).Id;
             return questionID;
