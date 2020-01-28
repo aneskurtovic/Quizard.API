@@ -27,10 +27,7 @@ namespace Quizard.API.Controllers
         public async Task<IActionResult> GetDifficultyLevel()
         {
             var levels = await _repo.GetDifficultyLevels();
-
             var levelsToReturn = _mapper.Map<IEnumerable<DifficultyLevelForListDto>>(levels);
-            
-
             return Ok(levelsToReturn);
         }
     }

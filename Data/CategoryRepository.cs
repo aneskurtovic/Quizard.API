@@ -30,5 +30,11 @@ namespace Quizard.API.Data
         {
             return await _context.SaveChangesAsync() > 0;
         }
+
+        public async Task<Category> CategoryExists(string name)
+        {
+            var exist = await _context.Categories.FirstOrDefaultAsync(a => a.Name.Trim() == name.Trim());
+            return exist;
+        }
     }
 }

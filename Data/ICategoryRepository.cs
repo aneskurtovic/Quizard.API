@@ -9,5 +9,6 @@ namespace Quizard.API.Data
         Task AddCategory<T>(T entity) where T : class;
         Task<List<Category>> GetCategories(string searchTerm);
         Task<bool> SaveAll();
+        Task<Category> CategoryExists(string name);
     }
 }

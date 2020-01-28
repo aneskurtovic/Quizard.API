@@ -29,8 +29,8 @@ namespace Quizard.API.Controllers
 
             var questionsToReturn = _mapper.Map<IEnumerable<QuestionForListDto>>(questions);
 
-            Response.AddPagination(questions.CurrentPage, questions.PageSize, 
-                questions.TotalCount, questions.TotalPages);
+
+            Response.AddPagination(questions.CurrentPage, questions.PageSize, questions.TotalCount, questions.TotalPages);
 
             return Ok(questionsToReturn);
         }
@@ -45,7 +45,7 @@ namespace Quizard.API.Controllers
             return Ok(questionToReturn);
         }
 
-        [HttpPost]        
+        [HttpPost]
         public async Task<IActionResult> Post([FromBody]QuestionToPostDto questionDto)
         {
             var question = _mapper.Map<Question>(questionDto);
@@ -58,8 +58,13 @@ namespace Quizard.API.Controllers
             {
                 _repo.AddQuestionCategory(questionId, cat);
             }
-            
-            return Ok(question);
+
+            if (await _repo.SaveAll())
+            {
+                return Ok(question);
+            }
+
+            return BadRequest();
         }
 
     }

@@ -16,6 +16,5 @@ namespace Quizard.API.Models
         }
         public int DifficultyLevelId { get; set; }
         public DifficultyLevel DifficultyLevel { get; set; }
-
     }
 }

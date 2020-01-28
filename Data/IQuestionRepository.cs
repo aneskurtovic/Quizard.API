@@ -11,5 +11,6 @@ namespace Quizard.API.Data
         Task<Question> GetQuestion(int id);
         void AddQuestionCategory(int id, int cat);
         int GetQuestionIdByText(string text);
+        Task<bool> SaveAll();
     }
 }

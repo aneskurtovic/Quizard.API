@@ -36,6 +36,7 @@ namespace Quizard.API
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IDifficultyLevelRepository, DifficultyLevelRepository>();
 
+
             services.AddCors();
 
             services.AddAutoMapper(cfg => cfg.AddProfile<AutoMapperProfiles>(),

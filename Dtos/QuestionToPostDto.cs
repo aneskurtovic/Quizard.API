@@ -8,5 +8,6 @@ namespace Quizard.API.Dtos
         public ICollection<AnswerToPostDto> Answers { get; set; }
         public int[] Categories { get; set; }
         public int DifficultyLevelId { get; set; }
+
     }
 }

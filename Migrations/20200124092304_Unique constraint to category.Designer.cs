@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Quizard.API.Data;
 
 namespace Quizard.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200124092304_Unique constraint to category")]
+    partial class Uniqueconstrainttocategory
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,8 +51,7 @@ namespace Quizard.API.Migrations
                         new
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
-                            ConcurrencyStamp = "44d9d05c-d0c8-4c81-9985-adb5bf5599a1",
-
+                            ConcurrencyStamp = "f7b6811e-3291-4f6b-b833-e4a200693340",
                             Name = "admin",
                             NormalizedName = "admin"
                         });
@@ -149,15 +150,13 @@ namespace Quizard.API.Migrations
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "45097830-7831-46ac-b0d9-3fe301890f59",
-
+                            ConcurrencyStamp = "c61fa9fe-33b7-42c1-94bf-47cf7bcc2610",
                             Email = "admin@tacta.io",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@tacta.io",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHk/CqsjLIDFlg9OVjEEE5M2Zq/TEr7JlmckAaY2Q/Zy3ggRd03HHKqxKjYMw0kfvw==",
-
+                            PasswordHash = "AQAAAAEAACcQAAAAEKCSvW30O1sSTugHudeYl3komvB1CqU4cPHenU7iDYWjSF77c+hAumo4pPXwWYvjNA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -290,6 +289,7 @@ namespace Quizard.API.Migrations
                     b.HasIndex("Name")
                         .IsUnique()
                         .HasFilter("[Name] IS NOT NULL");
+
                     b.ToTable("Categories");
                 });
 

@@ -36,15 +36,16 @@ namespace Quizard.API.Controllers
         public async Task<IActionResult> Post([FromBody]CategoryForPostDto categoryDto)
         {
             var category = mapper.Map<Category>(categoryDto);
-
-            await repo.AddCategory(category);
-
-            if (await repo.SaveAll())
+            var existingCat = await repo.CategoryExists(categoryDto.Name);
+            if (existingCat != null)
             {
-                return Ok(category.Id);
+                var existingCategoryForGetDto = mapper.Map<CategoryForGetDto>(existingCat);
+                return Ok(existingCategoryForGetDto);
             }
-
-            return BadRequest();
+            await repo.AddCategory(category);
+            await repo.SaveAll();
+            var categoryForGetDto = mapper.Map<CategoryForGetDto>(category);
+            return Ok(categoryForGetDto);
         }
 
     }
