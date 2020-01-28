@@ -1,8 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using Quizard.API.Data;
 using Quizard.API.Dtos;
+using Quizard.API.Helpers;
 using Quizard.API.Models;
 
 namespace Quizard.API.Controllers
@@ -21,12 +23,14 @@ namespace Quizard.API.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetQuestions()
+        public async Task<IActionResult> GetQuestions([FromQuery]QuestionParams questionParams)
         {
-            var questions = await _repo.GetQuestions();
-
-            return Ok(questions);
+            var questions = await _repo.GetQuestions(questionParams);
+            var questionDtos = _mapper.Map<IEnumerable<QuestionForListDto>>(questions.Data);
+            var results = new PagedResult<QuestionForListDto>(questionDtos, questions.Metadata.Total, questions.Metadata.PageNumber, questions.Metadata.PageSize);
+            return Ok(results);
         }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetQuestion(int id)
@@ -38,12 +42,19 @@ namespace Quizard.API.Controllers
             return Ok(questionToReturn);
         }
 
-        [HttpPost]        
+        [HttpPost]
         public async Task<IActionResult> Post([FromBody]QuestionToPostDto questionDto)
         {
-            var question = _mapper.Map<Question>(questionDto); //maping object from QuestionForPostDto into question
+            var question = _mapper.Map<Question>(questionDto);
 
             await _repo.AddQuestion(question);
+
+            var questionId = _repo.GetQuestionIdByText(question.Text);
+
+            foreach (var cat in questionDto.Categories)
+            {
+                _repo.AddQuestionCategory(questionId, cat);
+            }
 
             if (await _repo.SaveAll())
             {
@@ -51,25 +62,8 @@ namespace Quizard.API.Controllers
             }
 
             return BadRequest();
+
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] QuestionToPostDto model)
-        {
-            var question = _repo.GetQuestion(id);
-            if (question == null)
-            {
-                return NotFound();
-            }
-            
-            await _mapper.Map(model, question);
-
-            if (await _repo.SaveAll())
-            {
-                return Ok(_mapper.Map<QuestionToPostDto>(question));
-            }
-
-            return BadRequest();
-        }
     }
 }
