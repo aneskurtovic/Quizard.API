@@ -26,14 +26,11 @@ namespace Quizard.API.Controllers
         public async Task<IActionResult> GetQuestions([FromQuery]QuestionParams questionParams)
         {
             var questions = await _repo.GetQuestions(questionParams);
-
-            var questionsToReturn = _mapper.Map<IEnumerable<QuestionForListDto>>(questions);
-
-
-            Response.AddPagination(questions.CurrentPage, questions.PageSize, questions.TotalCount, questions.TotalPages);
-
-            return Ok(questionsToReturn);
+            var questionDtos = _mapper.Map<IEnumerable<QuestionForListDto>>(questions.Data);
+            var results = new PagedResult<QuestionForListDto>(questionDtos, questions.Metadata.Total, questions.Metadata.PageNumber, questions.Metadata.PageSize);
+            return Ok(results);
         }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetQuestion(int id)
@@ -65,6 +62,7 @@ namespace Quizard.API.Controllers
             }
 
             return BadRequest();
+
         }
 
     }

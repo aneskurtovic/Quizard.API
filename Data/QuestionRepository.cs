@@ -22,12 +22,15 @@ namespace Quizard.API.Data
         }
 
 
-        public async Task<PagedList<Question>> GetQuestions(QuestionParams questionParams)
+        public async Task<PagedResult<Question>> GetQuestions(QuestionParams questionParams)
         {
-            var questions = _context.Questions.Include(a=> a.QuestionsCategories)
-                .ThenInclude(questionCategory => questionCategory.Category).OrderByDescending(q=> q.CreatedDate);
+            var questions = _context.Questions.Include(a => a.QuestionsCategories)
+                .ThenInclude(questionCategory => questionCategory.Category).OrderByDescending(q => q.CreatedDate);
 
-            return await PagedList<Question>.CreateAsync(questions, questionParams.PageNumber, questionParams.PageSize);
+            var count = await questions.CountAsync();
+            var data = await questions.Skip((questionParams.PageNumber - 1) * questionParams.PageSize).Take(questionParams.PageSize).ToListAsync();
+
+            return new PagedResult<Question>(data, count, questionParams.PageNumber, questionParams.PageSize);
         }
 
         public async Task<Question> GetQuestion(int id)
@@ -41,7 +44,7 @@ namespace Quizard.API.Data
         {
             var category = _context.Categories.Find(cat);
             var question = _context.Questions.FirstOrDefault(a => a.Id == id);
-            QuestionCategory newQuestCat = new QuestionCategory { Category = category, Question= question};
+            QuestionCategory newQuestCat = new QuestionCategory { Category = category, Question = question };
             await _context.Set<QuestionCategory>().AddAsync(newQuestCat);
         }
 
