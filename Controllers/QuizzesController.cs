@@ -37,6 +37,8 @@ namespace Quizard.API.Controllers
             {
                 _repo.AddQuizQuestion(newQuizId, question);
             }
+
+            await _repo.SaveAll();
             string url = "/api/quizzes/" + newQuizId;
             return Ok(url);
         }
