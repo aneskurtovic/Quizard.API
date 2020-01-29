@@ -14,6 +14,8 @@ namespace Quizard.API.Data
         public DbSet<Category> Categories { get; set; }
         public DbSet<QuestionCategory> QuestionsCategories { get; set; }
         public DbSet<DifficultyLevel> DifficultyLevels { get; set; }
+        public DbSet<Quiz> Quizzes { get; set; }
+        public DbSet<QuizQuestion> QuizzesQuestions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -58,9 +60,23 @@ namespace Quizard.API.Data
                 .HasOne(pt => pt.Category)
                 .WithMany(t => t.QuestionsCategories)
                 .HasForeignKey(pt => pt.CategoryID);
+           
             builder.Entity<Category>()
                 .HasIndex(u => u.Name)
                 .IsUnique();
+            
+            builder.Entity<QuizQuestion>().
+                HasKey(k => new { k.QuestionId, k.QuizId });
+
+            builder.Entity<QuizQuestion>()
+                .HasOne(pt => pt.Quiz)
+                .WithMany(p => p.QuizzesQuestions)
+                .HasForeignKey(pt => pt.QuizId);
+
+            builder.Entity<QuizQuestion>()
+                .HasOne(pt => pt.Question)
+                .WithMany(p => p.QuizzesQuestions)
+                .HasForeignKey(pt => pt.QuestionId);
         }
 
     }

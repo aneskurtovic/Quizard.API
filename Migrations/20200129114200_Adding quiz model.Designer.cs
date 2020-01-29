@@ -10,14 +10,14 @@ using Quizard.API.Data;
 namespace Quizard.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200117123100_Difficulty level added")]
-    partial class Difficultyleveladded
+    [Migration("20200129114200_Adding quiz model")]
+    partial class Addingquizmodel
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.1.0")
+                .HasAnnotation("ProductVersion", "3.1.1")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
@@ -51,7 +51,7 @@ namespace Quizard.API.Migrations
                         new
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
-                            ConcurrencyStamp = "a4f8aae1-096e-4f18-ad5f-8392edd3da41",
+                            ConcurrencyStamp = "0e64ba8a-870a-4fdf-9ecd-5bfef94665a7",
                             Name = "admin",
                             NormalizedName = "admin"
                         });
@@ -150,13 +150,13 @@ namespace Quizard.API.Migrations
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "64bdef11-3db9-4a91-a58f-2d56135bd6b5",
+                            ConcurrencyStamp = "97a9fbfb-d834-4c16-832e-b5e225b1be43",
                             Email = "admin@tacta.io",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@tacta.io",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEK7qsGMnMJtHzWlGdOAL0AEHYTo8vFhtFm1+WNlz7fzgVTzZoNWYmsvPPE8jMAms7g==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFo2hUiRlZSidaErj7vt/TZG6gn6lKlGB5BHVbebRiOlHnGYXPKgQmAnOio13n+mMA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -281,10 +281,14 @@ namespace Quizard.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CategoryName")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name")
+                        .IsUnique()
+                        .HasFilter("[Name] IS NOT NULL");
 
                     b.ToTable("Categories");
                 });
@@ -311,7 +315,13 @@ namespace Quizard.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("DifficultyLevelId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("QuizId")
                         .HasColumnType("int");
 
                     b.Property<string>("Text")
@@ -320,6 +330,8 @@ namespace Quizard.API.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("DifficultyLevelId");
+
+                    b.HasIndex("QuizId");
 
                     b.ToTable("Questions");
                 });
@@ -337,6 +349,21 @@ namespace Quizard.API.Migrations
                     b.HasIndex("QuestionID");
 
                     b.ToTable("QuestionsCategories");
+                });
+
+            modelBuilder.Entity("Quizard.API.Models.Quiz", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Quizzes");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -406,6 +433,10 @@ namespace Quizard.API.Migrations
                         .HasForeignKey("DifficultyLevelId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Quizard.API.Models.Quiz", null)
+                        .WithMany("Questions")
+                        .HasForeignKey("QuizId");
                 });
 
             modelBuilder.Entity("Quizard.API.Models.QuestionCategory", b =>
