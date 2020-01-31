@@ -35,7 +35,7 @@ namespace Quizard.API.Controllers
             int newQuizId = await _repo.GetQuizIdByName(quiz.Name);
             foreach (var question in quizDto.Questions)
             {
-                _repo.AddQuizQuestion(newQuizId, question);
+                await _repo.AddQuizQuestion(newQuizId, question);
             }
 
             await _repo.SaveAll();
