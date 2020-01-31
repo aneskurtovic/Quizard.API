@@ -28,9 +28,9 @@ namespace Quizard.API.Data
                 .ThenInclude(questionCategory => questionCategory.Category).OrderByDescending(q => q.CreatedDate);
 
             var count = await questions.CountAsync();
-            var data = await questions.Skip((questionParams.PageNumber - 1) * questionParams.PageSize).Take(questionParams.PageSize).ToListAsync();
+            var data = await questions.Skip(questionParams.Offset * questionParams.PageSize).Take(questionParams.PageSize).ToListAsync();
 
-            return new PagedResult<Question>(data, count, questionParams.PageNumber, questionParams.PageSize);
+            return new PagedResult<Question>(data, count, questionParams.Offset, questionParams.PageSize);
         }
 
         public async Task<Question> GetQuestion(int id)
