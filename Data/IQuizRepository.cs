@@ -1,4 +1,5 @@
-﻿using Quizard.API.Models;
+﻿using Quizard.API.Dtos;
+using Quizard.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,7 +9,7 @@ namespace Quizard.API.Data
 {
     public interface IQuizRepository
     {
-        Task AddQuiz<T>(T entity) where T : class;
+        Task<QuizForResponseDto> AddQuiz(Quiz quiz, int [] questionIds);
         Task<int> GetQuizIdByName(string name);
         Task<bool> SaveAll();
         Task AddQuizQuestion(int newQuizId, int question);

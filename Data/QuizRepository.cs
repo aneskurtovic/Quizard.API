@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Quizard.API.Dtos;
 using Quizard.API.Models;
 using System;
 using System.Collections.Generic;
@@ -15,22 +16,31 @@ namespace Quizard.API.Data
         {
             _context = context;
         }
-        public async Task AddQuiz<T>(T entity) where T : class
+        public async Task<QuizForResponseDto> AddQuiz(Quiz newQuiz, int[] questionIds)
         {
-           await _context.Set<T>().AddAsync(entity);
+            await _context.AddAsync(newQuiz);
+            _context.SaveChanges();
+            foreach (var item in questionIds)
+            {
+                await AddQuizQuestion(newQuiz.Id, item);
+            }
+            _context.SaveChanges();
+            QuizForResponseDto responseQuiz = new QuizForResponseDto { Id = newQuiz.Id };
+            return responseQuiz;
         }
 
         public async Task AddQuizQuestion(int newQuizId, int questionId)
         {
             var question = _context.Questions.FirstOrDefault(a => a.Id == questionId);
             var quiz = _context.Quizzes.FirstOrDefault(a => a.Id == newQuizId);
-            QuizQuestion newQuizQuest = new QuizQuestion { Question = question, Quiz = quiz };
+            QuizQuestion newQuizQuest = new QuizQuestion { Question = question, Quiz = quiz, QuestionId = questionId, QuizId = newQuizId };
             await _context.Set<QuizQuestion>().AddAsync(newQuizQuest);
         }
 
         public async Task<int> GetQuizIdByName(string name)
         {
             var Quiz = await _context.Quizzes.FirstOrDefaultAsync(a => a.Name == name);
+
             return Quiz.Id;
         }
 

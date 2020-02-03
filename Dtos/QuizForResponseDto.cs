@@ -5,9 +5,8 @@ using System.Threading.Tasks;
 
 namespace Quizard.API.Dtos
 {
-    public class QuizQuestionToPostDto
+    public class QuizForResponseDto
     {
-        public int QuestionId { get; set; }
-        public int QuizId { get; set; }
+        public int Id { get; set; }
     }
 }

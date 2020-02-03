@@ -29,18 +29,10 @@ namespace Quizard.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]QuizToPostDto quizDto)
         {
-            var quiz = _mapper.Map<Quiz>(quizDto);
-            await _repo.AddQuiz(quiz);
-            await _repo.SaveAll();
-            int newQuizId = await _repo.GetQuizIdByName(quiz.Name);
-            foreach (var question in quizDto.Questions)
-            {
-                await _repo.AddQuizQuestion(newQuizId, question);
-            }
-
-            await _repo.SaveAll();
-            string url = "/api/quizzes/" + newQuizId;
-            return Ok(url);
+            Quiz quiz = _mapper.Map<Quiz>(quizDto);
+            int[] questionIds = quizDto.QuestionIds;
+            QuizForResponseDto newQuizForResponse = await _repo.AddQuiz(quiz, questionIds);
+            return Ok(newQuizForResponse);
         }
     }
 }
