@@ -35,5 +35,13 @@ namespace Quizard.API.Controllers
             var newQuizResponse = new QuizForResponseDto { Id = responseQuiz.Id };
             return Ok(newQuizResponse);
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetQuiz(int id)
+        {
+            var quiz = await _repo.GetQuiz(id);
+            var quizToReturn = _mapper.Map<QuizForGetDto>(quiz);
+            return Ok(quizToReturn);
+        }
     }
 }

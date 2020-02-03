@@ -13,5 +13,6 @@ namespace Quizard.API.Data
         Task<int> GetQuizIdByName(string name);
         Task<bool> SaveAll();
         Task AddQuizQuestion(int newQuizId, int question);
+        Task<Quiz> GetQuiz(int id);
     }
 }

@@ -47,6 +47,12 @@ namespace Quizard.API.Data
         {
             return await _context.SaveChangesAsync() > 0;
         }
+
+        public async Task<Quiz> GetQuiz(int id)
+        {
+            var requestedQuiz = await _context.Quizzes.FindAsync(id);
+            return requestedQuiz;
+        }
     }
 }
 

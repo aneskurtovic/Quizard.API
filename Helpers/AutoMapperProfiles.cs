@@ -35,6 +35,7 @@ namespace Quizard.API.Helpers
                 .ForMember(dest => dest.QuestionIds, opt =>
                 opt.MapFrom(src => src.QuizzesQuestions.Select(x => new QuizQuestion { QuestionId = x.QuestionId, QuizId = x.QuizId })))
                 .ReverseMap();
+            CreateMap<Quiz, QuizForGetDto>().ReverseMap();
         }
     }
 }
