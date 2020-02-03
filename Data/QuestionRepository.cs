@@ -48,12 +48,6 @@ namespace Quizard.API.Data
             await _context.Set<QuestionCategory>().AddAsync(newQuestCat);
         }
 
-        public int GetQuestionIdByText(string text)
-        {
-            var questionID = _context.Questions.FirstOrDefault(a => a.Text == text).Id;
-            return questionID;
-        }
-
         public async Task<bool> SaveAll()
         {
             return await _context.SaveChangesAsync() > 0;

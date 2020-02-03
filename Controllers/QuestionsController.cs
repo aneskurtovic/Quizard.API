@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿    using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -49,11 +49,9 @@ namespace Quizard.API.Controllers
 
             await _repo.AddQuestion(question);
 
-            var questionId = _repo.GetQuestionIdByText(question.Text);
-
             foreach (var cat in questionDto.Categories)
             {
-                _repo.AddQuestionCategory(questionId, cat);
+                _repo.AddQuestionCategory(question.Id, cat);
             }
 
             if (await _repo.SaveAll())
