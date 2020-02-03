@@ -16,7 +16,7 @@ namespace Quizard.API.Data
         {
             _context = context;
         }
-        public async Task<QuizForResponseDto> AddQuiz(Quiz newQuiz, int[] questionIds)
+        public async Task<Quiz> AddQuiz(Quiz newQuiz, int[] questionIds)
         {
             await _context.AddAsync(newQuiz);
             _context.SaveChanges();
@@ -25,8 +25,7 @@ namespace Quizard.API.Data
                 await AddQuizQuestion(newQuiz.Id, item);
             }
             _context.SaveChanges();
-            QuizForResponseDto responseQuiz = new QuizForResponseDto { Id = newQuiz.Id };
-            return responseQuiz;
+            return newQuiz;
         }
 
         public async Task AddQuizQuestion(int newQuizId, int questionId)

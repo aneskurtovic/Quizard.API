@@ -31,8 +31,9 @@ namespace Quizard.API.Controllers
         {
             Quiz quiz = _mapper.Map<Quiz>(quizDto);
             int[] questionIds = quizDto.QuestionIds;
-            QuizForResponseDto newQuizForResponse = await _repo.AddQuiz(quiz, questionIds);
-            return Ok(newQuizForResponse);
+            var Quiz = await _repo.AddQuiz(quiz, questionIds);
+            var newQuizResponse = new QuizForResponseDto { Id = Quiz.Id };
+            return Ok(newQuizResponse);
         }
     }
 }

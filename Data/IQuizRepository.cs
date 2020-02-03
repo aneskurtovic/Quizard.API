@@ -9,7 +9,7 @@ namespace Quizard.API.Data
 {
     public interface IQuizRepository
     {
-        Task<QuizForResponseDto> AddQuiz(Quiz quiz, int [] questionIds);
+        Task<Quiz> AddQuiz(Quiz quiz, int [] questionIds);
         Task<int> GetQuizIdByName(string name);
         Task<bool> SaveAll();
         Task AddQuizQuestion(int newQuizId, int question);
