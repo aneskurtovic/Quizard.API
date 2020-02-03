@@ -27,6 +27,10 @@ namespace Quizard.API.Controllers
         [HttpGet]
         public async Task<ActionResult> GetCategories([FromQuery]string searchTerm)
         {
+            if (searchTerm == null)
+            {
+                return Ok();
+            }
             var categories = await repo.GetCategories(searchTerm);
             var categoriesToReturn = mapper.Map<List<CategoryForGetDto>>(categories);
             return Ok(categoriesToReturn);
