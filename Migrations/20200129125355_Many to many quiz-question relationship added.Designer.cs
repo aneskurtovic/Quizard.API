@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Quizard.API.Data;
 
 namespace Quizard.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200129125355_Many to many quiz-question relationship added")]
+    partial class Manytomanyquizquestionrelationshipadded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +51,7 @@ namespace Quizard.API.Migrations
                         new
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
-                            ConcurrencyStamp = "38f788c5-5cef-4091-8ed6-f32c13f9674d",
+                            ConcurrencyStamp = "dbe4ac4b-5956-45cd-85e5-2c94b4620fe8",
                             Name = "admin",
                             NormalizedName = "admin"
                         });
@@ -148,13 +150,13 @@ namespace Quizard.API.Migrations
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "19103be9-bd21-4836-a882-9915a720cb33",
+                            ConcurrencyStamp = "722153ee-235e-4fe7-a3a2-b18ed4c43a96",
                             Email = "admin@tacta.io",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@tacta.io",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIoQg8eEn2fq8kn2STQO7iE1K4RqU1RhhVuQE56n6/7bOhVyN+31zfycT2GHSQi1rw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIR+pXzgzABfvxDAXTGE8CBC7s4uxnG82b9+i/7k194Y+EbXse1b9+UIXzKG1Sg6IQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -371,7 +373,7 @@ namespace Quizard.API.Migrations
 
                     b.HasIndex("QuizId");
 
-                    b.ToTable("QuizzesQuestions");
+                    b.ToTable("QuizQuestion");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -1,6 +1,6 @@
 ﻿namespace Quizard.API.Dtos
 {
-    public class CategoryForPostDto
+    public class CategoryToPostDto
     {
         public string Name { get; set; }
     }

@@ -23,14 +23,18 @@ namespace Quizard.API.Helpers
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.Id));
 
-            CreateMap<Category, CategoryForPostDto>().ReverseMap();
+            CreateMap<Category, CategoryToPostDto>().ReverseMap();
 
             CreateMap<Question, QuestionForListDto>()
-                .ForMember(x => x.Categories, opt=> opt.MapFrom(src => src.QuestionsCategories.Select(x => x.Category.Name)));
+                .ForMember(x => x.Categories, opt => opt.MapFrom(src => src.QuestionsCategories.Select(x => x.Category.Name)));
             CreateMap<Answer, AnswerForListDto>();
-            
+
             CreateMap<DifficultyLevel, DifficultyLevelForListDto>();
 
+            CreateMap<Quiz, QuizToPostDto>()
+                .ForMember(dest => dest.QuestionIds, opt =>
+                opt.MapFrom(src => src.QuizzesQuestions.Select(x => new QuizQuestion { QuestionId = x.QuestionId, QuizId = x.QuizId })))
+                .ReverseMap();
         }
     }
 }
