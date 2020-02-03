@@ -1,14 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Quizard.API.Data;
 using Quizard.API.Dtos;
-using Quizard.API.Models;
+using System.Threading.Tasks;
 
 namespace Quizard.API.Controllers
 {
@@ -29,11 +24,12 @@ namespace Quizard.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]QuizToPostDto quizDto)
         {
-            Quiz quiz = _mapper.Map<Quiz>(quizDto);
-            int[] questionIds = quizDto.QuestionIds;
-            var responseQuiz = await _repo.AddQuiz(quiz, questionIds);
-            var newQuizResponse = new QuizForResponseDto { Id = responseQuiz.Id };
-            return Ok(newQuizResponse);
+            var responseQuiz = await _repo.AddQuiz(
+                quizDto.Name,
+                quizDto.QuestionIds
+            );
+
+            return Ok(new QuizForResponseDto { Id = responseQuiz.Id });
         }
 
         [HttpGet("{id}")]
