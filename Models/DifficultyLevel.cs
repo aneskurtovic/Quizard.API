@@ -9,7 +9,5 @@ namespace Quizard.API.Models
     {
         public int Id { get; set; }
         public string Level { get; set; }
-        public ICollection<Question> Questions { get; set; }
-
     }
 }

@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 namespace Quizard.API.Controllers
 {
     [Route("api/[controller]")]
-    [AllowAnonymous]
     [ApiController]
     public class QuizzesController : ControllerBase
     {
