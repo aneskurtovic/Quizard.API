@@ -30,7 +30,7 @@ namespace Quizard.API.Controllers
             {
                 return Ok();
             }
-            var categoriesToReturn = _mapper.Map<List<CategoryForGetDto>>(await repo.GetCategories(searchTerm));
+            var categoriesToReturn = _mapper.Map<List<GetCategoryDto>>(await _repo.GetCategories(searchTerm));
             return Ok(categoriesToReturn);
         }
 
@@ -38,17 +38,15 @@ namespace Quizard.API.Controllers
         public async Task<IActionResult> Post([FromBody]CategoryToPostDto categoryDto)
         {
             var category = _mapper.Map<Category>(categoryDto);
-            var existingCat = await repo.CategoryExists(categoryDto.Name);
+            var existingCat = await _repo.CategoryExists(categoryDto.Name);
             if (existingCat != null)
             {
-                var existingCategoryForGetDto = _mapper.Map<CategoryForGetDto>(existingCat);
+                var existingCategoryForGetDto = _mapper.Map<GetCategoryDto>(existingCat);
                 return Ok(existingCategoryForGetDto);
             }
-            await repo.AddCategory(category);
-            await repo.SaveAll();
-            var categoryForGetDto = _mapper.Map<CategoryForGetDto>(category);
+            await _repo.AddCategory(category);
+            var categoryForGetDto = _mapper.Map<GetCategoryDto>(category);
             return Ok(categoryForGetDto);
         }
-
     }
 }

@@ -32,17 +32,16 @@ namespace Quizard.API
 
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+
             services.AddScoped<IQuestionRepository, QuestionRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IDifficultyLevelRepository, DifficultyLevelRepository>();
             services.AddScoped<IQuizRepository, QuizRepository>();
 
-
             services.AddCors();
 
             services.AddAutoMapper(cfg => cfg.AddProfile<AutoMapperProfiles>(),
                                AppDomain.CurrentDomain.GetAssemblies());
-
 
             services.AddAuthentication(options =>
                 {
@@ -67,10 +66,8 @@ namespace Quizard.API
                     options.RequireHttpsMetadata = true;
                 });
 
-
             services.AddControllers().AddNewtonsoftJson(x =>
                 x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -80,7 +77,6 @@ namespace Quizard.API
             {
                 app.UseDeveloperExceptionPage();
             }
-
 
             app.UseStaticFiles();
 
@@ -93,7 +89,6 @@ namespace Quizard.API
 
             app.UseAuthentication();
             app.UseAuthorization();
-
 
             app.UseEndpoints(endpoints =>
             {

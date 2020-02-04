@@ -9,7 +9,7 @@ namespace Quizard.API.Data
         Task AddQuestion<T>(T entity) where T : class;
         Task<PagedResult<Question>> GetQuestions(QuestionParams questionParams);
         Task<Question> GetQuestion(int id);
-        void AddQuestionCategory(int id, int cat);
+        Task AddQuestionCategory(int id, int cat);
         Task<bool> SaveAll();
     }
 }

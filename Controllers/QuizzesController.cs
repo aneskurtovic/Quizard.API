@@ -33,7 +33,7 @@ namespace Quizard.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetQuiz(int id)
         {
-            var quizToReturn = _mapper.Map<QuizForGetDto>(await _repo.GetQuiz(id));
+            var quizToReturn = _mapper.Map<GetQuizDto>(await _repo.GetQuiz(id));
             return Ok(quizToReturn);
         }
     }
