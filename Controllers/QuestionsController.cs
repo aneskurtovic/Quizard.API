@@ -35,10 +35,7 @@ namespace Quizard.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetQuestion(int id)
         {
-            var question = await _repo.GetQuestion(id);
-
-            var questionToReturn = _mapper.Map<QuestionForDetailedListDto>(question);
-
+            var questionToReturn = _mapper.Map<QuestionForDetailedListDto>(await _repo.GetQuestion(id));
             return Ok(questionToReturn);
         }
 
@@ -46,22 +43,16 @@ namespace Quizard.API.Controllers
         public async Task<IActionResult> Post([FromBody]QuestionToPostDto questionDto)
         {
             var question = _mapper.Map<Question>(questionDto);
-
             await _repo.AddQuestion(question);
-
             foreach (var cat in questionDto.Categories)
             {
-                _repo.AddQuestionCategory(question.Id, cat);
+                await _repo.AddQuestionCategory(question.Id, cat);
             }
-
             if (await _repo.SaveAll())
             {
                 return Ok(question);
             }
-
             return BadRequest();
-
         }
-
     }
 }

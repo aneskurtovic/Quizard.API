@@ -10,18 +10,17 @@ using System.Threading.Tasks;
 namespace Quizard.API.Controllers
 {
     [Route("api/[controller]")]
-    [AllowAnonymous]
     [ApiController]
     public class CategoriesController : ControllerBase
     {
 
-        private readonly ICategoryRepository repo;
-        private readonly IMapper mapper;
+        private readonly ICategoryRepository _repo;
+        private readonly IMapper _mapper;
 
         public CategoriesController(ICategoryRepository repo, IMapper mapper)
         {
-            this.repo = repo;
-            this.mapper = mapper;
+            _repo = repo;
+            _mapper = mapper;
         }
 
         [HttpGet]
@@ -31,26 +30,23 @@ namespace Quizard.API.Controllers
             {
                 return Ok();
             }
-            var categories = await repo.GetCategories(searchTerm);
-            var categoriesToReturn = mapper.Map<List<CategoryForGetDto>>(categories);
+            var categoriesToReturn = _mapper.Map<List<GetCategoryDto>>(await _repo.GetCategories(searchTerm));
             return Ok(categoriesToReturn);
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]CategoryToPostDto categoryDto)
         {
-            var category = mapper.Map<Category>(categoryDto);
-            var existingCat = await repo.CategoryExists(categoryDto.Name);
+            var category = _mapper.Map<Category>(categoryDto);
+            var existingCat = await _repo.CategoryExists(categoryDto.Name);
             if (existingCat != null)
             {
-                var existingCategoryForGetDto = mapper.Map<CategoryForGetDto>(existingCat);
+                var existingCategoryForGetDto = _mapper.Map<GetCategoryDto>(existingCat);
                 return Ok(existingCategoryForGetDto);
             }
-            await repo.AddCategory(category);
-            await repo.SaveAll();
-            var categoryForGetDto = mapper.Map<CategoryForGetDto>(category);
+            await _repo.AddCategory(category);
+            var categoryForGetDto = _mapper.Map<GetCategoryDto>(category);
             return Ok(categoryForGetDto);
         }
-
     }
 }

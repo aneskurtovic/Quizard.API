@@ -14,21 +14,17 @@ namespace Quizard.API.Data
         {
             this._context = context;
         }
-        public async Task AddCategory<T>(T entity) where T : class
+        public async Task AddCategory(Category category) 
         {
-            await _context.Set<T>().AddAsync(entity);
+            await _context.Categories.AddAsync(category);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<List<Category>> GetCategories(string searchTerm)
         {
             return await _context.Categories.Where(a => a.Name.ToLower().Trim().Contains(searchTerm.ToLower()))
-                                      .Take(10)
-                                      .ToListAsync();
-        }
-
-        public async Task<bool> SaveAll()
-        {
-            return await _context.SaveChangesAsync() > 0;
+                                            .Take(10)
+                                            .ToListAsync();
         }
 
         public async Task<Category> CategoryExists(string name)
