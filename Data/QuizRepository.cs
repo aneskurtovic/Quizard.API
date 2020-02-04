@@ -26,25 +26,6 @@ namespace Quizard.API.Data
             return quizForInsert;
         }
 
-        public async Task AddQuizQuestion(int newQuizId, int questionId)
-        {
-            var question = _context.Questions.FirstOrDefault(a => a.Id == questionId);
-            var quiz = _context.Quizzes.FirstOrDefault(a => a.Id == newQuizId);
-            var newQuizQuest = new QuizQuestion { Question = question, Quiz = quiz, QuestionId = questionId, QuizId = newQuizId };
-            await _context.Set<QuizQuestion>().AddAsync(newQuizQuest);
-        }
-
-        public async Task<int> GetQuizIdByName(string name)
-        {
-            var Quiz = await _context.Quizzes.FirstOrDefaultAsync(a => a.Name == name);
-            return Quiz.Id;
-        }
-
-        public async Task<bool> SaveAll()
-        {
-            return await _context.SaveChangesAsync() > 0;
-        }
-
         public async Task<Quiz> GetQuiz(int id)
         {
             var requestedQuiz = await _context.Quizzes.FindAsync(id);
