@@ -16,6 +16,7 @@ namespace Quizard.API.Data
         public DbSet<DifficultyLevel> DifficultyLevels { get; set; }
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<QuizQuestion> QuizzesQuestions { get; set; }
+        public DbSet<Session> Sessions { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {

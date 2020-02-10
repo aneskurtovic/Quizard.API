@@ -17,6 +17,12 @@
     <Compile Remove="Migrations\20200120102528_CategoryAddAgain.Designer.cs" />
     <Compile Remove="Migrations\20200204124241_Naming models updated.cs" />
     <Compile Remove="Migrations\20200204124241_Naming models updated.Designer.cs" />
+    <Compile Remove="Migrations\20200210122144_Session Model Added.cs" />
+    <Compile Remove="Migrations\20200210122144_Session Model Added.Designer.cs" />
+    <Compile Remove="Migrations\20200210122239_Session Model Added.cs" />
+    <Compile Remove="Migrations\20200210122239_Session Model Added.Designer.cs" />
+    <Compile Remove="Migrations\20200210122425_Session Model Added.cs" />
+    <Compile Remove="Migrations\20200210122425_Session Model Added.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -33,7 +39,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="3.1.1" />
-    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.0" />
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="3.1.1" />
   </ItemGroup>
 
 

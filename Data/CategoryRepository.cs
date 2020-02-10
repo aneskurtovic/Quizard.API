@@ -12,7 +12,7 @@ namespace Quizard.API.Data
 
         public CategoryRepository(ApplicationDbContext context)
         {
-            this._context = context;
+            _context = context;
         }
         public async Task AddCategory(Category category) 
         {
