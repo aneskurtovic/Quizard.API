@@ -28,7 +28,7 @@ namespace Quizard.API.Data
 
         public async Task<Quiz> GetQuiz(int id)
         {
-            var requestedQuiz = await _context.Quizzes.FindAsync(id);
+            var requestedQuiz = await _context.Quizzes.Include(a => a.QuizzesQuestions).ThenInclude(b => b.Question).ThenInclude(b => b.Answers).FirstOrDefaultAsync(c => c.Id == id);
             return requestedQuiz;
         }
     }
