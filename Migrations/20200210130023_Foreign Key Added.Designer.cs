@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Quizard.API.Data;
 
 namespace Quizard.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200210130023_Foreign Key Added")]
+    partial class ForeignKeyAdded
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +51,7 @@ namespace Quizard.API.Migrations
                         new
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
-                            ConcurrencyStamp = "3e745a4d-19b3-4ca9-bdf2-4eeca3188005",
+                            ConcurrencyStamp = "a20ae644-9ca4-4231-8f9f-3cc828d695a3",
                             Name = "admin",
                             NormalizedName = "admin"
                         });
@@ -148,13 +150,13 @@ namespace Quizard.API.Migrations
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "123592c9-8d6b-4c23-902a-3a9ed6462c22",
+                            ConcurrencyStamp = "b5539d2d-753a-41bc-8ec0-8fd76f27eb63",
                             Email = "admin@tacta.io",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@tacta.io",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEL4Q6mhPirXHosANs/yASW+oBBLDHiR8LnabivqdyY/vIZbeNYOTxMKmLnNQgPKMYg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENy1TwOYmYgEY3hVDfu3BzMubg8JM3yzAavZvhI4HY6x2EuZDQpFfMHsmUr/UowDNw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -398,21 +400,19 @@ namespace Quizard.API.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ContestantName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("FinishedAt")
+                    b.Property<DateTime>("FinishDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("QuizId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("StartedAt")
+                    b.Property<string>("QuizTakerName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("QuizId");
 
                     b.ToTable("Sessions");
                 });
@@ -511,15 +511,6 @@ namespace Quizard.API.Migrations
 
                     b.HasOne("Quizard.API.Models.Quiz", "Quiz")
                         .WithMany("QuizzesQuestions")
-                        .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("Quizard.API.Models.Session", b =>
-                {
-                    b.HasOne("Quizard.API.Models.Quiz", "Quiz")
-                        .WithMany()
                         .HasForeignKey("QuizId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
