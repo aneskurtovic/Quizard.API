@@ -36,7 +36,7 @@ namespace Quizard.API.Helpers
                 opt.MapFrom(src => src.QuizzesQuestions.Select(x => new QuizQuestion { QuestionId = x.QuestionId, QuizId = x.QuizId })))
                 .ReverseMap();
             CreateMap<Quiz, GetQuizDto>().ReverseMap();
-            CreateMap<Session, SessionToPostDto>().ReverseMap();
+            CreateMap<Session, CreateSessionDto>().ReverseMap();
         }
     }
 }

@@ -7,12 +7,12 @@ namespace Quizard.API.Models
         public int Id { get; set; }
         public Quiz Quiz { get; set; }
         public int QuizId { get; set; }
-        public DateTime StartDate { get; set; }
-        public DateTime FinishDate { get; set; }
-        public string QuizTakerName { get; set; }
+        public DateTime StartedAt { get; set; }
+        public DateTime FinishedAt { get; set; }
+        public string ContestantName { get; set; }
         public Session()
         {
-            StartDate = DateTime.Now;
+            StartedAt = DateTime.Now;
         }
     }
 }

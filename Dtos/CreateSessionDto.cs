@@ -2,11 +2,11 @@
 
 namespace Quizard.API.Dtos
 {
-    public class SessionToPostDto
+    public class CreateSessionDto
     {
         [Required]
         public int QuizId { get; set; }
         [Required]
-        public string QuizTakerName { get; set; }
+        public string ContestantName { get; set; }
     }
 }

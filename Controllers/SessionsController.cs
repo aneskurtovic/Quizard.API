@@ -21,11 +21,11 @@ namespace Quizard.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]SessionToPostDto sessionDto)
+        public async Task<IActionResult> Post([FromBody]CreateSessionDto sessionDto)
         {
             var session = _mapper.Map<Session>(sessionDto);
             await _repo.AddSession(session);
-            return Ok(new SessionForResponseDto {Id = session.Id, QuizId = session.QuizId });
+            return Ok(new SessionCreatedDto {Id = session.Id, QuizId = session.QuizId });
         }
     }
 }

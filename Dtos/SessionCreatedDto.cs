@@ -2,7 +2,7 @@
 
 namespace Quizard.API.Dtos
 {
-    public class SessionForResponseDto
+    public class SessionCreatedDto
     {
         [Required]
         public int Id { get; set; }
