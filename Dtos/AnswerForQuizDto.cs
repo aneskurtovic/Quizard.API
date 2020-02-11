@@ -1,5 +1,4 @@
-﻿
-namespace Quizard.API.Dtos
+﻿namespace Quizard.API.Dtos
 {
     public class AnswerForQuizDto
     {
