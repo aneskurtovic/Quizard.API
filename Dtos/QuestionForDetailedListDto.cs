@@ -1,5 +1,4 @@
-﻿using Quizard.API.Models;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Quizard.API.Dtos
 {

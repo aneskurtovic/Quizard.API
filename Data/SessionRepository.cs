@@ -1,4 +1,5 @@
 ﻿using Quizard.API.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace Quizard.API.Data
@@ -14,6 +15,7 @@ namespace Quizard.API.Data
 
         public async Task AddSession(Session session)
         {
+            session.Id = Guid.NewGuid();
             await _context.Sessions.AddAsync(session);
             await _context.SaveChangesAsync();   
         }

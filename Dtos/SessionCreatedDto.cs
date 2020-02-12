@@ -1,11 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Quizard.API.Dtos
 {
     public class SessionCreatedDto
     {
         [Required]
-        public int Id { get; set; }
+        public Guid Id { get; set; }
         [Required]
         public int QuizId { get; set; }
     }
