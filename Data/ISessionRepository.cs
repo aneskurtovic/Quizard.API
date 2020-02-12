@@ -1,4 +1,6 @@
-﻿using Quizard.API.Models;
+﻿using Quizard.API.Dtos;
+using Quizard.API.Models;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Quizard.API.Data
@@ -6,5 +8,6 @@ namespace Quizard.API.Data
     public interface ISessionRepository
     {
         Task AddSession(Session session);
+        Task<SessionResultDto> GetResult(Dictionary<int, int> answeredQuestions);
     }
 }
