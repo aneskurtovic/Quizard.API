@@ -3,12 +3,13 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Quizard.API.Dtos
 {
-    public class GetQuizDto
+    public class GetQuestionForQuizDto
     {
         [Required]
         public int Id { get; set; }
         [Required]
-        public string Name { get; set; }
-        public IEnumerable<GetQuestionForQuizDto> Questions { get; set; }
+        public string Text { get; set; }
+        [Required]
+        public IEnumerable<GetAnswerDto> Answers { get; set; }
     }
 }

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Quizard.API.Dtos
 {
-    public class SessionCreatedDto
+    public class ResponseSessionDto
     {
         [Required]
         public Guid Id { get; set; }

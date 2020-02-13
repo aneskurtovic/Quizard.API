@@ -2,11 +2,11 @@
 
 namespace Quizard.API.Dtos
 {
-    public class GetCategoryDto
+    public class CreateAnswerDto
     {
         [Required]
-        public int ID { get; set; }
+        public string Text { get; set; }
         [Required]
-        public string Name { get; set; }
+        public bool IsCorrect { get; set; }
     }
 }

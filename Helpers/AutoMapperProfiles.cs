@@ -9,29 +9,26 @@ namespace Quizard.API.Helpers
     {
         public AutoMapperProfiles()
         {
-            CreateMap<Question, QuestionForDetailedListDto>();
-            CreateMap<Answer, AnswerForDetailedListDto>();
-            CreateMap<Answer, AnswerToPostDto>().ReverseMap();
-            CreateMap<Question, QuestionToPostDto>()
+            CreateMap<Answer, CreateAnswerDto>().ReverseMap();
+            CreateMap<Question, CreateQuestionDto>()
                 .ForMember(dest => dest.Answers, opt =>
-                    opt.MapFrom(src => src.Answers.Select(x => new AnswerToPostDto { Text = x.Text, IsCorrect = x.IsCorrect })))
+                    opt.MapFrom(src => src.Answers.Select(x => new CreateAnswerDto { Text = x.Text, IsCorrect = x.IsCorrect })))
                 .ForMember(dest => dest.Categories, opt =>
-                opt.MapFrom(src => src.QuestionsCategories.Select(x => new QuestionCategoryForPostDto { CategoryID = x.CategoryID, QuestionID = x.QuestionID })))
+                opt.MapFrom(src => src.QuestionsCategories.Select(x => new CreateQuestionCategoryDto { CategoryID = x.CategoryID, QuestionID = x.QuestionID })))
                 .ReverseMap();
 
             CreateMap<Category, GetCategoryDto>()
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name))
                 .ForMember(dest => dest.ID, opt => opt.MapFrom(src => src.Id));
 
-            CreateMap<Category, CategoryToPostDto>().ReverseMap();
+            CreateMap<Category, CreateCategoryDto>().ReverseMap();
 
-            CreateMap<Question, QuestionForListDto>()
+            CreateMap<Question, GetQuestionForListDto>()
                 .ForMember(x => x.Categories, opt => opt.MapFrom(src => src.QuestionsCategories.Select(x => x.Category.Name)));
-            CreateMap<Answer, AnswerForListDto>();
 
             CreateMap<DifficultyLevel, GetDifficultyLevelDto>();
 
-            CreateMap<Quiz, QuizToPostDto>()
+            CreateMap<Quiz, CreateQuizDto>()
                 .ForMember(dest => dest.QuestionIds, opt =>
                 opt.MapFrom(src => src.QuizzesQuestions.Select(x => new QuizQuestion { QuestionId = x.QuestionId, QuizId = x.QuizId })))
                 .ReverseMap();
@@ -41,8 +38,8 @@ namespace Quizard.API.Helpers
                 opt.MapFrom(src => src.QuizzesQuestions.Select(x => x.Question))).ReverseMap();
 
             CreateMap<Session, CreateSessionDto>().ReverseMap();
-            CreateMap<Question, QuestionForQuizDto>().ReverseMap();
-            CreateMap<Answer, AnswerForQuizDto>().ReverseMap();
+            CreateMap<Question, GetQuestionForQuizDto>().ReverseMap();
+            CreateMap<Answer, GetAnswerDto>().ReverseMap();
         }
     }
 }
