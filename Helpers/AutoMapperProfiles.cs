@@ -28,7 +28,7 @@ namespace Quizard.API.Helpers
 
             CreateMap<DifficultyLevel, GetDifficultyLevelDto>();
 
-            CreateMap<Quiz, CreateQuiz>()
+            CreateMap<Quiz, CreateQuizDto>()
                 .ForMember(dest => dest.QuestionIds, opt =>
                 opt.MapFrom(src => src.QuizzesQuestions.Select(x => new QuizQuestion { QuestionId = x.QuestionId, QuizId = x.QuizId })))
                 .ReverseMap();
