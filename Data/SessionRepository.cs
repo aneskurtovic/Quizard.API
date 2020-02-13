@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Quizard.API.Dtos;
+﻿using Quizard.API.Dtos;
 using Quizard.API.Models;
 using System;
 using System.Collections.Generic;
@@ -28,22 +27,23 @@ namespace Quizard.API.Data
         {
             double correctAnswersCounter = 0;
             double result;
+            double totalNumberOfQuestions = answeredQuestions.Count();
             Dictionary<int, int> correctAnswers = new Dictionary<int, int>();
             foreach (var question in answeredQuestions)
             {
-                int correctAnswerId = _context.Answers.Where(a => a.QuestionId == question.Key && a.IsCorrect == true).FirstOrDefaultAsync().Id;
+                int correctAnswerId = _context.Answers.Where(a => a.QuestionId == question.Key && a.IsCorrect == true).FirstOrDefault().Id;
                 if (correctAnswerId == question.Value)
                 {
                     correctAnswersCounter++;
                 }
                correctAnswers.Add(question.Key, correctAnswerId);   
             }
-            if (answeredQuestions.Count() == 0)
+            if (totalNumberOfQuestions == 0)
             {
                 result = 0;
             }
             else {  
-                result = (correctAnswersCounter / answeredQuestions.Count()) * 100;
+                result = (correctAnswersCounter / totalNumberOfQuestions) * 100;
             }
             return new ResponseFinishSessionDto { Result = result, CorrectQuestions = correctAnswers };
         }
