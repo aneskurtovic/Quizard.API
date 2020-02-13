@@ -1,4 +1,5 @@
-﻿using Quizard.API.Dtos;
+﻿using Microsoft.EntityFrameworkCore;
+using Quizard.API.Dtos;
 using Quizard.API.Models;
 using System;
 using System.Collections.Generic;
@@ -26,21 +27,18 @@ namespace Quizard.API.Data
         public async Task<SessionResultDto> GetResult(Dictionary<int, int> answeredQuestions)
         {
             double brojacTacnih = 0;
+            double result;
             double ukupanBroj = answeredQuestions.Count();
             Dictionary<int, int> correctAnswers = new Dictionary<int, int>();
             foreach (var question in answeredQuestions)
             {
-                int questionId = question.Key;
-                int answerId = question.Value;
-                int correctAnswerId =  _context.Answers.Where(a => a.QuestionId == questionId && a.IsCorrect == true).FirstOrDefault().Id;
-                if (correctAnswerId == answerId)
+                int correctAnswerId = _context.Answers.Where(a => a.QuestionId == question.Key && a.IsCorrect == true).FirstOrDefaultAsync().Id;
+                if (correctAnswerId == question.Value)
                 {
                     brojacTacnih++;
                 }
-                correctAnswers.Add(questionId, correctAnswerId);
-                
+               correctAnswers.Add(question.Key, correctAnswerId);   
             }
-            double result;
             if (ukupanBroj == 0)
             {
                 result = 0;
@@ -48,8 +46,7 @@ namespace Quizard.API.Data
             else {  
                 result = (brojacTacnih / ukupanBroj) * 100;
             }
-            SessionResultDto dto = new SessionResultDto { Result = result, CorrectQuestions = correctAnswers };
-            return dto;
+            return new SessionResultDto { Result = result, CorrectQuestions = correctAnswers };
         }
     }
 }
