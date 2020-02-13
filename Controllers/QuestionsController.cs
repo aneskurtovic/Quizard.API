@@ -26,21 +26,13 @@ namespace Quizard.API.Controllers
         public async Task<IActionResult> GetQuestions([FromQuery]QuestionParams questionParams)
         {
             var questions = await _repo.GetQuestions(questionParams);
-            var questionDtos = _mapper.Map<IEnumerable<QuestionForListDto>>(questions.Data);
-            var results = new PagedResult<QuestionForListDto>(questionDtos, questions.Metadata.Total, questions.Metadata.Offset, questions.Metadata.PageSize);
+            var questionDtos = _mapper.Map<IEnumerable<GetQuestionForListDto>>(questions.Data);
+            var results = new PagedResult<GetQuestionForListDto>(questionDtos, questions.Metadata.Total, questions.Metadata.Offset, questions.Metadata.PageSize);
             return Ok(results);
         }
 
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetQuestion(int id)
-        {
-            var questionToReturn = _mapper.Map<QuestionForDetailedListDto>(await _repo.GetQuestion(id));
-            return Ok(questionToReturn);
-        }
-
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]QuestionToPostDto questionDto)
+        public async Task<IActionResult> Post([FromBody]CreateQuestionDto questionDto)
         {
             var question = _mapper.Map<Question>(questionDto);
             await _repo.AddQuestion(question);

@@ -2,11 +2,9 @@
 
 namespace Quizard.API.Dtos
 {
-    public class GetDifficultyLevelDto
+    public class ResponseQuizDto
     {
         [Required]
         public int Id { get; set; }
-        [Required]
-        public string Level { get; set; }
     }
 }

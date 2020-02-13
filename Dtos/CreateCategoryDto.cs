@@ -2,12 +2,9 @@
 
 namespace Quizard.API.Dtos
 {
-
-    public class QuizToPostDto
+    public class CreateCategoryDto
     {
         [Required]
         public string Name { get; set; }
-        [Required]
-        public int[] QuestionIds { get; set; }
     }
 }

@@ -24,7 +24,7 @@ namespace Quizard.API.Data
             await _context.SaveChangesAsync();   
         }
 
-        public async Task<SessionResultDto> GetResult(Dictionary<int, int> answeredQuestions)
+        public async Task<ResponseFinishSessionDto> GetResult(Dictionary<int, int> answeredQuestions)
         {
             double correctAnswersCounter = 0;
             double result;
@@ -45,7 +45,7 @@ namespace Quizard.API.Data
             else {  
                 result = (correctAnswersCounter / answeredQuestions.Count()) * 100;
             }
-            return new SessionResultDto { Result = result, CorrectQuestions = correctAnswers };
+            return new ResponseFinishSessionDto { Result = result, CorrectQuestions = correctAnswers };
         }
     }
 }

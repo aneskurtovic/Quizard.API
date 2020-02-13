@@ -35,7 +35,7 @@ namespace Quizard.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]CategoryToPostDto categoryDto)
+        public async Task<IActionResult> Post([FromBody]CreateCategoryDto categoryDto)
         {
             var category = _mapper.Map<Category>(categoryDto);
             var existingCat = await _repo.CategoryExists(categoryDto.Name);

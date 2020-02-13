@@ -20,13 +20,13 @@ namespace Quizard.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody]QuizToPostDto quizDto)
+        public async Task<IActionResult> Post([FromBody]CreateQuizDto quizDto)
         {
             var responseQuiz = await _repo.AddQuiz(
                 quizDto.Name,
                 quizDto.QuestionIds
             );
-            return Ok(new QuizForResponseDto { Id = responseQuiz.Id });
+            return Ok(new ResponseQuizDto { Id = responseQuiz.Id });
         }
 
         [HttpGet("{id}")]

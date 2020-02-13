@@ -2,7 +2,7 @@
 
 namespace Quizard.API.Dtos
 {
-    public class AnswerForQuizDto
+    public class GetAnswerDto
     {
         [Required]
         public int Id { get; set; }

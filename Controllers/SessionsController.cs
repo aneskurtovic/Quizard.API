@@ -25,12 +25,12 @@ namespace Quizard.API.Controllers
         {
             var session = _mapper.Map<Session>(sessionDto);
             await _repo.AddSession(session);
-            return Ok(new SessionCreatedDto {Id = session.Id, QuizId = session.QuizId });
+            return Ok(new ResponseSessionDto {Id = session.Id, QuizId = session.QuizId });
         }
         [HttpPost("Finish")]
         public async Task<IActionResult> Finish([FromBody]FinishSessionDto result)
         {
-            SessionResultDto sessionResult = await _repo.GetResult(result.QuizResult);
+            ResponseFinishSessionDto sessionResult = await _repo.GetResult(result.QuizResult);
             return Ok(sessionResult);
         }
     }
