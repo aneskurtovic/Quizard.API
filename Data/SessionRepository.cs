@@ -26,25 +26,24 @@ namespace Quizard.API.Data
 
         public async Task<SessionResultDto> GetResult(Dictionary<int, int> answeredQuestions)
         {
-            double brojacTacnih = 0;
+            double correctAnswersCounter = 0;
             double result;
-            double ukupanBroj = answeredQuestions.Count();
             Dictionary<int, int> correctAnswers = new Dictionary<int, int>();
             foreach (var question in answeredQuestions)
             {
                 int correctAnswerId = _context.Answers.Where(a => a.QuestionId == question.Key && a.IsCorrect == true).FirstOrDefaultAsync().Id;
                 if (correctAnswerId == question.Value)
                 {
-                    brojacTacnih++;
+                    correctAnswersCounter++;
                 }
                correctAnswers.Add(question.Key, correctAnswerId);   
             }
-            if (ukupanBroj == 0)
+            if (answeredQuestions.Count() == 0)
             {
                 result = 0;
             }
             else {  
-                result = (brojacTacnih / ukupanBroj) * 100;
+                result = (correctAnswersCounter / answeredQuestions.Count()) * 100;
             }
             return new SessionResultDto { Result = result, CorrectQuestions = correctAnswers };
         }
