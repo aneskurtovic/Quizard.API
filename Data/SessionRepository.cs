@@ -27,20 +27,18 @@ namespace Quizard.API.Data
         {
             double brojacTacnih = 0;
             double ukupanBroj = answeredQuestions.Count();
-            Dictionary<int, bool> correctAnswers = new Dictionary<int, bool>();
+            Dictionary<int, int> correctAnswers = new Dictionary<int, int>();
             foreach (var question in answeredQuestions)
             {
                 int questionId = question.Key;
                 int answerId = question.Value;
                 int correctAnswerId =  _context.Answers.Where(a => a.QuestionId == questionId && a.IsCorrect == true).FirstOrDefault().Id;
-                if (correctAnswerId == answerId) {
-                    correctAnswers.Add(questionId, true);
+                if (correctAnswerId == answerId)
+                {
                     brojacTacnih++;
                 }
-                else
-                {
-                   correctAnswers.Add(questionId, false);
-                }
+                correctAnswers.Add(questionId, correctAnswerId);
+                
             }
             double result;
             if (ukupanBroj == 0)

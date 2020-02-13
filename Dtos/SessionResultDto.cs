@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace Quizard.API.Dtos
 {
     public class SessionResultDto
     {
         public double Result { get; set; }
-        public Dictionary<int, bool> CorrectQuestions { get; set; }
+        public Dictionary<int, int> CorrectQuestions { get; set; }
 
         public SessionResultDto()
         {
-            CorrectQuestions = new Dictionary<int, bool>();
+            CorrectQuestions = new Dictionary<int, int>();
         }
     }
 }
