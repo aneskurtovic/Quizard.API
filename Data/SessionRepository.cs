@@ -45,7 +45,7 @@ namespace Quizard.API.Data
             else {  
                 result = (correctAnswersCounter / totalNumberOfQuestions) * 100;
             }
-            return new ResponseFinishSessionDto { Result = result, CorrectQuestions = correctAnswers };
+            return new ResponseFinishSessionDto { Result = Math.Round(result,2), CorrectQuestions = correctAnswers };
         }
     }
 }
