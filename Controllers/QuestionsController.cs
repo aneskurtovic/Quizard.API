@@ -35,6 +35,10 @@ namespace Quizard.API.Controllers
         public async Task<IActionResult> Post([FromBody]CreateQuestionDto questionDto)
         {
             var question = _mapper.Map<Question>(questionDto);
+            if(await _repo.MinimumOneCorrect(question))
+            {
+                return BadRequest();
+            }
             await _repo.AddQuestion(question);
             foreach (var cat in questionDto.Categories)
             {
