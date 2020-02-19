@@ -6,6 +6,6 @@ namespace Quizard.API.Dtos
     public class FinishSessionDto
     {
         [Required]
-        public Dictionary<int, int> QuizResult { get; set; } = new Dictionary<int, int>();
+        public Dictionary<int, int[]> QuizResult { get; set; } = new Dictionary<int, int[]>();
     }
 }

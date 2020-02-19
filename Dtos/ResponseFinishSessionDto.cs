@@ -8,11 +8,11 @@ namespace Quizard.API.Dtos
         [Required]
         public double Result { get; set; }
         [Required]
-        public Dictionary<int, int> CorrectQuestions { get; set; }
+        public Dictionary<int, int[]> CorrectQuestions { get; set; }
 
         public ResponseFinishSessionDto()
         {
-            CorrectQuestions = new Dictionary<int, int>();
+            CorrectQuestions = new Dictionary<int, int[]>();
         }
     }
 }
