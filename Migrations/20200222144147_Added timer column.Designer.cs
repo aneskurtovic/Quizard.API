@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Quizard.API.Data;
 
 namespace Quizard.API.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200222144147_Added timer column")]
+    partial class Addedtimercolumn
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -49,7 +51,7 @@ namespace Quizard.API.Migrations
                         new
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
-                            ConcurrencyStamp = "c4447d8c-ba4c-45be-9872-a820e2cb3031",
+                            ConcurrencyStamp = "4fe25169-e49f-46f5-8f03-f265ff82e9f1",
                             Name = "admin",
                             NormalizedName = "admin"
                         });
@@ -148,13 +150,13 @@ namespace Quizard.API.Migrations
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "316aa94f-e997-403f-851b-75e5f0f0e2c8",
+                            ConcurrencyStamp = "faba7294-03b0-45d0-8b2a-733da028ee4d",
                             Email = "admin@tacta.io",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@tacta.io",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEG4sJzG/D6GVOLjRzS+dbmrlW7ZqA1x80AOldll1J/ugI6bIOSYlWyo60nocXpswmA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEaZdyZjutE7P60RatEtI+dOCbTgbz5R6BvT8/9LnnVT54l4FjHxNaWuSxjSa5UxCA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -407,9 +409,6 @@ namespace Quizard.API.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("QuizId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Result")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartedAt")

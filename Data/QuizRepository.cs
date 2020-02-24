@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Quizard.API.Models;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,11 +15,12 @@ namespace Quizard.API.Data
             _context = context;
         }
 
-        public async Task<Quiz> AddQuiz(string name, int[] questionIds)
+        public async Task<Quiz> AddQuiz(string name, int[] questionIds, int timer)
         {
             var quizForInsert = new Quiz
             {
                 Name = name,
+                Timer = timer,
                 QuizzesQuestions = questionIds.Select(x => new QuizQuestion { QuestionId = x }).ToList()
             };
             await _context.AddAsync(quizForInsert);
@@ -31,6 +33,10 @@ namespace Quizard.API.Data
             var requestedQuiz = await _context.Quizzes.Include(a => a.QuizzesQuestions).ThenInclude(b => b.Question).ThenInclude(b => b.Answers).FirstOrDefaultAsync(c => c.Id == id);
             return requestedQuiz;
         }
+
+        public async Task<List<Quiz>> GetQuizzes()
+        {
+            return await _context.Quizzes.ToListAsync();
+        }
     }
 }
-
