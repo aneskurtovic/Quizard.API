@@ -79,10 +79,10 @@ namespace Quizard.API.Data
                 .WithMany(p => p.QuizzesQuestions)
                 .HasForeignKey(pt => pt.QuestionId);
 
-            builder.Entity<DifficultyLevel>()
+           /* builder.Entity<DifficultyLevel>()
                 .HasData(new DifficultyLevel { Id = 1, Level = "Easy" },
                          new DifficultyLevel { Id = 2, Level = "Medium" },
-                         new DifficultyLevel { Id = 3, Level = "Hard" });
+                         new DifficultyLevel { Id = 3, Level = "Hard" });*/
         }
 
     }
