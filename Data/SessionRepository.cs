@@ -1,4 +1,5 @@
-﻿using Quizard.API.Dtos;
+﻿using Microsoft.EntityFrameworkCore;
+using Quizard.API.Dtos;
 using Quizard.API.Models;
 using System;
 using System.Collections.Generic;
@@ -31,7 +32,7 @@ namespace Quizard.API.Data
             foreach (var answeredQuestion in answeredQuestions)
             {
                 var correctAnswersCounter = 0;
-                var correctAnswersIds = _context.Answers.Where(a => a.QuestionId == answeredQuestion.Key && a.IsCorrect == true).Select(b => b.Id); 
+                var correctAnswersIds = await GetCorrectAnswers(answeredQuestion.Key); 
                 
                 if (correctAnswersIds.Count() == answeredQuestion.Value.Count())
                 {
@@ -72,8 +73,7 @@ namespace Quizard.API.Data
             }
             return correctAnswers;
         }
-
-        private int GetCountOfCorrectAnswers(IQueryable<int> correctAnswersIds, int[] answeredQuestion, int counter)
+        private int GetCountOfCorrectAnswers(List<int> correctAnswersIds, int[] answeredQuestion, int counter)
         {
             foreach (var correctAnswer in correctAnswersIds)
             {
@@ -83,6 +83,11 @@ namespace Quizard.API.Data
                 }
             }
             return counter;
+        }
+        private async Task<List<int>> GetCorrectAnswers(int questionId)
+        {
+            var correctAnswersIds = await _context.Answers.Where(a => a.QuestionId == questionId && a.IsCorrect == true).Select(x=>x.Id).ToListAsync();
+            return correctAnswersIds;
         }
     }
 }
