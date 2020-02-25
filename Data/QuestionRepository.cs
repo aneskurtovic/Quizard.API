@@ -34,7 +34,7 @@ namespace Quizard.API.Data
 
         public async Task<Question> GetQuestion(int id)
         {
-            var question = await _context.Questions.Include(b => b.DifficultyLevel).Include(a => a.Answers).FirstOrDefaultAsync(q => q.Id == id);
+            var question = await _context.Questions.Include(a => a.Answers).FirstOrDefaultAsync(q => q.Id == id);
             return question;
         }
         public async Task<bool> MinimumOneCorrect(Question question)
