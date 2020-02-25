@@ -8,6 +8,7 @@ namespace Quizard.API.Dtos
         public Dictionary<int, int[]> QuizResult { get; set; } = new Dictionary<int, int[]>();
         [Required]
         public int quizId { get; set; }
+        [Required]
         public string sessionId { get; set; }
     }
 }
