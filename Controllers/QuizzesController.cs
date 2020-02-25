@@ -42,12 +42,7 @@ namespace Quizard.API.Controllers
         public async Task<IActionResult> GetQuizzes()
         {
             var quizzes = await _repo.GetQuizzes();
-            List<GetQuizForLeaderboardDto> quizzesToReturn = new List<GetQuizForLeaderboardDto>();
-            foreach (var quiz in quizzes)
-            {
-                quizzesToReturn.Add(_mapper.Map<GetQuizForLeaderboardDto>(quiz));
-            }
-            return Ok(quizzesToReturn);
+            return Ok(_mapper.Map<List<GetQuizForLeaderboardDto>>(quizzes));       
         }
     }
 }

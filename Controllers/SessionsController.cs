@@ -20,16 +20,12 @@ namespace Quizard.API.Controllers
             _repo = repo;
             _mapper = mapper;
         }
+
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTop10(int id)
         {
             List<Session> leaderboard = await _repo.GetTop10(id);
-            List<GetSessionForLeaderboardDto> scoreboard = new List<GetSessionForLeaderboardDto>();
-            foreach (var session in leaderboard)
-            {
-                scoreboard.Add(_mapper.Map<GetSessionForLeaderboardDto>(session));
-            }
-            return Ok(scoreboard);
+            return Ok(_mapper.Map<List<GetSessionForLeaderboardDto>>(leaderboard));
         }
 
         [HttpPost]
@@ -39,6 +35,7 @@ namespace Quizard.API.Controllers
             await _repo.AddSession(session);
             return Ok(new ResponseSessionDto { Id = session.Id, QuizId = session.QuizId });
         }
+
         [HttpPost("Finish")]
         public async Task<IActionResult> Finish([FromBody]FinishSessionDto result)
         {

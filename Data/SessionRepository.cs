@@ -42,7 +42,7 @@ namespace Quizard.API.Data
                 var correctAnswersCounter = 0;
                 var correctAnswersIds = _context.Answers.Where(a => a.QuestionId == question.Id && a.IsCorrect == true).Select(b => b.Id);
 
-                if (!answeredQuestions.ContainsKey(question.Id) || answeredQuestions[question.Id] == null || answeredQuestions[question.Id].Length == 0)
+                if (!answeredQuestions.ContainsKey(question.Id) || correctAnswersIds.Count() != answeredQuestions[question.Id].Length)
                 {
                     continue;
                 }
@@ -64,9 +64,7 @@ namespace Quizard.API.Data
             session.Result = result;
             await _context.SaveChangesAsync();
 
-            return totalNumberOfAnsweredQuestions != 0 ?
-                new ResponseFinishSessionDto { Result = result, CorrectQuestions = getAllCorrectAnswers(quizId) } :
-                new ResponseFinishSessionDto { Result = 0, CorrectQuestions = getAllCorrectAnswers(quizId) };
+            return new ResponseFinishSessionDto { Result = result, CorrectQuestions = getAllCorrectAnswers(quizId) };
         }
 
         private bool isCorrectAnswered(int correctAnswer, int[] selectedAnswers)
@@ -103,11 +101,10 @@ namespace Quizard.API.Data
             }
             return counter;
         }
-
         public async Task<List<Session>> GetTop10(int quizId)
         {
-            var neki = await _context.Sessions.Where(x => x.QuizId == quizId).OrderByDescending(x => x.Result).ToListAsync();
-            return neki;
+            var leaderboard = await _context.Sessions.Where(x => x.QuizId == quizId).OrderByDescending(x => x.Result).Take(10).ToListAsync();
+            return leaderboard;
         }
     }
 }
