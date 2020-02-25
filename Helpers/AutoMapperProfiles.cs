@@ -40,6 +40,9 @@ namespace Quizard.API.Helpers
             CreateMap<Session, CreateSessionDto>().ReverseMap();
             CreateMap<Question, GetQuestionForQuizDto>().ReverseMap();
             CreateMap<Answer, GetAnswerDto>().ReverseMap();
+
+            CreateMap<Quiz, GetQuizForListDto>()
+                .ForMember(dest => dest.NumberOfQuestions, opt => opt.MapFrom(src => src.QuizzesQuestions.Where(x=>x.QuizId == src.Id).Count())).ReverseMap();
         }
     }
 }
