@@ -7,10 +7,10 @@ namespace Quizard.API.Helpers
         public IEnumerable<T> Data { get; }
         public PagedResultMetadata Metadata { get; }
 
-        public PagedResult(IEnumerable<T> data, int total, int offset, int pageSize, string name)
+        public PagedResult(IEnumerable<T> data, int total, int offset, int pageSize)
         {
             Data = data;
-            Metadata = new PagedResultMetadata(total, offset, pageSize, name);
+            Metadata = new PagedResultMetadata(total, offset, pageSize);
         }
     }
 }

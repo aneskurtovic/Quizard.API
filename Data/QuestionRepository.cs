@@ -32,7 +32,7 @@ namespace Quizard.API.Data
 
             var count = await questions.CountAsync();
             var data = await questions.Skip(questionParams.Offset * questionParams.PageSize).Take(questionParams.PageSize).ToListAsync();
-            return new PagedResult<Question>(data, count, questionParams.Offset, questionParams.PageSize, questionParams.Name);
+            return new PagedResult<Question>(data, count, questionParams.Offset, questionParams.PageSize);
         }
 
         private void SearchByName(ref IQueryable<Question> questions, string questionName)

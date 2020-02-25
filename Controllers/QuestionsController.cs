@@ -27,7 +27,7 @@ namespace Quizard.API.Controllers
         {
             var questions = await _repo.GetQuestions(questionParams);
             var questionDtos = _mapper.Map<IEnumerable<GetQuestionForListDto>>(questions.Data);
-            var results = new PagedResult<GetQuestionForListDto>(questionDtos, questions.Metadata.Total, questions.Metadata.Offset, questions.Metadata.PageSize, questions.Metadata.Name);
+            var results = new PagedResult<GetQuestionForListDto>(questionDtos, questions.Metadata.Total, questions.Metadata.Offset, questions.Metadata.PageSize);
             return Ok(results);
         }
 
