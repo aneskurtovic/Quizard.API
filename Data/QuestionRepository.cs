@@ -1,6 +1,10 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Internal;
+using Quizard.API.Controllers;
 using Quizard.API.Helpers;
 using Quizard.API.Models;
 
@@ -24,15 +28,22 @@ namespace Quizard.API.Data
 
         public async Task<PagedResult<Question>> GetQuestions(QuestionParams questionParams)
         {
-            IQueryable<Question> questions = _context.Questions.Include(a => a.QuestionsCategories)
+            IQueryable<Question> questions =  _context.Questions.Include(a => a.QuestionsCategories)
                                               .ThenInclude(questionCategory => questionCategory.Category)
                                               .OrderByDescending(q => q.CreatedDate);
 
+
             SearchByName(ref questions, questionParams.Name);
+
+            FilterByCategory(ref questions, questionParams.Category);
+
 
             var count = await questions.CountAsync();
             var data = await questions.Skip(questionParams.Offset * questionParams.PageSize).Take(questionParams.PageSize).ToListAsync();
+
+
             return new PagedResult<Question>(data, count, questionParams.Offset, questionParams.PageSize);
+
         }
 
         private void SearchByName(ref IQueryable<Question> questions, string questionName)
@@ -44,6 +55,14 @@ namespace Quizard.API.Data
                 return;
  
             questions = questions.Where(o => o.Text.ToLower().Contains(questionName.Trim().ToLower()));
+        }
+
+        private void FilterByCategory(ref IQueryable<Question> categories, IEnumerable<int> categoriesnest)
+        {
+            if (!categories.Any() || categoriesnest == null)
+                return;
+
+            categories = categories.Where(c => c.QuestionsCategories.Any(y => categoriesnest.Contains(y.CategoryID)));
         }
 
 

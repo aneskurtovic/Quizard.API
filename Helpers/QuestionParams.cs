@@ -1,4 +1,6 @@
-﻿namespace Quizard.API.Helpers
+﻿using System.Collections.Generic;
+
+namespace Quizard.API.Helpers
 {
     public class QuestionParams
     {
@@ -12,5 +14,6 @@
             set { pageSize = (value > MaxPageSize) ? MaxPageSize : value; }
         }
         public string Name { get; set; }
+        public IEnumerable<int> Category { get; set; }
     }
 }
