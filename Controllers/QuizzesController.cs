@@ -33,9 +33,9 @@ namespace Quizard.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetQuizzez([FromQuery]QuestionParams questionParams)
         {
-            var quizzez = await _repo.GetQuizzes(questionParams);
-            var quizzezDtos = _mapper.Map<IEnumerable<GetQuizForListDto>>(quizzez.Data);
-            var results = new PagedResult<GetQuizForListDto>(quizzezDtos, quizzez.Metadata.Total, quizzez.Metadata.Offset, quizzez.Metadata.PageSize);
+            var quizzes = await _repo.GetQuizzes(questionParams);
+            var quizzesdtos = _mapper.Map<IEnumerable<GetQuizForListDto>>(quizzes.Data);
+            var results = new PagedResult<GetQuizForListDto>(quizzesdtos, quizzes.Metadata.Total, quizzes.Metadata.Offset, quizzes.Metadata.PageSize);
             return Ok(results);
         }
         [HttpGet("{id}")]

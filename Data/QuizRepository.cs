@@ -35,7 +35,7 @@ namespace Quizard.API.Data
         }
         public async Task<PagedResult<Quiz>> GetQuizzes(QuestionParams questionParams)
         {
-            var quizzez = await _context.Quizzes.ToListAsync();
+            var quizzez = await _context.Quizzes.Include(x=>x.QuizzesQuestions).ToListAsync();
             var count =  quizzez.Count();
             var data =  quizzez.Skip(questionParams.Offset * questionParams.PageSize).Take(questionParams.PageSize).ToList();
             return new PagedResult<Quiz>(data, count, questionParams.Offset, questionParams.PageSize);
