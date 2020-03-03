@@ -49,7 +49,7 @@ namespace Quizard.API.Migrations
                         new
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
-                            ConcurrencyStamp = "7727ff29-6490-4808-a872-6709da3f8328",
+                            ConcurrencyStamp = "427ae65b-d165-4ba9-8412-3e4b5a888eb7",
                             Name = "admin",
                             NormalizedName = "admin"
                         });
@@ -148,13 +148,13 @@ namespace Quizard.API.Migrations
                         {
                             Id = "a18be9c0-aa65-4af8-bd17-00bd9344e575",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e4379479-1fbd-4dcc-9251-99e8c35f0d05",
+                            ConcurrencyStamp = "fa069305-598c-48d5-bb22-71a90a0f5cb6",
                             Email = "admin@tacta.io",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "admin@tacta.io",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGKEXUl/I2UfCuuJ1IKMKWdM9uyKdc2j5bMsHI6If/lGKte6o9pTJa8XIk84GzpMbw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAECEt1MOMhiVI6zScDHndWiEbta0m/gr6+vkorZ2waa0AlC2fE+eFLeo9jbEl53PGcQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -262,12 +262,17 @@ namespace Quizard.API.Migrations
                     b.Property<int>("QuestionId")
                         .HasColumnType("int");
 
+                    b.Property<Guid?>("SessionId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Text")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("QuestionId");
+
+                    b.HasIndex("SessionId");
 
                     b.ToTable("Answers");
                 });
@@ -349,6 +354,9 @@ namespace Quizard.API.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Timer")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Quizzes");
@@ -382,6 +390,9 @@ namespace Quizard.API.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<int>("QuizId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Result")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("StartedAt")
@@ -452,6 +463,10 @@ namespace Quizard.API.Migrations
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.HasOne("Quizard.API.Models.Session", null)
+                        .WithMany("SelectedAnswers")
+                        .HasForeignKey("SessionId");
                 });
 
             modelBuilder.Entity("Quizard.API.Models.QuestionCategory", b =>

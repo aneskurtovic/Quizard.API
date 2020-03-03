@@ -11,6 +11,6 @@ namespace Quizard.API.Data
         Task<Question> GetQuestion(int id);
         Task AddQuestionCategory(int id, int cat);
         Task<bool> SaveAll();
-        Task<bool> MinimumOneCorrect(Question question);
+        bool MinimumOneCorrect(Question question);
     }
 }
