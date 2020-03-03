@@ -26,7 +26,8 @@ namespace Quizard.API.Controllers
         {
             var responseQuiz = await _repo.AddQuiz(
                 quizDto.Name,
-                quizDto.QuestionIds
+                quizDto.QuestionIds,
+                quizDto.Timer
             );
             return Ok(new ResponseQuizDto { Id = responseQuiz.Id });
         }
@@ -43,6 +44,13 @@ namespace Quizard.API.Controllers
         {
             var quizToReturn = _mapper.Map<GetQuizDto>(await _repo.GetQuiz(id));
             return Ok(quizToReturn);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetQuizzes()
+        {
+            var quizzes = await _repo.GetQuizzes();
+            return Ok(_mapper.Map<List<GetQuizForLeaderboardDto>>(quizzes));       
         }
     }
 }

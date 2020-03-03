@@ -8,5 +8,7 @@ namespace Quizard.API.Dtos
         public string Name { get; set; }
         [Required]
         public int[] QuestionIds { get; set; }
+        [Required]
+        public int Timer { get; set; }
     }
 }

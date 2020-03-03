@@ -1,4 +1,5 @@
-﻿using Quizard.API.Dtos;
+﻿using Microsoft.EntityFrameworkCore;
+using Quizard.API.Dtos;
 using Quizard.API.Models;
 using System;
 using System.Collections.Generic;
@@ -20,33 +21,50 @@ namespace Quizard.API.Data
         {
             session.Id = Guid.NewGuid();
             await _context.Sessions.AddAsync(session);
-            await _context.SaveChangesAsync();   
+            await _context.SaveChangesAsync();
         }
 
-        public async Task<ResponseFinishSessionDto> GetResult(Dictionary<int, int[]> answeredQuestions)
+        public async Task<ResponseFinishSessionDto> GetResult(Dictionary<int, int[]> answeredQuestions, int quizId, string sessionId)
         {
             int correctQuestionsCounter = 0;
-            double totalNumberOfQuestions = answeredQuestions.Count();
+            double totalNumberOfAnsweredQuestions = answeredQuestions.Count();
 
-            foreach (var answeredQuestion in answeredQuestions)
+            if (totalNumberOfAnsweredQuestions == 0)
+            {
+                return new ResponseFinishSessionDto { Result = 0, CorrectQuestions = getAllCorrectAnswers(quizId) };
+            }
+
+            var questions = _context.Questions.Include(x => x.QuizzesQuestions).ThenInclude(x => x.Quiz).Where(x => x.QuizzesQuestions.Any(y => y.QuizId == quizId)).ToList();
+            double totalNumberOfQuestions = questions.Count();
+
+            foreach (var question in questions)
             {
                 var correctAnswersCounter = 0;
-                var correctAnswersIds = _context.Answers.Where(a => a.QuestionId == answeredQuestion.Key && a.IsCorrect == true).Select(b => b.Id); 
-                
-                if (correctAnswersIds.Count() == answeredQuestion.Value.Count())
+                var correctAnswersIds = _context.Answers.Where(a => a.QuestionId == question.Id && a.IsCorrect == true).Select(b => b.Id);
+
+                if (!answeredQuestions.ContainsKey(question.Id) || correctAnswersIds.Count() != answeredQuestions[question.Id].Length)
                 {
-                    correctAnswersCounter = GetCountOfCorrectAnswers(correctAnswersIds, answeredQuestion.Value, 0);
+                    continue;
+                }
+
+                if (correctAnswersIds.Count() == answeredQuestions[question.Id].Length)
+                {
+                    correctAnswersCounter = GetCountOfCorrectAnswers(correctAnswersIds, answeredQuestions[question.Id], 0);
                 }
 
                 if (correctAnswersCounter == correctAnswersIds.Count())
                 {
-                    correctQuestionsCounter++;  
+                    correctQuestionsCounter++;
                 }
             }
 
-            return totalNumberOfQuestions != 0 ? 
-                new ResponseFinishSessionDto { Result = Math.Round((correctQuestionsCounter / totalNumberOfQuestions) * 100, 0), CorrectQuestions = getAllCorrectAnswers(answeredQuestions) } : 
-                new ResponseFinishSessionDto { Result = 0, CorrectQuestions = getAllCorrectAnswers(answeredQuestions) };
+            var session = _context.Sessions.Find(Guid.Parse(sessionId));
+            session.FinishedAt = DateTime.Now;
+            var result = (int)Math.Round((correctQuestionsCounter / totalNumberOfQuestions) * 100, 0);
+            session.Result = result;
+            await _context.SaveChangesAsync();
+
+            return new ResponseFinishSessionDto { Result = result, CorrectQuestions = getAllCorrectAnswers(quizId) };
         }
 
         private bool isCorrectAnswered(int correctAnswer, int[] selectedAnswers)
@@ -60,19 +78,18 @@ namespace Quizard.API.Data
             }
             return false;
         }
-        private Dictionary<int, int[]> getAllCorrectAnswers (Dictionary<int, int[]> selectedQuestions)
+        private Dictionary<int, int[]> getAllCorrectAnswers(int quizId)
         {
             var correctAnswers = new Dictionary<int, int[]>();
-            foreach (var selectedQuestion in selectedQuestions)
+            var questions = _context.Questions.Include(x => x.QuizzesQuestions).ThenInclude(x => x.Quiz).Where(x => x.QuizzesQuestions.Any(y => y.QuizId == quizId)).ToList();
+            foreach (var question in questions)
             {
-                IQueryable<int> correctAnswersIds = _context.Answers.Where(a => a.QuestionId == selectedQuestion.Key && a.IsCorrect == true).Select(b => b.Id);
-                var correctAnswersArray = correctAnswersIds.ToArray();
-
-                correctAnswers.Add(selectedQuestion.Key, correctAnswersArray);
+                List<int> answers = _context.Answers.Where(x => x.QuestionId == question.Id && x.IsCorrect == true).Select(x => x.Id).ToList();
+                var correctAnswerss = answers.ToArray();
+                correctAnswers.Add(question.Id, correctAnswerss);
             }
             return correctAnswers;
         }
-
         private int GetCountOfCorrectAnswers(IQueryable<int> correctAnswersIds, int[] answeredQuestion, int counter)
         {
             foreach (var correctAnswer in correctAnswersIds)
@@ -83,6 +100,11 @@ namespace Quizard.API.Data
                 }
             }
             return counter;
+        }
+        public async Task<List<Session>> GetTop10(int quizId)
+        {
+            var leaderboard = await _context.Sessions.Where(x => x.QuizId == quizId).OrderByDescending(x => x.Result).Take(10).ToListAsync();
+            return leaderboard;
         }
     }
 }

@@ -40,9 +40,9 @@ namespace Quizard.API.Controllers
                 return BadRequest();
             }
             await _repo.AddQuestion(question);
-            foreach (var cat in questionDto.Categories)
+            foreach (var category in questionDto.Categories)
             {
-                await _repo.AddQuestionCategory(question.Id, cat);
+                await _repo.AddQuestionCategory(question.Id, category);
             }
             if (await _repo.SaveAll())
             {

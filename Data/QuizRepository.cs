@@ -16,11 +16,12 @@ namespace Quizard.API.Data
             _context = context;
         }
 
-        public async Task<Quiz> AddQuiz(string name, int[] questionIds)
+        public async Task<Quiz> AddQuiz(string name, int[] questionIds, int timer)
         {
             var quizForInsert = new Quiz
             {
                 Name = name,
+                Timer = timer,
                 QuizzesQuestions = questionIds.Select(x => new QuizQuestion { QuestionId = x }).ToList()
             };
             await _context.AddAsync(quizForInsert);
@@ -40,6 +41,10 @@ namespace Quizard.API.Data
             var data =  quizzez.Skip(questionParams.Offset * questionParams.PageSize).Take(questionParams.PageSize).ToList();
             return new PagedResult<Quiz>(data, count, questionParams.Offset, questionParams.PageSize);
         }
+
+        public async Task<List<Quiz>> GetQuizzes()
+        {
+            return await _context.Quizzes.ToListAsync();
+        }
     }
 }
-
