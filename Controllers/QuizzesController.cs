@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Quizard.API.Data;
 using Quizard.API.Dtos;
+using Quizard.API.Helpers;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -30,7 +31,14 @@ namespace Quizard.API.Controllers
             );
             return Ok(new ResponseQuizDto { Id = responseQuiz.Id });
         }
-
+        [HttpGet]
+        public async Task<IActionResult> GetQuizzez([FromQuery]QuestionParams questionParams)
+        {
+            var quizzes = await _repo.GetQuizzes(questionParams);
+            var quizzesdtos = _mapper.Map<IEnumerable<GetQuizForListDto>>(quizzes.Data);
+            var results = new PagedResult<GetQuizForListDto>(quizzesdtos, quizzes.Metadata.Total, quizzes.Metadata.Offset, quizzes.Metadata.PageSize);
+            return Ok(results);
+        }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetQuiz(int id)
         {

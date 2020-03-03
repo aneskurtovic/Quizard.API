@@ -1,4 +1,5 @@
-﻿using Quizard.API.Models;
+﻿using Quizard.API.Helpers;
+using Quizard.API.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -8,6 +9,8 @@ namespace Quizard.API.Data
     {
         Task<Quiz> AddQuiz(string name, int[] questionIds, int Timer);
         Task<Quiz> GetQuiz(int id);
+        Task<PagedResult<Quiz>> GetQuizzes(QuestionParams questionParams);
+
         Task<List<Quiz>> GetQuizzes();
     }
 }
