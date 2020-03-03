@@ -32,24 +32,24 @@ namespace Quizard.API.Controllers
             return Ok(new ResponseQuizDto { Id = responseQuiz.Id });
         }
         [HttpGet]
-        public async Task<IActionResult> GetQuizzez([FromQuery]QuestionParams questionParams)
+        public async Task<IActionResult> GetQuizzes([FromQuery]QuestionParams questionParams)
         {
             var quizzes = await _repo.GetQuizzes(questionParams);
-            var quizzesdtos = _mapper.Map<IEnumerable<GetQuizForListDto>>(quizzes.Data);
-            var results = new PagedResult<GetQuizForListDto>(quizzesdtos, quizzes.Metadata.Total, quizzes.Metadata.Offset, quizzes.Metadata.PageSize);
+            var quizzesDtos = _mapper.Map<IEnumerable<GetQuizForListDto>>(quizzes.Data);
+            var results = new PagedResult<GetQuizForListDto>(quizzesDtos, quizzes.Metadata.Total, quizzes.Metadata.Offset, quizzes.Metadata.PageSize);
             return Ok(results);
         }
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetQuiz(int id)
+        public async Task<IActionResult> GetQuiz(int id)    
         {
             var quizToReturn = _mapper.Map<GetQuizDto>(await _repo.GetQuiz(id));
             return Ok(quizToReturn);
         }
 
-        [HttpGet]
+        [HttpGet("Leaderboard")]
         public async Task<IActionResult> GetQuizzes()
         {
-            var quizzes = await _repo.GetQuizzes();
+            var quizzes = await _repo.GetQuizzesLeaderboard();
             return Ok(_mapper.Map<List<GetQuizForLeaderboardDto>>(quizzes));       
         }
     }
