@@ -1,6 +1,5 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Quizard.API.Models
 {
@@ -13,6 +12,8 @@ namespace Quizard.API.Models
         public DateTime StartedAt { get; set; }
         public DateTime FinishedAt { get; set; }
         public string ContestantName { get; set; }
+        public int Result { get; set; }
+
         public Session()
         {
             StartedAt = DateTime.Now;

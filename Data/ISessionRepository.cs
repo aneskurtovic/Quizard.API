@@ -8,6 +8,7 @@ namespace Quizard.API.Data
     public interface ISessionRepository
     {
         Task AddSession(Session session);
-        Task<ResponseFinishSessionDto> GetResult(Dictionary<int, int[]> answeredQuestions);
+        Task<ResponseFinishSessionDto> GetResult(Dictionary<int, int[]> answeredQuestions, int quizId, string sessionId);
+        Task<List<Session>> GetTop10(int quizId);
     }
 }

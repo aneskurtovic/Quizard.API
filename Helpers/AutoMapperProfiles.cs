@@ -34,12 +34,14 @@ namespace Quizard.API.Helpers
                 .ReverseMap();
 
             CreateMap<Quiz, GetQuizDto>()
-                .ForMember(dest => dest.Questions, opt => 
+                .ForMember(dest => dest.Questions, opt =>
                 opt.MapFrom(src => src.QuizzesQuestions.Select(x => x.Question))).ReverseMap();
 
             CreateMap<Session, CreateSessionDto>().ReverseMap();
             CreateMap<Question, GetQuestionForQuizDto>().ReverseMap();
             CreateMap<Answer, GetAnswerDto>().ReverseMap();
+            CreateMap<Session, GetSessionForLeaderboardDto>().ReverseMap();
+            CreateMap<Quiz, GetQuizForLeaderboardDto>().ReverseMap();
         }
     }
 }
