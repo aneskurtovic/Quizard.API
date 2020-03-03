@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Quizard.API.Models
@@ -14,7 +13,6 @@ namespace Quizard.API.Models
         public DateTime FinishedAt { get; set; }
         public string ContestantName { get; set; }
         public int Result { get; set; }
-
 
         public Session()
         {
