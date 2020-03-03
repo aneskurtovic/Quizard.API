@@ -37,9 +37,9 @@ namespace Quizard.API.Data
             var question = await _context.Questions.Include(a => a.Answers).FirstOrDefaultAsync(q => q.Id == id);
             return question;
         }
-        public async Task<bool> MinimumOneCorrect(Question question)
+        public bool MinimumOneCorrect(Question question)
         {
-            return question.Answers.Count(a=>a.IsCorrect==true) == 0;
+            return question.Answers.Count(a => a.IsCorrect == true) == 0;
         }
         public async Task AddQuestionCategory(int id, int cat)
         {

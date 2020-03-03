@@ -40,8 +40,8 @@ namespace Quizard.API.Controllers
         public async Task<IActionResult> Finish([FromBody]FinishSessionDto result)
         {
             ResponseFinishSessionDto sessionResult = await _repo.GetResult(result.QuizResult,
-                                                                           result.quizId,
-                                                                           result.sessionId);
+                                                                           result.QuizId,
+                                                                           result.SessionId);
             return Ok(sessionResult);
         }
     }

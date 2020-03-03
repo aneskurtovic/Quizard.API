@@ -23,6 +23,8 @@
     <Compile Remove="Migrations\20200210122239_Session Model Added.Designer.cs" />
     <Compile Remove="Migrations\20200210122425_Session Model Added.cs" />
     <Compile Remove="Migrations\20200210122425_Session Model Added.Designer.cs" />
+    <Compile Remove="Migrations\20200228094024_Added selected answers Ids.cs" />
+    <Compile Remove="Migrations\20200228094024_Added selected answers Ids.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,10 +5,10 @@ namespace Quizard.API.Dtos
 {
     public class FinishSessionDto
     {
-        public Dictionary<int, int[]> QuizResult { get; set; } = new Dictionary<int, int[]>();
+        public Dictionary<int, int[]> QuizResult { get; set; } = new Dictionary<int,int []>();
         [Required]
-        public int quizId { get; set; }
+        public int QuizId { get; set; }
         [Required]
-        public string sessionId { get; set; }
+        public string SessionId { get; set; }
     }
 }
