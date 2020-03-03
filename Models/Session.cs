@@ -14,13 +14,11 @@ namespace Quizard.API.Models
         public DateTime FinishedAt { get; set; }
         public string ContestantName { get; set; }
         public int Result { get; set; }
-        public List<Answer> SelectedAnswers { get; set; }
 
 
         public Session()
         {
             StartedAt = DateTime.Now;
-            SelectedAnswers = new List<Answer>();
         }
     }
 }

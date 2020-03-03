@@ -62,7 +62,6 @@ namespace Quizard.API.Data
             session.FinishedAt = DateTime.Now;
             var result = (int)Math.Round(((double)(correctQuestionsCounter) / totalNumberOfQuestions) * 100, 0);
             session.Result = result;
-            SaveSessionAnswers(answeredQuestions, sessionId);
 
             await _context.SaveChangesAsync();           
 
@@ -105,21 +104,8 @@ namespace Quizard.API.Data
         }
         public async Task<List<Session>> GetTop10(int quizId)
         {
-            var leaderboard = await _context.Sessions.Include(x=>x.SelectedAnswers).Where(x => x.QuizId == quizId).OrderByDescending(x => x.Result).Take(10).ToListAsync();
+            var leaderboard = await _context.Sessions.Where(x => x.QuizId == quizId).OrderByDescending(x => x.Result).Take(10).ToListAsync();
             return leaderboard;
-        }
-        private void SaveSessionAnswers(Dictionary<int, int[]> selectedAnswers, string sessionId)
-        {
-            var session = _context.Sessions.Find(Guid.Parse(sessionId));
-            foreach (var question in selectedAnswers.Values)
-            {
-                foreach (var answer in question)
-                {
-                    var selectedAnswer =  _context.Answers.Find(answer);
-                    session.SelectedAnswers.Add(selectedAnswer);
-                }
-            }
-            _context.SaveChanges();
         }
     }
 }
