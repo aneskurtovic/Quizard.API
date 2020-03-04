@@ -20,11 +20,10 @@ namespace Quizard.API.Data
         public async Task AddSession(Session session)
         {
             session.Id = Guid.NewGuid();
-             _context.Sessions.Add(session);
-             _context.SaveChanges();
             session.StartedAt = DateTime.Now;
             var quiz = _context.Quizzes.Find(session.QuizId);
             session.FinishedAt = session.StartedAt.AddMinutes(quiz.Timer);
+            await _context.Sessions.AddAsync(session);
             await _context.SaveChangesAsync();
 
         }
