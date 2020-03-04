@@ -21,6 +21,7 @@ namespace Quizard.API.Controllers
             _mapper = mapper;
         }
 
+        [Route("[action]/{id}")]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetTop10(int id)
         {
