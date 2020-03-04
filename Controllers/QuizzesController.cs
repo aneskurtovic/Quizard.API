@@ -41,13 +41,13 @@ namespace Quizard.API.Controllers
         }
         [HttpGet("{id}")]
         public async Task<IActionResult> GetQuiz(int id)    
-        {
+        {   
             var quizToReturn = _mapper.Map<GetQuizDto>(await _repo.GetQuiz(id));
             return Ok(quizToReturn);
         }
 
         [HttpGet("Leaderboard")]
-        public async Task<IActionResult> GetQuizzes()
+        public async Task<IActionResult> GetLeaderboard()
         {
             var quizzes = await _repo.GetQuizzesLeaderboard();
             return Ok(_mapper.Map<List<GetQuizForLeaderboardDto>>(quizzes));       

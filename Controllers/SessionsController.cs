@@ -28,6 +28,14 @@ namespace Quizard.API.Controllers
             return Ok(_mapper.Map<List<GetSessionForLeaderboardDto>>(leaderboard));
         }
 
+        [Route("[action]/{id}")]
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetSession(string id)
+        {
+            Session session = await _repo.GetSession(id);
+            return Ok(_mapper.Map<GetSessionDto>(session));
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]CreateSessionDto sessionDto)
         {

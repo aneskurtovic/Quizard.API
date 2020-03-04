@@ -15,7 +15,5 @@ namespace Quizard.API.Dtos
         public string ContestantName { get; set; }
         [Required]
         public DateTime StartedAt { get; set; }
-        [Required]
-        public List<Answer> SelectedAnswers { get; set; }
     }
 }

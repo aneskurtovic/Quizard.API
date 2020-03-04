@@ -20,8 +20,18 @@ namespace Quizard.API.Data
         public async Task AddSession(Session session)
         {
             session.Id = Guid.NewGuid();
+            session.StartedAt = DateTime.Now;
+            var quiz = _context.Quizzes.Find(session.QuizId);
+            session.FinishedAt = session.StartedAt.AddMinutes(quiz.Timer);
             await _context.Sessions.AddAsync(session);
             await _context.SaveChangesAsync();
+
+        }
+
+        public async Task<Session> GetSession(string id)
+        {
+            var requestedSession = await _context.Sessions.Include(x => x.Quiz).ThenInclude(x=>x.QuizzesQuestions).ThenInclude(x=>x.Question).ThenInclude(x=>x.Answers).Where(x => x.Id == Guid.Parse(id)).FirstOrDefaultAsync();
+            return requestedSession;
         }
 
         public async Task<ResponseFinishSessionDto> GetResult(Dictionary<int, int[]> answeredQuestions, int quizId, string sessionId)
@@ -68,6 +78,12 @@ namespace Quizard.API.Data
             return new ResponseFinishSessionDto { Result = result, CorrectQuestions = GetAllCorrectAnswers(quizId) };
         }
 
+        public async Task<List<Session>> GetTop10(int quizId)
+        {
+            var leaderboard = await _context.Sessions.Where(x => x.QuizId == quizId).OrderByDescending(x => x.Result).Take(10).ToListAsync();
+            return leaderboard;
+        }
+
         private bool IsCorrectAnswered(int correctAnswer, int[] selectedAnswers)
         {
             foreach (var selectedAnswer in selectedAnswers)
@@ -102,10 +118,6 @@ namespace Quizard.API.Data
             }
             return counter;
         }
-        public async Task<List<Session>> GetTop10(int quizId)
-        {
-            var leaderboard = await _context.Sessions.Where(x => x.QuizId == quizId).OrderByDescending(x => x.Result).Take(10).ToListAsync();
-            return leaderboard;
-        }
+ 
     }
 }
