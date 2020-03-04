@@ -47,7 +47,7 @@ namespace Quizard.API.Controllers
         }
 
         [HttpGet("Leaderboard")]
-        public async Task<IActionResult> GetQuizzes()
+        public async Task<IActionResult> GetLeaderboard()
         {
             var quizzes = await _repo.GetQuizzesLeaderboard();
             return Ok(_mapper.Map<List<GetQuizForLeaderboardDto>>(quizzes));       
