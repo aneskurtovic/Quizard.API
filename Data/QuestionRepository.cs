@@ -56,7 +56,7 @@ namespace Quizard.API.Data
 
         private IQueryable<Question> FilterByCategory(IQueryable<Question> questions, IList<int> categoriesnest, CategoryOperand? operand)
         {
-            if (categoriesnest.Count == 0 && !operand.HasValue)
+            if (categoriesnest.Count == 0 || !operand.HasValue)
                 return questions;
 
 
