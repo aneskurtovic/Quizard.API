@@ -14,9 +14,5 @@ namespace Quizard.API.Models
         public string ContestantName { get; set; }
         public int Result { get; set; }
 
-        public Session()
-        {
-            StartedAt = DateTime.Now;
-        }
     }
 }

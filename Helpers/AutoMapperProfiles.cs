@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Quizard.API.Dtos;
 using Quizard.API.Models;
+using System;
 using System.Linq;
 
 namespace Quizard.API.Helpers
@@ -34,8 +35,18 @@ namespace Quizard.API.Helpers
                 .ReverseMap();
 
             CreateMap<Quiz, GetQuizDto>()
+               .ForMember(dest => dest.Questions, opt =>
+               opt.MapFrom(src => src.QuizzesQuestions.Select(x => x.Question))).ReverseMap();
+
+
+            CreateMap<Session, GetSessionDto>()
                 .ForMember(dest => dest.Questions, opt =>
-                opt.MapFrom(src => src.QuizzesQuestions.Select(x => x.Question))).ReverseMap();
+                    opt.MapFrom(src => src.Quiz.QuizzesQuestions.Select(x => x.Question)))
+                .ForMember(dest => dest.TimeLeft, opt =>
+                    opt.MapFrom(x => (int)x.FinishedAt.Subtract(DateTime.Now).TotalSeconds))
+                .ForMember(dest => dest.Name, opt =>
+                opt.MapFrom(x=>x.Quiz.Name))
+                .ReverseMap();
 
             CreateMap<Session, CreateSessionDto>().ReverseMap();
             CreateMap<Question, GetQuestionForQuizDto>().ReverseMap();

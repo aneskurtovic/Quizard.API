@@ -10,5 +10,6 @@ namespace Quizard.API.Data
         Task AddSession(Session session);
         Task<ResponseFinishSessionDto> GetResult(Dictionary<int, int[]> answeredQuestions, int quizId, string sessionId);
         Task<List<Session>> GetTop10(int quizId);
+        Task<Session> GetSession(string id);
     }
 }
