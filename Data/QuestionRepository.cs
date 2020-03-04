@@ -28,14 +28,14 @@ namespace Quizard.API.Data
 
         public async Task<PagedResult<Question>> GetQuestions(QuestionParams questionParams)
         {
-            IQueryable<Question> questions =  _context.Questions.Include(a => a.QuestionsCategories)
+            IQueryable<Question> questions = _context.Questions.Include(a => a.QuestionsCategories)
                                               .ThenInclude(questionCategory => questionCategory.Category)
                                               .OrderByDescending(q => q.CreatedDate);
 
 
-            SearchByName(ref questions, questionParams.Name);
+            questions = SearchByName(questions, questionParams.Name);
 
-            FilterByCategory(ref questions, questionParams.Category);
+            questions = FilterByCategory(questions, questionParams.Category, questionParams.Operand);
 
 
             var count = await questions.CountAsync();
@@ -46,25 +46,32 @@ namespace Quizard.API.Data
 
         }
 
-        private void SearchByName(ref IQueryable<Question> questions, string questionName)
+        private IQueryable<Question> SearchByName(IQueryable<Question> questions, string questionName)
         {
-            if (!questions.Any() || string.IsNullOrWhiteSpace(questionName))
-                return;
+            if (string.IsNullOrWhiteSpace(questionName))
+                return questions;
 
-            if (string.IsNullOrEmpty(questionName))
-                return;
- 
-            questions = questions.Where(o => o.Text.ToLower().Contains(questionName.Trim().ToLower()));
+            return questions.Where(o => o.Text.ToLower().Contains(questionName.Trim().ToLower()));
         }
 
-        private void FilterByCategory(ref IQueryable<Question> categories, IEnumerable<int> categoriesnest)
+        private IQueryable<Question> FilterByCategory(IQueryable<Question> questions, IList<int> categoriesnest, CategoryOperand? operand)
         {
-            if (!categories.Any() || categoriesnest == null)
-                return;
+            if (categoriesnest.Count == 0 && !operand.HasValue)
+                return questions;
 
-            categories = categories.Where(c => c.QuestionsCategories.Any(y => categoriesnest.Contains(y.CategoryID)));
+
+            if (operand == CategoryOperand.Or)
+            {
+                questions = questions.Where(c => c.QuestionsCategories.Any(y => categoriesnest.Contains(y.CategoryID)));
+            }
+            else if (operand == CategoryOperand.And)
+            {
+                questions = questions.Where(q => q.QuestionsCategories.All(qc => categoriesnest.Contains(qc.CategoryID))
+                                                  && q.QuestionsCategories.Count == categoriesnest.Count);
+            }
+
+            return questions;
         }
-
 
         public async Task<Question> GetQuestion(int id)
         {
@@ -73,7 +80,7 @@ namespace Quizard.API.Data
         }
         public async Task<bool> MinimumOneCorrect(Question question)
         {
-            return question.Answers.Count(a=>a.IsCorrect==true) == 0;
+            return question.Answers.Count(a => a.IsCorrect == true) == 0;
         }
         public async Task AddQuestionCategory(int id, int cat)
         {
