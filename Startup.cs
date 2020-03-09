@@ -41,10 +41,10 @@ namespace Quizard.API
             services.AddScoped<ISessionRepository, SessionRepository>();
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IQuizService, QuizService>();
+            services.AddScoped<ICategoryService,CategoryService>();
             services.AddScoped<ISessionService, SessionService>();
 
             services.AddCors();
-
             services.AddAutoMapper(cfg => cfg.AddProfile<AutoMapperProfiles>(),
                                AppDomain.CurrentDomain.GetAssemblies());
 
