@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Quizard.API.Data;
 using Quizard.API.Dtos;
 using Quizard.API.Models;
+using Quizard.API.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -14,39 +15,28 @@ namespace Quizard.API.Controllers
     public class CategoriesController : ControllerBase
     {
 
-        private readonly ICategoryRepository _repo;
-        private readonly IMapper _mapper;
+        private readonly ICategoryService _categoryService;
 
-        public CategoriesController(ICategoryRepository repo, IMapper mapper)
+        public CategoriesController(ICategoryService categoryService)
         {
-            _repo = repo;
-            _mapper = mapper;
+            _categoryService = categoryService;
         }
 
         [HttpGet]
         public async Task<ActionResult> GetCategories([FromQuery]string searchTerm)
         {
-            if (searchTerm == null)
+            var category = await _categoryService.GetCategories(searchTerm);
+            if (category == null)
             {
-                return Ok();
+                return BadRequest();
             }
-            var categoriesToReturn = _mapper.Map<List<GetCategoryDto>>(await _repo.GetCategories(searchTerm));
-            return Ok(categoriesToReturn);
+            return Ok(category);
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]CreateCategoryDto categoryDto)
         {
-            var category = _mapper.Map<Category>(categoryDto);
-            var existingCat = await _repo.CategoryExists(categoryDto.Name);
-            if (existingCat != null)
-            {
-                var existingCategoryForGetDto = _mapper.Map<GetCategoryDto>(existingCat);
-                return Ok(existingCategoryForGetDto);
-            }
-            await _repo.AddCategory(category);
-            var categoryForGetDto = _mapper.Map<GetCategoryDto>(category);
-            return Ok(categoryForGetDto);
+            return Ok(await _categoryService.Post(categoryDto));
         }
     }
 }
