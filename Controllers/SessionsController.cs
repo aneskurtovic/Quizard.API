@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Quizard.API.Data;
 using Quizard.API.Dtos;
 using Quizard.API.Models;
+using Quizard.API.Services;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -12,45 +13,35 @@ namespace Quizard.API.Controllers
     [ApiController]
     public class SessionsController : ControllerBase
     {
-        private readonly ISessionRepository _repo;
-        private readonly IMapper _mapper;
+        private readonly ISessionService _sessionService;
 
-        public SessionsController(ISessionRepository repo, IMapper mapper)
+        public SessionsController(ISessionService sessionService)
         {
-            _repo = repo;
-            _mapper = mapper;
+            _sessionService = sessionService;
         }
 
         [HttpGet("{id}/leaderboard")]
         public async Task<IActionResult> GetTop10(int id)
         {
-            List<Session> leaderboard = await _repo.GetTop10(id);
-            return Ok(_mapper.Map<List<GetSessionForLeaderboardDto>>(leaderboard));
+            return Ok(await _sessionService.GetTop10(id));
         }
 
-        
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSession(string id)
         {
-            Session session = await _repo.GetSession(id);
-            return Ok(_mapper.Map<GetSessionDto>(session));
+            return Ok(await _sessionService.GetSession(id));
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]CreateSessionDto sessionDto)
         {
-            var session = _mapper.Map<Session>(sessionDto);
-            await _repo.AddSession(session);
-            return Ok(new ResponseSessionDto { Id = session.Id, QuizId = session.QuizId });
+            return Ok(await _sessionService.AddSession(sessionDto));
         }
 
         [HttpPost("Finish")]
         public async Task<IActionResult> Finish([FromBody]FinishSessionDto result)
         {
-            ResponseFinishSessionDto sessionResult = await _repo.GetResult(result.QuizResult,
-                                                                           result.QuizId,
-                                                                           result.SessionId);
-            return Ok(sessionResult);
+            return Ok(await _sessionService.GetResult(result));
         }
     }
 }
