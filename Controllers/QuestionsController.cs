@@ -6,6 +6,7 @@ using Quizard.API.Data;
 using Quizard.API.Dtos;
 using Quizard.API.Helpers;
 using Quizard.API.Models;
+using Quizard.API.Services;
 
 namespace Quizard.API.Controllers
 {
@@ -13,38 +14,25 @@ namespace Quizard.API.Controllers
     [ApiController]
     public class QuestionsController : ControllerBase
     {
-        private readonly IQuestionRepository _repo;
-        private readonly IMapper _mapper;
+        private readonly IQuestionService _questionService;
 
-        public QuestionsController(IQuestionRepository repo, IMapper mapper)
+        public QuestionsController(IQuestionService questionService)
         {
-            _repo = repo;
-            _mapper = mapper;
+           _questionService = questionService;
         }
 
         [HttpGet]
         public async Task<IActionResult> GetQuestions([FromQuery]QuestionParams questionParams)
         {
-            var questions = await _repo.GetQuestions(questionParams);
-            var questionDtos = _mapper.Map<IEnumerable<GetQuestionForListDto>>(questions.Data);
-            var results = new PagedResult<GetQuestionForListDto>(questionDtos, questions.Metadata.Total, questions.Metadata.Offset, questions.Metadata.PageSize);
-            return Ok(results);
+            return Ok(await _questionService.GetQuestions(questionParams));
         }
 
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]CreateQuestionDto questionDto)
         {
-            var question = _mapper.Map<Question>(questionDto);
-            if(_repo.MinimumOneCorrect(question))
-            {
-                return BadRequest();
-            }
-            await _repo.AddQuestion(question);
-            foreach (var category in questionDto.Categories)
-            {
-                await _repo.AddQuestionCategory(question.Id, category);
-            }
-            if (await _repo.SaveAll())
+            var question = await _questionService.AddQuestionAndCategory(questionDto);
+
+            if (question != null)
             {
                 return Ok(question);
             }

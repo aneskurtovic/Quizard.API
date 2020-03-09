@@ -10,6 +10,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using Quizard.API.Data;
 using Quizard.API.Helpers;
+using Quizard.API.Services;
 using System;
 using System.Text;
 
@@ -38,6 +39,7 @@ namespace Quizard.API
             services.AddScoped<IDifficultyLevelRepository, DifficultyLevelRepository>();
             services.AddScoped<IQuizRepository, QuizRepository>();
             services.AddScoped<ISessionRepository, SessionRepository>();
+            services.AddScoped<IQuestionService, QuestionService>();
 
             services.AddCors();
 
