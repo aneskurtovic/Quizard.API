@@ -41,6 +41,7 @@ namespace Quizard.API
             services.AddScoped<ISessionRepository, SessionRepository>();
             services.AddScoped<IQuestionService, QuestionService>();
             services.AddScoped<IQuizService, QuizService>();
+            services.AddScoped<ISessionService, SessionService>();
 
             services.AddCors();
 

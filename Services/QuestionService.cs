@@ -29,10 +29,12 @@ namespace Quizard.API.Services
             }
 
             await _repo.AddQuestion(question);
+
             foreach (var category in questionDto.Categories)
             {
                 await _repo.AddQuestionCategory(question.Id, category);
             }
+
             if (await _repo.SaveAll())
             {
                 return question;
