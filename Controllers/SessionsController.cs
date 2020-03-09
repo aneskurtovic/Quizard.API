@@ -21,15 +21,14 @@ namespace Quizard.API.Controllers
             _mapper = mapper;
         }
 
-        [Route("[action]/{id}")]
-        [HttpGet("{id}")]
+        [HttpGet("{id}/leaderboard")]
         public async Task<IActionResult> GetTop10(int id)
         {
             List<Session> leaderboard = await _repo.GetTop10(id);
             return Ok(_mapper.Map<List<GetSessionForLeaderboardDto>>(leaderboard));
         }
 
-        [Route("[action]/{id}")]
+        
         [HttpGet("{id}")]
         public async Task<IActionResult> GetSession(string id)
         {
