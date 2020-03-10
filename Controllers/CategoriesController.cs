@@ -5,6 +5,7 @@ using Quizard.API.Data;
 using Quizard.API.Dtos;
 using Quizard.API.Models;
 using Quizard.API.Services;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -25,12 +26,7 @@ namespace Quizard.API.Controllers
         [HttpGet]
         public async Task<ActionResult> GetCategories([FromQuery]string searchTerm)
         {
-            var category = await _categoryService.GetCategories(searchTerm);
-            if (category == null)
-            {
-                return BadRequest();
-            }
-            return Ok(category);
+                return Ok(await _categoryService.GetCategories(searchTerm));
         }
 
         [HttpPost]

@@ -24,7 +24,7 @@ namespace Quizard.API.Services
         {
             if (searchTerm == null)
             {
-                return null;
+                throw new Exception("Search term cannot be empty");
             }
             return  _mapper.Map<List<GetCategoryDto>>(await _categoryRepository.GetCategories(searchTerm));
         }

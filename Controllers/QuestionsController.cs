@@ -30,13 +30,7 @@ namespace Quizard.API.Controllers
         [HttpPost]
         public async Task<IActionResult> Post([FromBody]CreateQuestionDto questionDto)
         {
-            var question = await _questionService.AddQuestionAndCategory(questionDto);
-
-            if (question != null)
-            {
-                return Ok(question);
-            }
-            return BadRequest();
+                return Ok(await _questionService.AddQuestionAndCategory(questionDto));
         }
     }
 }

@@ -3,6 +3,7 @@ using Quizard.API.Data;
 using Quizard.API.Dtos;
 using Quizard.API.Helpers;
 using Quizard.API.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -23,9 +24,13 @@ namespace Quizard.API.Services
         public async Task<Question> AddQuestionAndCategory(CreateQuestionDto questionDto)
         {
             var question = _mapper.Map<Question>(questionDto);
+            if (question.Answers.Count() < 2)
+            {
+                throw new Exception("There should be atleast 2 answers.");
 
-            if (question.Answers.Select(x => x.IsCorrect).Count() < 1) { 
-                return null;
+            }
+            if (question.Answers.Where(x => x.IsCorrect).Count() < 1) { 
+                throw new Exception("There should be atleast one correct answer.");
             }
 
             await _repo.AddQuestion(question);
@@ -39,7 +44,7 @@ namespace Quizard.API.Services
             {
                 return question;
             }
-            return null;
+            throw new Exception("You must enter atleast one category.");
         }
 
         public async Task<PagedResult<GetQuestionForListDto>> GetQuestions(QuestionParams questionParams)

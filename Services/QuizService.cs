@@ -22,6 +22,15 @@ namespace Quizard.API.Services
         }
         public async Task<Quiz> AddQuiz(CreateQuizDto quizDto)
         {
+            if(quizDto.Timer < 1)
+            {
+                throw new Exception("Timer cannot be less than 1");
+            }
+       
+            if (quizDto.QuestionIds.Length < 1) 
+            {
+                throw new Exception("You must have atleast one question.");
+            }
             var responseQuiz = await _repo.AddQuiz(
                 quizDto.Name,
                 quizDto.QuestionIds,
@@ -32,14 +41,12 @@ namespace Quizard.API.Services
 
         public async Task<List<GetQuizForLeaderboardDto>> GetLeaderboard()
         {
-            var quizzes = await _repo.GetQuizzesLeaderboard();
-            return _mapper.Map<List<GetQuizForLeaderboardDto>>(quizzes);
+            return _mapper.Map<List<GetQuizForLeaderboardDto>>(await _repo.GetQuizzesLeaderboard());
         }
 
         public async Task<GetQuizDto> GetQuiz(int id)
         {
-            var quizToReturn = _mapper.Map<GetQuizDto>(await _repo.GetQuiz(id));
-            return quizToReturn;
+            return _mapper.Map<GetQuizDto>(await _repo.GetQuiz(id));
         }
 
         public async Task<PagedResult<GetQuizForListDto>> GetQuizzes(QuestionParams questionParams)
