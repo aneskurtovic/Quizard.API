@@ -2,7 +2,6 @@
 using Quizard.API.Data;
 using Quizard.API.Services;
 using Xunit;
-
 using Quizard.Tests.Builders;
 using Quizard.API.Dtos;
 using System;
