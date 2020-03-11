@@ -23,11 +23,9 @@ namespace Quizard.Tests.Services
         [Fact]
         public async Task GivenNoAnswersInDto_WhenAddQuestionAndCategoryInvoked_ShouldThrowException()
         {
-            //Given
             var mockRepository = A.Fake<IQuestionRepository>();
             var service = new QuestionService(mockRepository, _mapper);
 
-            //When
             Func<Task> action = async () => await service.AddQuestionAndCategory(
                 new CreateQuestionDtoBuilder()
                 .WithText("Questionss")
@@ -35,7 +33,6 @@ namespace Quizard.Tests.Services
                 .Build()
                 );
 
-            //Then 
             await Assert.ThrowsAsync<Exception>(action);
         }
 
