@@ -18,39 +18,31 @@ namespace Quizard.Tests.Services
         [Fact]
         public async Task GivenWhiteSpaceToSearchTerm_WhenGetCategoryInvoked_ShouldThrowException()
         {
-            //Given
             var mockRepository = A.Fake<ICategoryRepository>();
             var service = new CategoryService(mockRepository, _mapper);
 
-            //When
             Func<Task> action = async () => await service.GetCategories("   ");
 
-            //Then 
             await Assert.ThrowsAsync<Exception>(action);
         }
 
         [Fact]
         public async Task GivenEmtpyToSearchTerm_WhenGetCategoryInvoked_ShouldThrowException()
         {
-            //Given
             var mockRepository = A.Fake<ICategoryRepository>();
             var service = new CategoryService(mockRepository, _mapper);
 
-            //When
             Func<Task> action = async () => await service.GetCategories(string.Empty);
 
-            //Then 
             await Assert.ThrowsAsync<Exception>(action);
         }
 
         [Fact]
         public async Task GivenWhiteSpaceToCategoryName_WhenAddCategoryInvoked_ShouldThrowException()
         {
-            //Given
             var mockRepository = A.Fake<ICategoryRepository>();
             var service = new CategoryService(mockRepository, _mapper);
 
-            //When
             Func<Task> action = async () => await service.Post(
                 new CreateCategoryDto()
                 {
@@ -58,18 +50,15 @@ namespace Quizard.Tests.Services
                 }
             );
 
-            //Then 
             await Assert.ThrowsAsync<Exception>(action);
         }
 
         [Fact]
         public async Task GivenEmptyCategoryName_WhenAddCategoryInvoked_ShouldThrowException()
         {
-            //Given
             var mockRepository = A.Fake<ICategoryRepository>();
             var service = new CategoryService(mockRepository, _mapper);
 
-            //When
             Func<Task> action = async () => await service.Post(
                 new CreateCategoryDto()
                 {
@@ -77,7 +66,6 @@ namespace Quizard.Tests.Services
                 }
             );
 
-            //Then 
             await Assert.ThrowsAsync<Exception>(action);
         }
 
