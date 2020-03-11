@@ -85,6 +85,7 @@ namespace Quizard.API.Data
             var question = _context.Questions.FirstOrDefault(a => a.Id == id);
             QuestionCategory newQuestCat = new QuestionCategory { Category = category, Question = question };
             await _context.Set<QuestionCategory>().AddAsync(newQuestCat);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<bool> SaveAll()

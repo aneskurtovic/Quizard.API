@@ -26,32 +26,35 @@ namespace Quizard.API.Services
             var question = _mapper.Map<Question>(questionDto);
             if (question.Answers.Count() < 2)
             {
-                throw new Exception("There should be atleast 2 answers.");
-
+                throw new Exception("There should be at least 2 answers.");
             }
-            if (question.Answers.Where(x => x.IsCorrect).Count() < 1) { 
-                throw new Exception("There should be atleast one correct answer.");
+            if (question.Answers.Where(x => x.IsCorrect).Count() < 1) {
+                throw new Exception("There should be at least one correct answer.");
             }
-
+            if (questionDto.Categories == null || questionDto.Categories.Length == 0)
+            {
+                throw new Exception("You must enter at least one category.");
+            }
             await _repo.AddQuestion(question);
 
             foreach (var category in questionDto.Categories)
             {
                 await _repo.AddQuestionCategory(question.Id, category);
             }
-
-            if (await _repo.SaveAll())
-            {
-                return question;
-            }
-            throw new Exception("You must enter atleast one category.");
+            return question;            
         }
 
         public async Task<PagedResult<GetQuestionForListDto>> GetQuestions(QuestionParams questionParams)
         {
             var questions = await _repo.GetQuestions(questionParams);
             var questionDtos = _mapper.Map<IEnumerable<GetQuestionForListDto>>(questions.Data);
-            var results = new PagedResult<GetQuestionForListDto>(questionDtos, questions.Metadata.Total, questions.Metadata.Offset, questions.Metadata.PageSize);
+            var results = new PagedResult<GetQuestionForListDto>
+                (
+                    questionDtos, 
+                    questions.Metadata.Total, 
+                    questions.Metadata.Offset, 
+                    questions.Metadata.PageSize
+                );
             return results;
         }
     }
