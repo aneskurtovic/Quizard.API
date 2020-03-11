@@ -2,28 +2,33 @@
 using Quizard.API.Data;
 using Quizard.API.Services;
 using Xunit;
-
 using Quizard.Tests.Builders;
 using Quizard.API.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Quizard.Tests.Services.Class_Fixtures;
+using Quizard.Tests.Services.Collection_Fixtures;
 
 namespace Quizard.Tests.Services
 {
-    public class QuestionServiceTests : BaseServiceTest
+    [Collection("Mapper collection")]
+    public class QuestionServiceTests : IClassFixture<QuestionFixture>
     {
-        public QuestionServiceTests() : base()
-        {
+        QuestionFixture questionFixture;
+        MapperFixture mapperFixture;
 
+        public QuestionServiceTests(QuestionFixture questionFixture, MapperFixture mapperFixture) : base()
+        {
+            this.questionFixture = questionFixture;
+            this.mapperFixture = mapperFixture;
         }
 
         [Fact]
         public async Task GivenNoAnswersInDto_WhenAddQuestionAndCategoryInvoked_ShouldThrowException()
         {
-            //Given
-            var mockRepository = A.Fake<IQuestionRepository>();
-            var service = new QuestionService(mockRepository, _mapper);
+            
+            var service = new QuestionService(questionFixture._repo, mapperFixture._mapper);
 
             //When
             Func<Task> action = async () => await service.AddQuestionAndCategory(
@@ -40,8 +45,7 @@ namespace Quizard.Tests.Services
         [Fact]
         public async Task GivenNoCategoriesInDto_WhenAddQuestionAndCategoryInvoked_ShouldThrowException()
         {
-            var mockRepository = A.Fake<IQuestionRepository>();
-            var service = new QuestionService(mockRepository, _mapper);
+            var service = new QuestionService(questionFixture._repo, mapperFixture._mapper);
 
             Func<Task> action = async () => await service.AddQuestionAndCategory(
                 new CreateQuestionDtoBuilder()
@@ -56,8 +60,7 @@ namespace Quizard.Tests.Services
         [Fact]
         public async Task GivenNoTextInDto_WhenAddQuestionAndCategoryInvoked_ShouldThrowException()
         {
-            var mockRepository = A.Fake<IQuestionRepository>();
-            var service = new QuestionService(mockRepository, _mapper);
+            var service = new QuestionService(questionFixture._repo, mapperFixture._mapper);
 
             Func<Task> action = async () => await service.AddQuestionAndCategory(new CreateQuestionDtoBuilder().BuildWithAnswers(new List<CreateAnswerDto> { new CreateAnswerDto { Text = "Nesto", IsCorrect = true } }).BuildWithCategories(new int[] { 1 }).Build());
 
