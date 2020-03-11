@@ -26,33 +26,75 @@ namespace Quizard.API.Services
             var question = _mapper.Map<Question>(questionDto);
             if (question.Answers.Count() < 2)
             {
-                throw new Exception("There should be atleast 2 answers.");
-
+                throw new Exception("There should be at least 2 answers.");
             }
-            if (question.Answers.Where(x => x.IsCorrect).Count() < 1) { 
-                throw new Exception("There should be atleast one correct answer.");
+            if (question.Answers.Where(x => x.IsCorrect).Count() < 1) {
+                throw new Exception("There should be at least one correct answer.");
             }
-
+            if (questionDto.Categories == null || questionDto.Categories.Length == 0)
+            {
+                throw new Exception("You must enter at least one category.");
+            }
             await _repo.AddQuestion(question);
 
             foreach (var category in questionDto.Categories)
             {
                 await _repo.AddQuestionCategory(question.Id, category);
             }
-
-            if (await _repo.SaveAll())
-            {
-                return question;
-            }
-            throw new Exception("You must enter atleast one category.");
+            return question;            
         }
 
         public async Task<PagedResult<GetQuestionForListDto>> GetQuestions(QuestionParams questionParams)
         {
             var questions = await _repo.GetQuestions(questionParams);
-            var questionDtos = _mapper.Map<IEnumerable<GetQuestionForListDto>>(questions.Data);
-            var results = new PagedResult<GetQuestionForListDto>(questionDtos, questions.Metadata.Total, questions.Metadata.Offset, questions.Metadata.PageSize);
+            questions = SearchByName(questions, questionParams.Name);
+            questions = FilterByCategory(questions, questionParams.Category, questionParams.Operand);
+
+            var count = questions.Count();
+            var data = questions.Skip(questionParams.Offset * questionParams.PageSize).Take(questionParams.PageSize).ToList();
+
+            var pagedQuestion =  new PagedResult<Question>(data, count, questionParams.Offset, questionParams.PageSize);
+            var questionDtos = _mapper.Map<IEnumerable<GetQuestionForListDto>>(pagedQuestion.Data);
+            var results = new PagedResult<GetQuestionForListDto>
+                (
+                    questionDtos, 
+                    pagedQuestion.Metadata.Total,
+                    pagedQuestion.Metadata.Offset,
+                    pagedQuestion.Metadata.PageSize
+                );
             return results;
+        }
+
+        private List<Question> SearchByName(List<Question> questions, string questionName)
+        {
+            if (string.IsNullOrWhiteSpace(questionName))
+            {
+                return questions;
+            }
+
+            return  questions.Where(o => o.Text.ToLower().Contains(questionName.Trim().ToLower())).ToList();
+        }
+
+        private List<Question> FilterByCategory(List<Question> questions, IList<int> categoriesnest, CategoryOperand? operand)
+        {
+            if (categoriesnest.Count == 0 || !operand.HasValue)
+            {
+                return questions;
+            }
+
+
+            if (operand == CategoryOperand.Or)
+            {
+                questions = questions.Where(c => c.QuestionsCategories
+                                                    .Any(y => categoriesnest.Contains(y.CategoryID))).ToList();
+            }
+            else if (operand == CategoryOperand.And)
+            {
+                questions = questions.Where(q => q.QuestionsCategories.All(qc => categoriesnest.Contains(qc.CategoryID))
+                                                  && q.QuestionsCategories.Count == categoriesnest.Count).ToList();
+            }
+
+            return questions;
         }
     }
 }

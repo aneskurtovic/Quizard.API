@@ -1,10 +1,6 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using Quizard.API.Data;
+﻿using Microsoft.AspNetCore.Mvc;
 using Quizard.API.Dtos;
-using Quizard.API.Models;
 using Quizard.API.Services;
-using System.Collections.Generic;
 using System.Threading.Tasks;
 
 namespace Quizard.API.Controllers

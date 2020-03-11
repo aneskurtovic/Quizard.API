@@ -7,6 +7,8 @@ using Quizard.API.Dtos;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FluentAssertions;
+using Quizard.API.Models;
 
 namespace Quizard.Tests.Services
 {
@@ -20,19 +22,16 @@ namespace Quizard.Tests.Services
         [Fact]
         public async Task GivenNoAnswersInDto_WhenAddQuestionAndCategoryInvoked_ShouldThrowException()
         {
-            //Given
             var mockRepository = A.Fake<IQuestionRepository>();
             var service = new QuestionService(mockRepository, _mapper);
 
-            //When
             Func<Task> action = async () => await service.AddQuestionAndCategory(
                 new CreateQuestionDtoBuilder()
-                .BuildWithText("Questionss")
-                .BuildWithCategories(new int[] { 1 })
+                .WithText("Questionss")
+                .WithCategories(new int[] { 1 })
                 .Build()
                 );
 
-            //Then 
             await Assert.ThrowsAsync<Exception>(action);
         }
 
@@ -44,8 +43,20 @@ namespace Quizard.Tests.Services
 
             Func<Task> action = async () => await service.AddQuestionAndCategory(
                 new CreateQuestionDtoBuilder()
-                .BuildWithText("Questionss")
-                .BuildWithAnswers(new List<CreateAnswerDto> { new CreateAnswerDto { Text = "Nesto", IsCorrect = true } })
+                .WithText("Questions")
+                .WithAnswers(new List<CreateAnswerDto> 
+                { 
+                    new CreateAnswerDto 
+                    {
+                        Text = "Answer 1",
+                        IsCorrect = true 
+                    },
+                    new CreateAnswerDto 
+                    {
+                        Text = "Answer 2", 
+                        IsCorrect = false 
+                    } 
+                })
                 .Build()
                 );
 
@@ -58,11 +69,86 @@ namespace Quizard.Tests.Services
             var mockRepository = A.Fake<IQuestionRepository>();
             var service = new QuestionService(mockRepository, _mapper);
 
-            Func<Task> action = async () => await service.AddQuestionAndCategory(new CreateQuestionDtoBuilder().BuildWithAnswers(new List<CreateAnswerDto> { new CreateAnswerDto { Text = "Nesto", IsCorrect = true } }).BuildWithCategories(new int[] { 1 }).Build());
+            Func<Task> action = async () => await service.AddQuestionAndCategory(
+                new CreateQuestionDtoBuilder()
+               .WithAnswers(new List<CreateAnswerDto> { new CreateAnswerDto { Text = "Answer", IsCorrect = true } })
+               .WithCategories(new int[] { 1 })
+               .Build()
+               );
 
             await Assert.ThrowsAsync<Exception>(action);
+        }
 
-            //result.Should().BeEquivalentTo(new CreateQuestionCategoryDto { })
+        [Fact]
+        public async Task GivenNoCorrectAnswerInDto_WhenAddQuestionAndCategoryInvoked_ShouldThrowException()
+        {
+            var mockRepository = A.Fake<IQuestionRepository>();
+            var service = new QuestionService(mockRepository, _mapper);
+
+            Func<Task> action = async () => await service.AddQuestionAndCategory(
+                new CreateQuestionDtoBuilder()
+                .WithText("Questionss")
+                .WithAnswers(new List<CreateAnswerDto> { new CreateAnswerDto { Text = "Nesto", IsCorrect = false } })
+                .WithCategories(new int[] { 1 })
+                .Build()
+                );
+            await Assert.ThrowsAsync<Exception>(action);
+        }
+
+        [Fact]
+        public async Task GivenOnlyOneAnswerInDto_WhenAddQuestionAndCategoryInvoked_ShouldThrowException()
+        {
+            var mockRepository = A.Fake<IQuestionRepository>();
+            var service = new QuestionService(mockRepository, _mapper);
+
+            Func<Task> action = async () => await service.AddQuestionAndCategory(
+                new CreateQuestionDtoBuilder()
+                .WithText("Questionss")
+                .WithAnswers(new List<CreateAnswerDto> { new CreateAnswerDto { Text = "Nesto", IsCorrect = true } })
+                .WithCategories(new int[] { 1 })
+                .Build()
+                );
+            await Assert.ThrowsAsync<Exception>(action);
+        }
+
+        [Fact]
+        public async Task GivenQuestionCategoriesAndAnswers_WhenAddQuestionInvoked_ShouldReturnQuestion()
+        {
+            var mockRepository = A.Fake<IQuestionRepository>();
+            var service = new QuestionService(mockRepository, _mapper);
+
+            var result = await service.AddQuestionAndCategory(
+                 new CreateQuestionDtoBuilder()
+                 .WithText("Question")
+                 .WithAnswers(new List<CreateAnswerDto> { 
+                     new CreateAnswerDto { 
+                         Text = "Answer 1", IsCorrect = true 
+                     },
+                     new CreateAnswerDto {
+                         Text = "Answer 2", IsCorrect = false 
+                     } 
+                 })
+                 .WithCategories(new int[] { 1 })
+                 .Build()
+                 );
+            result.Should().BeEquivalentTo(new Question() 
+            {
+                CreatedDate = result.CreatedDate,
+                Text = "Question",
+                Answers = new List<Answer>() 
+                { 
+                new Answer 
+                    {
+                        IsCorrect = true,
+                        Text = "Answer 1"
+                    },
+                new Answer 
+                    {
+                        IsCorrect = false,
+                        Text = "Answer 2"
+                    }
+                }
+            });
         }
     }
 }

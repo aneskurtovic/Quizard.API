@@ -27,8 +27,6 @@ namespace Quizard.API.Helpers
             CreateMap<Question, GetQuestionForListDto>()
                 .ForMember(x => x.Categories, opt => opt.MapFrom(src => src.QuestionsCategories.Select(x => x.Category.Name)));
 
-            CreateMap<DifficultyLevel, GetDifficultyLevelDto>();
-
             CreateMap<Quiz, CreateQuizDto>()
                 .ForMember(dest => dest.QuestionIds, opt =>
                 opt.MapFrom(src => src.QuizzesQuestions.Select(x => new QuizQuestion { QuestionId = x.QuestionId, QuizId = x.QuizId })))

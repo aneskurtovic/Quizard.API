@@ -36,7 +36,6 @@ namespace Quizard.API
 
             services.AddScoped<IQuestionRepository, QuestionRepository>();
             services.AddScoped<ICategoryRepository, CategoryRepository>();
-            services.AddScoped<IDifficultyLevelRepository, DifficultyLevelRepository>();
             services.AddScoped<IQuizRepository, QuizRepository>();
             services.AddScoped<ISessionRepository, SessionRepository>();
             services.AddScoped<IQuestionService, QuestionService>();

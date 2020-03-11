@@ -1,5 +1,4 @@
-﻿using Quizard.API.Dtos;
-using Quizard.API.Models;
+﻿using Quizard.API.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
