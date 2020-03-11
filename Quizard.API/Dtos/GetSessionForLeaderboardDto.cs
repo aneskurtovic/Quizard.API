@@ -1,6 +1,4 @@
-﻿using Quizard.API.Models;
-using System;
-using System.Collections.Generic;
+﻿using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace Quizard.API.Dtos

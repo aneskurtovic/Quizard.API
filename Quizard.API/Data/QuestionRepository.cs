@@ -1,10 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using Quizard.API.Controllers;
 using Quizard.API.Helpers;
 using Quizard.API.Models;
 

@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading.Tasks;
 using FakeItEasy;
 using Quizard.API.Data;
 using Quizard.API.Dtos;
 using Quizard.API.Services;
-using Quizard.Tests.Builders;
 using Xunit;
 
 namespace Quizard.Tests.Services
