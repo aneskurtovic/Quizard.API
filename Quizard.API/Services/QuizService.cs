@@ -29,7 +29,7 @@ namespace Quizard.API.Services
        
             if (quizDto.QuestionIds.Length < 1) 
             {
-                throw new Exception("You must have atleast one question.");
+                throw new Exception("You must have at least one question.");
             }
             var responseQuiz = await _repo.AddQuiz(
                 quizDto.Name,
