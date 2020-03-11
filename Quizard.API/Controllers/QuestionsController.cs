@@ -1,11 +1,7 @@
-﻿    using System.Collections.Generic;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using Quizard.API.Data;
 using Quizard.API.Dtos;
 using Quizard.API.Helpers;
-using Quizard.API.Models;
 using Quizard.API.Services;
 
 namespace Quizard.API.Controllers

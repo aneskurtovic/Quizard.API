@@ -47,15 +47,54 @@ namespace Quizard.API.Services
         public async Task<PagedResult<GetQuestionForListDto>> GetQuestions(QuestionParams questionParams)
         {
             var questions = await _repo.GetQuestions(questionParams);
-            var questionDtos = _mapper.Map<IEnumerable<GetQuestionForListDto>>(questions.Data);
+            questions = SearchByName(questions, questionParams.Name);
+            questions = FilterByCategory(questions, questionParams.Category, questionParams.Operand);
+
+            var count = questions.Count();
+            var data = questions.Skip(questionParams.Offset * questionParams.PageSize).Take(questionParams.PageSize).ToList();
+
+            var pagedQuestion =  new PagedResult<Question>(data, count, questionParams.Offset, questionParams.PageSize);
+            var questionDtos = _mapper.Map<IEnumerable<GetQuestionForListDto>>(pagedQuestion.Data);
             var results = new PagedResult<GetQuestionForListDto>
                 (
                     questionDtos, 
-                    questions.Metadata.Total, 
-                    questions.Metadata.Offset, 
-                    questions.Metadata.PageSize
+                    pagedQuestion.Metadata.Total,
+                    pagedQuestion.Metadata.Offset,
+                    pagedQuestion.Metadata.PageSize
                 );
             return results;
+        }
+
+        private List<Question> SearchByName(List<Question> questions, string questionName)
+        {
+            if (string.IsNullOrWhiteSpace(questionName))
+            {
+                return questions;
+            }
+
+            return  questions.Where(o => o.Text.ToLower().Contains(questionName.Trim().ToLower())).ToList();
+        }
+
+        private List<Question> FilterByCategory(List<Question> questions, IList<int> categoriesnest, CategoryOperand? operand)
+        {
+            if (categoriesnest.Count == 0 || !operand.HasValue)
+            {
+                return questions;
+            }
+
+
+            if (operand == CategoryOperand.Or)
+            {
+                questions = questions.Where(c => c.QuestionsCategories
+                                                    .Any(y => categoriesnest.Contains(y.CategoryID))).ToList();
+            }
+            else if (operand == CategoryOperand.And)
+            {
+                questions = questions.Where(q => q.QuestionsCategories.All(qc => categoriesnest.Contains(qc.CategoryID))
+                                                  && q.QuestionsCategories.Count == categoriesnest.Count).ToList();
+            }
+
+            return questions;
         }
     }
 }
