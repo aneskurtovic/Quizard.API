@@ -1,25 +1,29 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FakeItEasy;
-using Quizard.API.Data;
 using Quizard.API.Dtos;
 using Quizard.API.Services;
+using Quizard.Tests.Services.Class_Fixtures;
+using Quizard.Tests.Services.Collection_Fixtures;
 using Xunit;
 
 namespace Quizard.Tests.Services
 {
-    public class CategoryServiceTests: BaseServiceTest
+    [Collection("Mapper collection")]
+    public class CategoryServiceTests : IClassFixture<CategoryFixture>
     {
-        public CategoryServiceTests() : base()
-        {
+        CategoryFixture mockRepository;
+        MapperFixture mapperFixture;
 
+        public CategoryServiceTests(CategoryFixture _mockRepository, MapperFixture mapper)
+        {
+            mockRepository = _mockRepository;
+            mapperFixture = mapper;
         }
 
         [Fact]
         public async Task GivenWhiteSpaceToSearchTerm_WhenGetCategoryInvoked_ShouldThrowException()
         {
-            var mockRepository = A.Fake<ICategoryRepository>();
-            var service = new CategoryService(mockRepository, _mapper);
+            var service = new CategoryService(mockRepository._repo, mapperFixture._mapper);
 
             Func<Task> action = async () => await service.GetCategories("   ");
 
@@ -29,8 +33,7 @@ namespace Quizard.Tests.Services
         [Fact]
         public async Task GivenEmtpyToSearchTerm_WhenGetCategoryInvoked_ShouldThrowException()
         {
-            var mockRepository = A.Fake<ICategoryRepository>();
-            var service = new CategoryService(mockRepository, _mapper);
+            var service = new CategoryService(mockRepository._repo, mapperFixture._mapper);
 
             Func<Task> action = async () => await service.GetCategories(string.Empty);
 
@@ -40,8 +43,7 @@ namespace Quizard.Tests.Services
         [Fact]
         public async Task GivenWhiteSpaceToCategoryName_WhenAddCategoryInvoked_ShouldThrowException()
         {
-            var mockRepository = A.Fake<ICategoryRepository>();
-            var service = new CategoryService(mockRepository, _mapper);
+            var service = new CategoryService(mockRepository._repo, mapperFixture._mapper);
 
             Func<Task> action = async () => await service.Post(
                 new CreateCategoryDto()
@@ -56,8 +58,7 @@ namespace Quizard.Tests.Services
         [Fact]
         public async Task GivenEmptyCategoryName_WhenAddCategoryInvoked_ShouldThrowException()
         {
-            var mockRepository = A.Fake<ICategoryRepository>();
-            var service = new CategoryService(mockRepository, _mapper);
+            var service = new CategoryService(mockRepository._repo, mapperFixture._mapper);
 
             Func<Task> action = async () => await service.Post(
                 new CreateCategoryDto()

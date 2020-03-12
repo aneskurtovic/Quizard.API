@@ -9,7 +9,7 @@ namespace Quizard.API.Data
     {
         Task<Quiz> AddQuiz(string name, int[] questionIds, int Timer);
         Task<Quiz> GetQuiz(int id);
-        Task<PagedResult<Quiz>> GetQuizzes(QuestionParams questionParams);
+        Task<List<Quiz>> GetQuizzes(QuestionParams questionParams);
         Task<List<Quiz>> GetQuizzesLeaderboard();
     }
 }

@@ -38,12 +38,11 @@ namespace Quizard.API.Data
                 .FirstOrDefaultAsync(c => c.Id == id);
             return requestedQuiz;
         }
-        public async Task<PagedResult<Quiz>> GetQuizzes(QuestionParams questionParams)
+        public async Task<List<Quiz>> GetQuizzes(QuestionParams questionParams)
         {
-            var quizzes = await _context.Quizzes.Include(x=>x.QuizzesQuestions).ToListAsync();
-            var count =  quizzes.Count();
-            var data =  quizzes.Skip(questionParams.Offset * questionParams.PageSize).Take(questionParams.PageSize).ToList();
-            return new PagedResult<Quiz>(data, count, questionParams.Offset, questionParams.PageSize);
+            return await _context.Quizzes.Include(x=>x.QuizzesQuestions).ToListAsync();
+
+            
         }
 
         public async Task<List<Quiz>> GetQuizzesLeaderboard()

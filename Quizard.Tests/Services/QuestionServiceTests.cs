@@ -1,6 +1,4 @@
-﻿using FakeItEasy;
-using Quizard.API.Data;
-using Quizard.API.Services;
+﻿using Quizard.API.Services;
 using Xunit;
 using Quizard.Tests.Builders;
 using Quizard.API.Dtos;
@@ -9,21 +7,27 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using FluentAssertions;
 using Quizard.API.Models;
+using Quizard.Tests.Services.Class_Fixtures;
+using Quizard.Tests.Services.Collection_Fixtures;
 
 namespace Quizard.Tests.Services
 {
-    public class QuestionServiceTests : BaseServiceTest
+    [Collection("Mapper collection")]
+    public class QuestionServiceTests : IClassFixture<QuestionFixture>
     {
-        public QuestionServiceTests() : base()
-        {
+        QuestionFixture mockRepository;
+        MapperFixture mapperFixture;
 
+        public QuestionServiceTests(QuestionFixture _mockRepository, MapperFixture mapper)
+        {
+            mockRepository = _mockRepository;
+            mapperFixture = mapper;
         }
 
         [Fact]
         public async Task GivenNoAnswersInDto_WhenAddQuestionAndCategoryInvoked_ShouldThrowException()
         {
-            var mockRepository = A.Fake<IQuestionRepository>();
-            var service = new QuestionService(mockRepository, _mapper);
+            var service = new QuestionService(mockRepository._repo, mapperFixture._mapper);
 
             Func<Task> action = async () => await service.AddQuestionAndCategory(
                 new CreateQuestionDtoBuilder()
@@ -38,8 +42,7 @@ namespace Quizard.Tests.Services
         [Fact]
         public async Task GivenNoCategoriesInDto_WhenAddQuestionAndCategoryInvoked_ShouldThrowException()
         {
-            var mockRepository = A.Fake<IQuestionRepository>();
-            var service = new QuestionService(mockRepository, _mapper);
+            var service = new QuestionService(mockRepository._repo, mapperFixture._mapper);
 
             Func<Task> action = async () => await service.AddQuestionAndCategory(
                 new CreateQuestionDtoBuilder()
@@ -66,8 +69,7 @@ namespace Quizard.Tests.Services
         [Fact]
         public async Task GivenNoTextInDto_WhenAddQuestionAndCategoryInvoked_ShouldThrowException()
         {
-            var mockRepository = A.Fake<IQuestionRepository>();
-            var service = new QuestionService(mockRepository, _mapper);
+            var service = new QuestionService(mockRepository._repo, mapperFixture._mapper);
 
             Func<Task> action = async () => await service.AddQuestionAndCategory(
                 new CreateQuestionDtoBuilder()
@@ -82,8 +84,7 @@ namespace Quizard.Tests.Services
         [Fact]
         public async Task GivenNoCorrectAnswerInDto_WhenAddQuestionAndCategoryInvoked_ShouldThrowException()
         {
-            var mockRepository = A.Fake<IQuestionRepository>();
-            var service = new QuestionService(mockRepository, _mapper);
+            var service = new QuestionService(mockRepository._repo, mapperFixture._mapper);
 
             Func<Task> action = async () => await service.AddQuestionAndCategory(
                 new CreateQuestionDtoBuilder()
@@ -98,8 +99,7 @@ namespace Quizard.Tests.Services
         [Fact]
         public async Task GivenOnlyOneAnswerInDto_WhenAddQuestionAndCategoryInvoked_ShouldThrowException()
         {
-            var mockRepository = A.Fake<IQuestionRepository>();
-            var service = new QuestionService(mockRepository, _mapper);
+            var service = new QuestionService(mockRepository._repo, mapperFixture._mapper);
 
             Func<Task> action = async () => await service.AddQuestionAndCategory(
                 new CreateQuestionDtoBuilder()
@@ -114,8 +114,7 @@ namespace Quizard.Tests.Services
         [Fact]
         public async Task GivenQuestionCategoriesAndAnswers_WhenAddQuestionInvoked_ShouldReturnQuestion()
         {
-            var mockRepository = A.Fake<IQuestionRepository>();
-            var service = new QuestionService(mockRepository, _mapper);
+            var service = new QuestionService(mockRepository._repo, mapperFixture._mapper);
 
             var result = await service.AddQuestionAndCategory(
                  new CreateQuestionDtoBuilder()
