@@ -4,6 +4,7 @@ using Quizard.API.Dtos;
 using Quizard.API.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace Quizard.API.Services
@@ -23,7 +24,7 @@ namespace Quizard.API.Services
         {
             if (string.IsNullOrWhiteSpace(searchTerm))
             {
-                throw new Exception("Search term cannot be empty");
+                throw new ValidationException("Search term cannot be empty");
             }
             return  _mapper.Map<List<GetCategoryDto>>(await _categoryRepository.GetCategories(searchTerm));
         }
@@ -34,7 +35,7 @@ namespace Quizard.API.Services
 
             if (string.IsNullOrWhiteSpace(categoryDto.Name))
             {
-                throw new Exception("Category name cannot be null or empty");
+                throw new ValidationException("Category name cannot be null or empty");
             }
 
             if (existingCat != null)

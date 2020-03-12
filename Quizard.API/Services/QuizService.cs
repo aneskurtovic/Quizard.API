@@ -5,6 +5,7 @@ using Quizard.API.Helpers;
 using Quizard.API.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace Quizard.API.Services
@@ -23,12 +24,12 @@ namespace Quizard.API.Services
         {
             if(quizDto.Timer < 1)
             {
-                throw new Exception("Timer cannot be less than 1");
+                throw new ValidationException("Timer cannot be less than 1");
             }
        
             if (quizDto.QuestionIds.Length < 1) 
             {
-                throw new Exception("You must have at least one question.");
+                throw new ValidationException("You must have at least one question.");
             }
             var responseQuiz = await _repo.AddQuiz(
                 quizDto.Name,

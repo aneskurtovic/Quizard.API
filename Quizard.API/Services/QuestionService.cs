@@ -5,6 +5,7 @@ using Quizard.API.Helpers;
 using Quizard.API.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -29,11 +30,11 @@ namespace Quizard.API.Services
                 throw new Exception("There should be at least 2 answers.");
             }
             if (question.Answers.Where(x => x.IsCorrect).Count() < 1) {
-                throw new Exception("There should be at least one correct answer.");
+                throw new ValidationException("There should be at least one correct answer.");
             }
             if (questionDto.Categories == null || questionDto.Categories.Length == 0)
             {
-                throw new Exception("You must enter at least one category.");
+                throw new ValidationException("You must enter at least one category.");
             }
             await _repo.AddQuestion(question);
 

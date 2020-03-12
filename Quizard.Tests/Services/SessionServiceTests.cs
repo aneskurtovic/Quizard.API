@@ -7,6 +7,7 @@ using Quizard.API.Services;
 using Quizard.Tests.Builders;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text;
 using System.Threading.Tasks;
 using Xunit;
@@ -32,7 +33,7 @@ namespace Quizard.Tests.Services
 
 
             //Then 
-            await action.Should().ThrowAsync<Exception>().WithMessage("Contestant name cannot be empty.");
+            await action.Should().ThrowAsync<ValidationException>().WithMessage("Contestant name cannot be empty.");
         }
 
         [Fact]
@@ -46,7 +47,7 @@ namespace Quizard.Tests.Services
             Func<Task> action = async () => await service.AddSession(new CreateSessionDtoBuilder().BuildContestantName("Contestant").Build());
 
             //Then 
-            await action.Should().ThrowAsync<Exception>().WithMessage("Quiz Id cannot be lesser than 1.");
+            await action.Should().ThrowAsync<ValidationException>().WithMessage("Quiz Id cannot be lesser than 1.");
         }
 
         [Fact]
@@ -60,7 +61,7 @@ namespace Quizard.Tests.Services
             Func<Task> action = async () => await service.AddSession(new CreateSessionDtoBuilder().BuildContestantName("Contestant").BuildQuizId(0).Build());
 
             //Then
-            await action.Should().ThrowAsync<Exception>().WithMessage("Quiz Id cannot be lesser than 1.");
+            await action.Should().ThrowAsync<ValidationException>().WithMessage("Quiz Id cannot be lesser than 1.");
 
 
         }
@@ -93,7 +94,7 @@ namespace Quizard.Tests.Services
             Func<Task> action = async () => await service.GetSession(guid);
 
             //Then 
-            await action.Should().ThrowAsync<Exception>().WithMessage("Session Id cannot be empty.");
+            await action.Should().ThrowAsync<ValidationException>().WithMessage("Session Id cannot be empty.");
         }
 
         [Fact]
