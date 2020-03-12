@@ -13,7 +13,6 @@ namespace Quizard.API.Data
         public DbSet<Answer> Answers { get; set; }
         public DbSet<Category> Categories { get; set; }
         public DbSet<QuestionCategory> QuestionsCategories { get; set; }
-        public DbSet<DifficultyLevel> DifficultyLevels { get; set; }
         public DbSet<Quiz> Quizzes { get; set; }
         public DbSet<QuizQuestion> QuizzesQuestions { get; set; }
         public DbSet<Session> Sessions { get; set; }
@@ -78,11 +77,6 @@ namespace Quizard.API.Data
                 .HasOne(pt => pt.Question)
                 .WithMany(p => p.QuizzesQuestions)
                 .HasForeignKey(pt => pt.QuestionId);
-
-           /* builder.Entity<DifficultyLevel>()
-                .HasData(new DifficultyLevel { Id = 1, Level = "Easy" },
-                         new DifficultyLevel { Id = 2, Level = "Medium" },
-                         new DifficultyLevel { Id = 3, Level = "Hard" });*/
         }
 
     }

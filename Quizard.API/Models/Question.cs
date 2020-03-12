@@ -14,8 +14,6 @@ namespace Quizard.API.Models
         public Question() {
             this.CreatedDate = DateTime.Now;
         }
-        //public int DifficultyLevelId { get; set; }
-       // public DifficultyLevel DifficultyLevel { get; set; }
         public ICollection<QuizQuestion> QuizzesQuestions { get; set; }
     }
 }

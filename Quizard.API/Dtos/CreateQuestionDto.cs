@@ -11,6 +11,5 @@ namespace Quizard.API.Dtos
         public ICollection<CreateAnswerDto> Answers { get; set; }
         [Required]
         public int[] Categories { get; set; }
-       // public int DifficultyLevelId { get; set; }
     }
 }
