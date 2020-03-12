@@ -11,6 +11,7 @@ using Quizard.Tests.Services.Class_Fixtures;
 using Quizard.Tests.Services.Collection_Fixtures;
 using System.Linq;
 using FakeItEasy;
+using System.ComponentModel.DataAnnotations;
 
 namespace Quizard.Tests.Services
 {
@@ -38,7 +39,7 @@ namespace Quizard.Tests.Services
                 .Build()
                 );
 
-            await Assert.ThrowsAsync<Exception>(action);
+            await Assert.ThrowsAsync<ValidationException>(action);
         }
 
         [Fact]
@@ -65,7 +66,7 @@ namespace Quizard.Tests.Services
                 .Build()
                 );
 
-            await Assert.ThrowsAsync<Exception>(action);
+            await Assert.ThrowsAsync<ValidationException>(action);
         }
 
         [Fact]
@@ -80,7 +81,7 @@ namespace Quizard.Tests.Services
                .Build()
                );
 
-            await Assert.ThrowsAsync<Exception>(action);
+            await Assert.ThrowsAsync<ValidationException>(action);
         }
 
         [Fact]
@@ -95,7 +96,7 @@ namespace Quizard.Tests.Services
                 .WithCategories(new int[] { 1 })
                 .Build()
                 );
-            await Assert.ThrowsAsync<Exception>(action);
+            await Assert.ThrowsAsync<ValidationException>(action);
         }
 
         [Fact]
@@ -110,7 +111,7 @@ namespace Quizard.Tests.Services
                 .WithCategories(new int[] { 1 })
                 .Build()
                 );
-            await Assert.ThrowsAsync<Exception>(action);
+            await Assert.ThrowsAsync<ValidationException>(action);
         }
 
         [Fact]

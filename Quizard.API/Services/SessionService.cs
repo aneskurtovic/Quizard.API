@@ -4,6 +4,7 @@ using Quizard.API.Dtos;
 using Quizard.API.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,11 +25,11 @@ namespace Quizard.API.Services
         {
             if (string.IsNullOrWhiteSpace(sessionDto.ContestantName))
             {
-                throw new Exception("Contestant name cannot be empty.");
+                throw new ValidationException("Contestant name cannot be empty.");
             }
             if (sessionDto.QuizId < 1)
             {
-                throw new Exception("Quiz Id cannot be lesser than 1.");
+                throw new ValidationException("Quiz Id cannot be lesser than 1.");
 
             }
             var session = _mapper.Map<Session>(sessionDto);
@@ -40,7 +41,7 @@ namespace Quizard.API.Services
         {
             if (string.IsNullOrWhiteSpace(id))
             {
-                throw new Exception("Session Id cannot be empty.");
+                throw new ValidationException("Session Id cannot be empty.");
             }
             Session session = await _sessionRepository.GetSession(id);
             return _mapper.Map<GetSessionDto>(session);

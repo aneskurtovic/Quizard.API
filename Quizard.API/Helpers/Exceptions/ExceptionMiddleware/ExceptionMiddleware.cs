@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Newtonsoft.Json;
 using Quizard.API.GlobalErrorHandling;
 using System;
+using System.ComponentModel.DataAnnotations;
 using System.Net;
 using System.Threading.Tasks;
 
@@ -27,13 +29,16 @@ public class ExceptionMiddleware
 
     private Task HandleExceptionAsync(HttpContext context, Exception exception)
     {
+        var code = HttpStatusCode.InternalServerError; // 500 if unexpected
+
+        if (exception is ValidationException) code = HttpStatusCode.BadRequest;
+
         context.Response.ContentType = "application/json";
-        context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
-        if (exception is Exception) context.Response.StatusCode = (int)HttpStatusCode.BadRequest;
+        context.Response.StatusCode = (int)code;
         return context.Response.WriteAsync(new ErrorDetails()
         {
             StatusCode = context.Response.StatusCode,
-            Message = exception.Message
+            Message=exception.Message
         }.ToString());
     }
 }

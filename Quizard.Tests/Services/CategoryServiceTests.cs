@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 using Quizard.API.Dtos;
 using Quizard.API.Services;
@@ -27,7 +28,7 @@ namespace Quizard.Tests.Services
 
             Func<Task> action = async () => await service.GetCategories("   ");
 
-            await Assert.ThrowsAsync<Exception>(action);
+            await Assert.ThrowsAsync<ValidationException>(action);
         }
 
         [Fact]
@@ -37,7 +38,7 @@ namespace Quizard.Tests.Services
 
             Func<Task> action = async () => await service.GetCategories(string.Empty);
 
-            await Assert.ThrowsAsync<Exception>(action);
+            await Assert.ThrowsAsync<ValidationException>(action);
         }
 
         [Fact]
@@ -52,7 +53,7 @@ namespace Quizard.Tests.Services
                 }
             );
 
-            await Assert.ThrowsAsync<Exception>(action);
+            await Assert.ThrowsAsync<ValidationException>(action);
         }
 
         [Fact]
@@ -67,7 +68,7 @@ namespace Quizard.Tests.Services
                 }
             );
 
-            await Assert.ThrowsAsync<Exception>(action);
+            await Assert.ThrowsAsync<ValidationException>(action);
         }
 
     }

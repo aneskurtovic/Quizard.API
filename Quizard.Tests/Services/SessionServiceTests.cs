@@ -5,6 +5,9 @@ using Quizard.Tests.Builders;
 using Quizard.Tests.Services.Class_Fixtures;
 using Quizard.Tests.Services.Collection_Fixtures;
 using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -29,7 +32,9 @@ namespace Quizard.Tests.Services
 
             Func<Task> action = async () => await service.AddSession(new CreateSessionDtoBuilder().BuildQuizId(1).Build());
 
-            await action.Should().ThrowAsync<Exception>().WithMessage("Contestant name cannot be empty.");
+
+            //Then 
+            await action.Should().ThrowAsync<ValidationException>().WithMessage("Contestant name cannot be empty.");
         }
 
         [Fact]
@@ -39,7 +44,8 @@ namespace Quizard.Tests.Services
 
             Func<Task> action = async () => await service.AddSession(new CreateSessionDtoBuilder().BuildContestantName("Contestant").Build());
 
-            await action.Should().ThrowAsync<Exception>().WithMessage("Quiz Id cannot be lesser than 1.");
+            //Then 
+            await action.Should().ThrowAsync<ValidationException>().WithMessage("Quiz Id cannot be lesser than 1.");
         }
 
         [Fact]
@@ -49,7 +55,8 @@ namespace Quizard.Tests.Services
 
             Func<Task> action = async () => await service.AddSession(new CreateSessionDtoBuilder().BuildContestantName("Contestant").BuildQuizId(0).Build());
 
-            await action.Should().ThrowAsync<Exception>().WithMessage("Quiz Id cannot be lesser than 1.");
+            //Then
+            await action.Should().ThrowAsync<ValidationException>().WithMessage("Quiz Id cannot be lesser than 1.");
         }
 
         [Fact]
@@ -73,7 +80,8 @@ namespace Quizard.Tests.Services
             var guid = "";
             Func<Task> action = async () => await service.GetSession(guid);
 
-            await action.Should().ThrowAsync<Exception>().WithMessage("Session Id cannot be empty.");
+            //Then 
+            await action.Should().ThrowAsync<ValidationException>().WithMessage("Session Id cannot be empty.");
         }
 
         [Fact]

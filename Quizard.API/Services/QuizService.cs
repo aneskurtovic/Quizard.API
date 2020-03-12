@@ -6,6 +6,7 @@ using Quizard.API.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ComponentModel.DataAnnotations;
 using System.Threading.Tasks;
 
 namespace Quizard.API.Services
@@ -24,16 +25,16 @@ namespace Quizard.API.Services
         {
             if (string.IsNullOrWhiteSpace(quizDto.Name))
             {
-                throw new Exception("Quiz name cannot be empty name");
+                throw new ValidationException("Quiz name cannot be empty name");
             }
             if(quizDto.Timer < 1)
             {
-                throw new Exception("Timer cannot be less than 1");
+                throw new ValidationException("Timer cannot be less than 1");
             }
        
             if (quizDto.QuestionIds == null ||  quizDto.QuestionIds.Length < 1) 
             {
-                throw new Exception("You must have at least one question.");
+                throw new ValidationException("You must have at least one question.");
             }
             var responseQuiz = await _repo.AddQuiz(
                 quizDto.Name,
@@ -52,7 +53,7 @@ namespace Quizard.API.Services
         {
             if (id <= 0)
             {
-                throw new Exception("QuizID must be higher than 0");
+                throw new ValidationException("QuizID must be higher than 0");
             }
 
             return _mapper.Map<GetQuizDto>(await _repo.GetQuiz(id));
