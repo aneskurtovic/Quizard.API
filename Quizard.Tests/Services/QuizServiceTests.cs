@@ -115,24 +115,18 @@ namespace Quizard.Tests.Services
                 QuizzesQuestions = new List<QuizQuestion> { new QuizQuestion { QuizId = 1, QuestionId = 1 }, new QuizQuestion { QuizId = 1, QuestionId = 2 }, new QuizQuestion { QuizId = 1, QuestionId = 5 } },
                 Timer = 1
             };
+
             var quizDto = new CreateQuizDtoBuilder()
                 .WithName(quiz.Name)
                 .WithTimer(quiz.Timer)
                 .WithQuestionIds(quiz.QuizzesQuestions.Select(x => x.QuestionId).ToArray())
                 .Build();
+
             A.CallTo(() => mockRepository._repo.AddQuiz(A<string>._, A<int[]>._, A<int>._)).Returns(Task.FromResult(quiz));
 
-            //A.CallTo(() => mockRepository._repo.AddQuiz("Quizard", new int[] { 1, 2 }, 1)).Returns(quiz);
+            var executionRecord = await Record.ExceptionAsync(() => service.AddQuiz(quizDto));
 
-            var executionRecord = Record.ExceptionAsync(() => service.AddQuiz(quizDto));
-
-            executionRecord.Exception.Should().BeNull();
-
-            //Assert.IsType<Quiz>(result);
-            //Assert.Equal(result, new Quiz() { Name = "Quizard", Timer = 1 });
-
-            //result.Should().BeOfType<Quiz>();
-            //result.Should().BeEquivalentTo(new Quiz() { Name = "Quizard", Timer = 1 });
+            executionRecord.Should().BeNull();
         }
 
         [Fact]
