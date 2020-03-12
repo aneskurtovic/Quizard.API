@@ -9,6 +9,8 @@ using FluentAssertions;
 using Quizard.API.Models;
 using Quizard.Tests.Services.Class_Fixtures;
 using Quizard.Tests.Services.Collection_Fixtures;
+using System.Linq;
+using FakeItEasy;
 
 namespace Quizard.Tests.Services
 {
@@ -115,39 +117,28 @@ namespace Quizard.Tests.Services
         public async Task GivenQuestionCategoriesAndAnswers_WhenAddQuestionInvoked_ShouldReturnQuestion()
         {
             var service = new QuestionService(mockRepository._repo, mapperFixture._mapper);
-
-            var result = await service.AddQuestionAndCategory(
-                 new CreateQuestionDtoBuilder()
-                 .WithText("Question")
-                 .WithAnswers(new List<CreateAnswerDto> { 
-                     new CreateAnswerDto { 
-                         Text = "Answer 1", IsCorrect = true 
-                     },
-                     new CreateAnswerDto {
-                         Text = "Answer 2", IsCorrect = false 
-                     } 
-                 })
-                 .WithCategories(new int[] { 1 })
-                 .Build()
-                 );
-            result.Should().BeEquivalentTo(new Question() 
+            var question = new Question
             {
-                CreatedDate = result.CreatedDate,
+                Id = 1,
                 Text = "Question",
-                Answers = new List<Answer>() 
-                { 
-                new Answer 
-                    {
-                        IsCorrect = true,
-                        Text = "Answer 1"
-                    },
-                new Answer 
-                    {
-                        IsCorrect = false,
-                        Text = "Answer 2"
-                    }
-                }
-            });
+                CreatedDate = DateTime.Now,
+                QuestionsCategories = new List<QuestionCategory> { new QuestionCategory { CategoryID = 1, QuestionID = 1 }, new QuestionCategory { CategoryID = 1, QuestionID = 2 }},
+                QuizzesQuestions = new List<QuizQuestion> { new QuizQuestion { QuizId = 1, QuestionId = 1 }, new QuizQuestion { QuizId = 1, QuestionId = 2 }, new QuizQuestion { QuizId = 1, QuestionId = 5 } },
+                Answers = new List<Answer> { new Answer { Id = 1, IsCorrect = true, Text = "Answer 1", QuestionId = 1 }, new Answer { Id = 2, IsCorrect = true, Text = "Answer 2", QuestionId = 1 } }
+            };
+
+            var questionDto = new CreateQuestionDtoBuilder()
+                .WithText(question.Text)
+                .WithAnswers(question.Answers.Select(x => new CreateAnswerDto { Text = x.Text, IsCorrect = x.IsCorrect }).ToList())
+                .WithCategories(question.QuestionsCategories.Select(x => x.QuestionID).ToArray())
+                .Build();
+
+            A.CallTo(() => mockRepository._repo.AddQuestion(A<Question>._)).Returns(Task.FromResult(question));
+
+            var executionRecord = await Record.ExceptionAsync(() => service.AddQuestionAndCategory(questionDto));
+
+            executionRecord.Should().BeNull();
+
         }
     }
 }
