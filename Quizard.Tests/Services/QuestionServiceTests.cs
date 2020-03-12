@@ -1,6 +1,4 @@
-﻿using FakeItEasy;
-using Quizard.API.Data;
-using Quizard.API.Services;
+﻿using Quizard.API.Services;
 using Xunit;
 using Quizard.Tests.Builders;
 using Quizard.API.Dtos;

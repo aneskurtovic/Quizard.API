@@ -1,8 +1,5 @@
 ﻿using AutoMapper;
 using Quizard.API.Helpers;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Quizard.Tests.Services.Collection_Fixtures
 {

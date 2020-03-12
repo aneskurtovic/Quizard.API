@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Threading.Tasks;
-using FakeItEasy;
-using Quizard.API.Data;
 using Quizard.API.Dtos;
 using Quizard.API.Services;
 using Quizard.Tests.Services.Class_Fixtures;

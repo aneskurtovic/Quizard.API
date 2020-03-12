@@ -1,7 +1,5 @@
 ﻿using Quizard.API.Dtos;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Quizard.Tests.Builders
 {
@@ -15,14 +13,7 @@ namespace Quizard.Tests.Builders
         {
             return new FinishSessionDto() {QuizResult=_quizResult, QuizId = _quizId ,SessionId=_sessionId };
         }
-        //public CreateFinishSessionDtoBuilder WithHalfAnswered()
-        //{
-
-        //}
-
-        //public CreateFinishSessionDtoBuilder WithAllAnswered()
-        //{
-        //}
+        
         public CreateFinishSessionDtoBuilder BuildQuizId(int Id)
         {
             _quizId = Id;
