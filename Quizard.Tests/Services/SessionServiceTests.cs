@@ -13,7 +13,7 @@ using Xunit;
 
 namespace Quizard.Tests.Services
 {
-    public class SessionServiceTests:BaseServiceTest
+    public class SessionServiceTests : BaseServiceTest
     {
         public SessionServiceTests() : base()
         {
@@ -32,7 +32,7 @@ namespace Quizard.Tests.Services
 
 
             //Then 
-            await Assert.ThrowsAsync<Exception>(action);
+            await action.Should().ThrowAsync<Exception>().WithMessage("Contestant name cannot be empty.");
         }
 
         [Fact]
@@ -46,9 +46,24 @@ namespace Quizard.Tests.Services
             Func<Task> action = async () => await service.AddSession(new CreateSessionDtoBuilder().BuildContestantName("Contestant").Build());
 
             //Then 
-            await Assert.ThrowsAsync<Exception>(action);
+            await action.Should().ThrowAsync<Exception>().WithMessage("Quiz Id cannot be lesser than 1.");
         }
 
+        [Fact]
+        public async Task GivenQuizIdZero_WhenAddSessionInvoked_ShouldThrowException()
+        {
+            //Given
+            var mockRepository = A.Fake<ISessionRepository>();
+            var service = new SessionService(mockRepository, _mapper);
+
+            //When
+            Func<Task> action = async () => await service.AddSession(new CreateSessionDtoBuilder().BuildContestantName("Contestant").BuildQuizId(0).Build());
+
+            //Then
+            await action.Should().ThrowAsync<Exception>().WithMessage("Quiz Id cannot be lesser than 1.");
+
+
+        }
         [Fact]
         public async Task GivenQuizIdAndContestantName_WhenAddSessionInvoked_ShouldNotBeNull()
         {
@@ -74,11 +89,11 @@ namespace Quizard.Tests.Services
             var service = new SessionService(mockRepository, _mapper);
 
             //When
-            var guid = ""; 
+            var guid = "";
             Func<Task> action = async () => await service.GetSession(guid);
 
             //Then 
-            await Assert.ThrowsAsync<Exception>(action);
+            await action.Should().ThrowAsync<Exception>().WithMessage("Session Id cannot be empty.");
         }
 
         [Fact]
@@ -94,6 +109,7 @@ namespace Quizard.Tests.Services
             //Then 
             Assert.Equal(0, result.Result);
         }
+
 
     }
 }

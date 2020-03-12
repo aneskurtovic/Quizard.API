@@ -26,9 +26,9 @@ namespace Quizard.API.Services
             {
                 throw new Exception("Contestant name cannot be empty.");
             }
-            if (sessionDto.QuizId == 0)
+            if (sessionDto.QuizId < 1)
             {
-                throw new Exception("Quiz Id cannot be null.");
+                throw new Exception("Quiz Id cannot be lesser than 1.");
 
             }
             var session = _mapper.Map<Session>(sessionDto);
