@@ -8,6 +8,7 @@ using Quizard.Tests.Services.Class_Fixtures;
 using Quizard.Tests.Services.Collection_Fixtures;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -38,7 +39,7 @@ namespace Quizard.Tests.Services
                 .Build()                
                 );
 
-            var exception = await Assert.ThrowsAsync<Exception>(action);
+            var exception = await Assert.ThrowsAsync<ValidationException>(action);
         }
 
         [Fact]
@@ -54,7 +55,7 @@ namespace Quizard.Tests.Services
                 .Build()
                 );
 
-            await Assert.ThrowsAsync<Exception>(action);
+            await Assert.ThrowsAsync<ValidationException>(action);
         }
 
         [Fact]
@@ -70,7 +71,7 @@ namespace Quizard.Tests.Services
                 .Build() 
                 );
 
-            await Assert.ThrowsAsync<Exception>(action);
+            await Assert.ThrowsAsync<ValidationException>(action);
         }
 
         [Fact]
@@ -86,7 +87,7 @@ namespace Quizard.Tests.Services
                 .Build()
                 );
 
-            await Assert.ThrowsAsync<Exception>(action);
+            await Assert.ThrowsAsync<ValidationException>(action);
         }
 
         [Fact]
@@ -101,7 +102,7 @@ namespace Quizard.Tests.Services
                 .Build()
                 );
 
-            await Assert.ThrowsAsync<Exception>(action);
+            await Assert.ThrowsAsync<ValidationException>(action);
         }
 
         [Fact]
@@ -146,7 +147,7 @@ namespace Quizard.Tests.Services
 
             Func<Task> action = async () => await service.GetQuiz(-5);
 
-            await Assert.ThrowsAsync<Exception>(action);
+            await Assert.ThrowsAsync<ValidationException>(action);
         }
 
         [Fact]

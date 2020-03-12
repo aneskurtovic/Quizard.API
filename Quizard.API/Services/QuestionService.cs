@@ -27,7 +27,7 @@ namespace Quizard.API.Services
             var question = _mapper.Map<Question>(questionDto);
             if (question.Answers.Count() < 2)
             {
-                throw new Exception("There should be at least 2 answers.");
+                throw new ValidationException("There should be at least 2 answers.");
             }
             if (question.Answers.Where(x => x.IsCorrect).Count() < 1) {
                 throw new ValidationException("There should be at least one correct answer.");

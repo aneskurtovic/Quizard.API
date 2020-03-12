@@ -57,7 +57,7 @@ namespace Quizard.Tests.Services
 
             //Then
             await action.Should().ThrowAsync<ValidationException>().WithMessage("Quiz Id cannot be lesser than 1.");
-
+        }
 
         [Fact]
         public async Task GivenQuizIdAndContestantName_WhenAddSessionInvoked_ShouldNotBeNull()
