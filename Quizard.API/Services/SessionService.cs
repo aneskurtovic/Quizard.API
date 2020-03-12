@@ -22,7 +22,15 @@ namespace Quizard.API.Services
 
         public async Task<ResponseSessionDto> AddSession(CreateSessionDto sessionDto)
         {
+            if (string.IsNullOrWhiteSpace(sessionDto.ContestantName))
+            {
+                throw new Exception("Contestant name cannot be empty.");
+            }
+            if (sessionDto.QuizId < 1)
+            {
+                throw new Exception("Quiz Id cannot be lesser than 1.");
 
+            }
             var session = _mapper.Map<Session>(sessionDto);
             await _sessionRepository.AddSession(session);
             return _mapper.Map<ResponseSessionDto>(session);
@@ -30,6 +38,10 @@ namespace Quizard.API.Services
 
         public async Task<GetSessionDto> GetSession(string id)
         {
+            if (string.IsNullOrWhiteSpace(id))
+            {
+                throw new Exception("Session Id cannot be empty.");
+            }
             Session session = await _sessionRepository.GetSession(id);
             return _mapper.Map<GetSessionDto>(session);
         }
