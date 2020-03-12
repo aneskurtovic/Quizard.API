@@ -1,6 +1,5 @@
 ﻿using FakeItEasy;
 using FluentAssertions;
-using Quizard.API.Data;
 using Quizard.API.Dtos;
 using Quizard.API.Models;
 using Quizard.API.Services;
@@ -9,6 +8,7 @@ using Quizard.Tests.Services.Class_Fixtures;
 using Quizard.Tests.Services.Collection_Fixtures;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -20,7 +20,7 @@ namespace Quizard.Tests.Services
         QuizFixture mockRepository;
         MapperFixture mapperFixture;
 
-        public QuizServiceTests(QuizFixture _mockRepository, MapperFixture mapper) : base() {
+        public QuizServiceTests(QuizFixture _mockRepository, MapperFixture mapper)  {
             mockRepository = _mockRepository;
             mapperFixture = mapper;
         }
@@ -108,14 +108,25 @@ namespace Quizard.Tests.Services
         public async Task GivenNameQuestionsAndTimer_WhenAddQuizInvoked_ShouldReturnQuiz()
         {
             var service = new QuizService(mockRepository._repo, mapperFixture._mapper);
+            var quiz = new Quiz
+            {
+                Id = 1,
+                Name = "Quizard",
+                QuizzesQuestions = new List<QuizQuestion> { new QuizQuestion { QuizId = 1, QuestionId = 1 }, new QuizQuestion { QuizId = 1, QuestionId = 2 }, new QuizQuestion { QuizId = 1, QuestionId = 5 } },
+                Timer = 1
+            };
+            var quizDto = new CreateQuizDtoBuilder()
+                .WithName(quiz.Name)
+                .WithTimer(quiz.Timer)
+                .WithQuestionIds(quiz.QuizzesQuestions.Select(x => x.QuestionId).ToArray())
+                .Build();
+            A.CallTo(() => mockRepository._repo.AddQuiz(A<string>._, A<int[]>._, A<int>._)).Returns(Task.FromResult(quiz));
 
-            var result = await service.AddQuiz(
-                new CreateQuizDtoBuilder()
-                .WithName("Quizard")
-                .WithTimer(1)
-                .WithQuestionIds(new int[] { 1,2,5 })
-                .Build()
-                );
+            //A.CallTo(() => mockRepository._repo.AddQuiz("Quizard", new int[] { 1, 2 }, 1)).Returns(quiz);
+
+            var executionRecord = Record.ExceptionAsync(() => service.AddQuiz(quizDto));
+
+            executionRecord.Exception.Should().BeNull();
 
             //Assert.IsType<Quiz>(result);
             //Assert.Equal(result, new Quiz() { Name = "Quizard", Timer = 1 });
